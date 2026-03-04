@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -153,15 +154,15 @@ fun SearchFilterScreen() {
                     ContactItem(contact)
 
                     if (index < filteredContacts.lastIndex) {
-                        Divider(
-                            modifier = Modifier.padding(vertical = 8.dp)
+                        HorizontalDivider(
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            thickness = DividerDefaults.Thickness,
+                            color = DividerDefaults.color
                         )
                     }
                 }
             }
         }
-
-
     }
 }
 
