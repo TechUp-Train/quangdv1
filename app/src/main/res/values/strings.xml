@@ -9,4 +9,10 @@
     <string name="following">following</string>
     <string name="message">message</string>
     <string name="bio">Android Developer 📱\nLover of clean code ✨\nHà Nội, Việt Nam 🇻🇳</string>
+    <string name="shopping_cart">Shopping cart</string>
+    <string name="total">Total:</string>
+    <string name="search">Tìm kiếm…</string>
+    <string name="fav_contacts_only">Chỉ hiện favourite contacts</string>
+    <string name="no_contact_found">Không tìm thấy liên hệ nào</string>
+    <string name="try_other_filter">Thử tìm kiếm với từ khóa khác hoặc thay đổi bộ lọc</string>
 </resources>
