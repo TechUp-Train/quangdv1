@@ -10,12 +10,14 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,26 +40,48 @@ import com.example.composetraining.common.text_territory
 import com.example.composetraining.common.w
 import com.example.composetraining.session3.session3_3.component.ContactItem
 import com.example.composetraining.session3.session3_3.component.EmptyContactView
+import com.example.composetraining.session3.session3_3.component.SearchBar
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 /**
- * ⭐⭐⭐ BÀI TẬP 3: Search & Filter (Challenge)
+ * ⭐⭐⭐ BÀI TẬP 3: Search & Filter Contacts (Challenge)
  *
  * Yêu cầu:
- * - TextField search bar (state hoisted)
- * - LazyColumn: filtered contacts (derivedStateOf)
- * - Toggle: "Show favorites only" (Switch)
- * - Empty state: "No contacts found" khi list trống
- * - UDF pattern: data flows down, events flow up
- * - derivedStateOf cho filtered list
- * - rememberSaveable cho search query
+ * - TextField search bar (state hoisted lên SearchFilterScreen)
+ * - Switch "Chỉ hiện active contacts" (dùng Contact.isFavorite làm active flag)
+ * - LazyColumn: danh sách contacts đã filter (dùng derivedStateOf)
+ * - Empty state: hiển thị "Không tìm thấy liên hệ nào" khi list trống
+ * - rememberSaveable cho search query (survive xoay màn hình)
+ * - snapshotFlow để debounce search 300ms (tránh filter mỗi keystroke)
+ *
+ * Tiêu chí:
+ * - derivedStateOf đúng cách cho filter logic
+ * - snapshotFlow + debounce(300ms) + distinctUntilChanged đúng cách
+ * - UDF pattern: state xuống, events lên
+ * - rememberSaveable cho query và toggle
+ *
+ * Gợi ý snapshotFlow:
+ * LaunchedEffect(Unit) {
+ *     snapshotFlow { searchQuery }     // chuyển Compose State → Flow
+ *         .debounce(300L)              // đợi 300ms user ngừng gõ
+ *         .distinctUntilChanged()      // bỏ qua nếu giá trị không đổi
+ *         .collect { debouncedQuery = it }
+ * }
  */
 
+@OptIn(FlowPreview::class)
 @Composable
 fun SearchFilterScreen() {
     val contacts = SampleData.contacts
 
     // TODO: [Session 3] Bài tập 3 - Tạo state cho search query (rememberSaveable)
     var query by rememberSaveable { mutableStateOf("") }
+
+    var debouncedQuery by remember { mutableStateOf("") }
 
     // TODO: [Session 3] Bài tập 3 - Tạo state cho toggle favorites
     var showFavoritesOnly by rememberSaveable { mutableStateOf(false) }
@@ -66,11 +90,18 @@ fun SearchFilterScreen() {
     val filteredContacts by remember {
         derivedStateOf {
             contacts.filter { contact ->
-                val matchesQuery = contact.name.contains(query, ignoreCase = true)
+                val matchesQuery = contact.name.contains(debouncedQuery, ignoreCase = true)
                 val matchesFavorite = if (showFavoritesOnly) contact.isFavorite else true
                 matchesQuery && matchesFavorite
             }
         }
+    }
+
+    LaunchedEffect(Unit) {
+        snapshotFlow { query }
+            .debounce(300L)
+            .distinctUntilChanged()
+            .collectLatest { debouncedQuery = it }
     }
 
     Column(
@@ -81,27 +112,10 @@ fun SearchFilterScreen() {
     ) {
         // TODO: [Session 3] Bài tập 3 - OutlinedTextField cho search
         // modifier = Modifier.fillMaxWidth().padding(16.dp)
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth(),
-            value = query,
-            onValueChange = { query = it },
-            shape = RoundedCornerShape(15.dp),
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = null,
-                    tint = text_territory
-                )
-            },
-            placeholder = { Text(stringResource(R.string.search)) },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = bg_card,
-                focusedBorderColor = border_strong,
-                unfocusedContainerColor = bg_card,
-                unfocusedBorderColor = border_strong,
-                cursorColor = Color.Black
-            )
+        SearchBar(
+            query = query,
+            onQueryChange = { query = it },
+            modifier = Modifier.fillMaxWidth(),
         )
 
         // TODO: [Session 3] Bài tập 3 - Row chứa Text "Chỉ hiện favorites" + Switch
