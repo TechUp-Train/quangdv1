@@ -23,4 +23,7 @@
     <string name="invalid_email">Email không hợp lệ</string>
     <string name="address">Địa chỉ</string>
     <string name="submit_your_address">Nhập địa chỉ của bạn…</string>
+    <string name="movies">🎬 Movies</string>
+    <string name="trending">🔥 Trending</string>
+    <string name="all_movies">📋 All Movies</string>
 </resources>

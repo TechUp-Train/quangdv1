@@ -1,4 +1,4 @@
-package com.example.composetraining.session2.sesion2_1.component
+package com.example.composetraining.session2.session2_1.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text

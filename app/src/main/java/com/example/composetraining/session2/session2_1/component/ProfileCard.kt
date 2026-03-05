@@ -1,7 +1,5 @@
-package com.example.composetraining.session2.sesion2_1.component
+package com.example.composetraining.session2.session2_1.component
 
-import android.R.id.bold
-import android.R.id.primary
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,16 +29,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontVariation.weight
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.apero.composetraining.common.ProfileCard
 import com.example.composetraining.R
 import com.example.composetraining.common.h
 import com.example.composetraining.common.w
-import com.example.composetraining.session2.sesion2_1.UserProfile
+import com.example.composetraining.session2.session2_1.UserProfile
 
 // TODO: [Session 2] Bài tập 1 - Implement ProfileCard composable
 // Params: profile: UserProfile, onFollowClick: () -> Unit, modifier: Modifier = Modifier
