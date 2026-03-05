@@ -4,9 +4,9 @@
     <string name="user_bio">Android Developer tại Apero</string>
     <string name="follow">Follow</string>
     <string name="edit_profile">Edit profile</string>
-    <string name="posts">posts</string>
-    <string name="followers">followers</string>
-    <string name="following">following</string>
+    <string name="posts">Posts</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
     <string name="message">message</string>
     <string name="bio">Android Developer 📱\nLover of clean code ✨\nHà Nội, Việt Nam 🇻🇳</string>
     <string name="shopping_cart">Shopping cart</string>
