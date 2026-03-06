@@ -15,4 +15,12 @@
     <string name="fav_contacts_only">Chỉ hiện favourite contacts</string>
     <string name="no_contact_found">Không tìm thấy liên hệ nào</string>
     <string name="try_other_filter">Thử tìm kiếm với từ khóa khác hoặc thay đổi bộ lọc</string>
+    <string name="register">Đăng Ký</string>
+    <string name="step">Bước</string>
+    <string name="contact_info">Thông tin liên hệ</string>
+    <string name="phone">Số điện thoại</string>
+    <string name="email">Email</string>
+    <string name="invalid_email">Email không hợp lệ</string>
+    <string name="address">Địa chỉ</string>
+    <string name="submit_your_address">Nhập địa chỉ của bạn…</string>
 </resources>
