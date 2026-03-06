@@ -1,13 +1,14 @@
-package com.example.composetraining.session2
+package com.example.composetraining.session2.session2_5
 
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.composetraining.session2.session2_5.component.TagsLayout
 import com.example.composetraining.ui.theme.ComposeTrainingTheme
 
 /**
@@ -47,29 +48,6 @@ import com.example.composetraining.ui.theme.ComposeTrainingTheme
  * Lưu ý: Phải tính lại x, y 2 lần — lần 1 để biết tổng height, lần 2 để place.
  */
 
-// TODO: [Session 2] Bài tập 4 - Implement TagsLayout composable dùng Layout
-// @Composable
-// fun TagsLayout(
-//     tags: List<String>,
-//     modifier: Modifier = Modifier
-// ) {
-//     Layout(
-//         content = {
-//             tags.forEach { tag ->
-//                 // Render từng tag thành AssistChip hoặc SuggestionChip
-//                 SuggestionChip(onClick = {}, label = { Text(tag) })
-//             }
-//         },
-//         modifier = modifier
-//     ) { measurables, constraints ->
-//         // TODO: implement MeasurePolicy
-//         // 1. Measure tất cả placeables
-//         // 2. Tính vị trí (x, y) của từng placeable (wrap khi hết width)
-//         // 3. Tính tổng height
-//         // 4. layout(maxWidth, totalHeight) { place mỗi placeable }
-//     }
-// }
-
 @Composable
 fun TagLayoutScreen() {
     val tags = listOf(
@@ -81,7 +59,8 @@ fun TagLayoutScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text("Custom Tag Layout", style = MaterialTheme.typography.headlineSmall)
@@ -92,23 +71,11 @@ fun TagLayoutScreen() {
         )
         HorizontalDivider()
 
-        // TODO: Thay placeholder bằng TagsLayout(tags = tags)
-        // Placeholder: hiển thị tags theo hàng ngang cố định
-        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(
-                "Placeholder (chưa wrap đúng cách):",
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.labelMedium
-            )
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ) {
-                tags.forEach { tag ->
-                    SuggestionChip(onClick = {}, label = { Text(tag) })
-                }
-            }
-        }
+        TagsLayout(
+            tags = tags,
+            onTagClick = {},
+            modifier = Modifier.fillMaxWidth()
+        )
 
         HorizontalDivider()
         Text(
