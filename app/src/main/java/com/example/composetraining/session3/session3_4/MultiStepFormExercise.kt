@@ -1,18 +1,16 @@
 package com.example.composetraining.session3.session3_4
 
-import android.R.attr.action
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.composetraining.common.bg_page
+import com.example.composetraining.session3.session3_4.screens.FormContent
 import com.example.composetraining.session3.session3_4.component.FormHeader
+import com.example.composetraining.session3.session3_4.screens.SubmissionSuccessScreen
 import com.example.composetraining.ui.theme.ComposeTrainingTheme
 
 /**
@@ -175,108 +173,6 @@ fun MultiStepFormScreen(modifier: Modifier = Modifier) {
     }
 }
 
-// ─── Stateless Form Content (UDF Consumer) ───────────────────────────────────
-
-/**
- * FormContent — stateless, nhận state + onAction
- *
- * Đây là điểm áp dụng UDF:
- * - state goes down (nhận từ host)
- * - events go up (gửi onAction lên host)
- */
-@Composable
-private fun FormContent(
-    state: FormState,
-    onAction: (FormAction) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    // TODO: Implement FormContent
-    // - Column(fillMaxSize, padding=16.dp)
-    // - FormHeader(state)
-    // - Spacer(16.dp)
-    // - LinearProgressIndicator(progress = state.progress, fillMaxWidth)
-    // - Spacer(4.dp) + Text "Step ${currentStep+1} of ${totalSteps}: ${stepTitle}" (primary)
-    // - Spacer(24.dp)
-    // - AnimatedContent(targetState = state.currentStep,
-    //       transitionSpec = { // slide từ phải vào nếu đi tới, từ trái vào nếu đi lùi
-    //           val direction = if (targetState > initialState) 1 else -1
-    //           slideInHorizontally { it * direction } togetherWith slideOutHorizontally { it * -direction }
-    //       },
-    //       modifier = Modifier.weight(1f)
-    //   ) { step → when(step) { 0 → PersonalInfoStep, 1 → ContactStep, 2 → PreferencesStep, 3 → ReviewStep } }
-    // - FormNavigationButtons(state, onAction)
-    Box {}
-}
-
-// ─── Step 1: Personal Info ────────────────────────────────────────────────────
-
-@Composable
-private fun PersonalInfoStep(
-    state: FormState,
-    onAction: (FormAction) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    // TODO: Implement PersonalInfoStep
-    // - Column(fillMaxSize, verticalScroll, spacedBy=12.dp)
-    // - ValidatedTextField firstName (error = state.firstNameError)
-    // - ValidatedTextField lastName (error = state.lastNameError)
-    // - OutlinedTextField birthYear (optional, keyboardType = Number)
-    Box {}
-}
-
-// ─── Step 2: Contact ──────────────────────────────────────────────────────────
-
-@Composable
-private fun ContactStep(
-    state: FormState,
-    onAction: (FormAction) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    // TODO: Implement ContactStep
-    // - Column(fillMaxSize, verticalScroll, spacedBy=12.dp)
-    // - ValidatedTextField email (error = emailError, keyboardType = Email)
-    // - ValidatedTextField phone (error = phoneError, keyboardType = Phone)
-    // - OutlinedTextField city (optional)
-    Box {}
-}
-
-// ─── Step 3: Preferences ─────────────────────────────────────────────────────
-
-@Composable
-private fun PreferencesStep(
-    state: FormState,
-    onAction: (FormAction) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    // TODO: Implement PreferencesStep
-    // - Column(fillMaxSize, verticalScroll, spacedBy=16.dp)
-    // - SwitchRow "Receive newsletter" (receiveNewsletter)
-    // - SwitchRow "Push notifications" (receiveNotifications)
-    // - HorizontalDivider
-    // - Text "Preferred language"
-    // - listOf("Vietnamese", "English", "Japanese", "Korean").forEach { lang →
-    //     Row: RadioButton(selected = state.preferredLanguage == lang, onClick = ...) + Text lang
-    //   }
-    Box {}
-}
-
-// ─── Step 4: Review ───────────────────────────────────────────────────────────
-
-@Composable
-private fun ReviewStep(
-    state: FormState,
-    modifier: Modifier = Modifier,
-) {
-    // TODO: Implement ReviewStep
-    // - Column(fillMaxSize, verticalScroll, spacedBy=16.dp)
-    // - Text "Review your information" (titleMedium)
-    // - ReviewSection("Personal Info") { ReviewRow("Name", ...) + ReviewRow("Birth Year", ...) }
-    // - ReviewSection("Contact") { email, phone, city }
-    // - ReviewSection("Preferences") { newsletter, notifications, language }
-    // - Text "Nhấn Submit để hoàn tất" (bodySmall, onSurfaceVariant)
-    Box {}
-}
-
 @Composable
 private fun ReviewSection(
     title: String,
@@ -342,21 +238,6 @@ private fun SwitchRow(
     // TODO: Implement SwitchRow
     // - Row(fillMaxWidth, SpaceBetween, CenterVertically)
     // - Text label (bodyLarge) + Switch(checked, onCheckedChange)
-    Box {}
-}
-
-// ─── Success Screen ───────────────────────────────────────────────────────────
-
-@Composable
-private fun SubmissionSuccessScreen(
-    formState: FormState,
-    modifier: Modifier = Modifier,
-) {
-    // TODO: Implement SubmissionSuccessScreen
-    // - Column(fillMaxSize, padding=32.dp, Center, CenterHorizontally)
-    // - Surface icon (80dp, extraLarge, primaryContainer) { Box(Center) { Icon(Check, 48dp) } }
-    // - Spacer(24.dp) + Text "Registration Complete!" (headlineMedium)
-    // - Spacer(8.dp) + Text "Welcome, ${firstName} ${lastName}!" (bodyLarge, onSurfaceVariant)
     Box {}
 }
 
