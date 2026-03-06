@@ -78,15 +78,10 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 fun SearchFilterScreen() {
     val contacts = SampleData.contacts
 
-    // TODO: [Session 3] Bài tập 3 - Tạo state cho search query (rememberSaveable)
     var query by rememberSaveable { mutableStateOf("") }
-
     var debouncedQuery by remember { mutableStateOf("") }
-
-    // TODO: [Session 3] Bài tập 3 - Tạo state cho toggle favorites
     var showFavoritesOnly by rememberSaveable { mutableStateOf(false) }
 
-    // TODO: [Session 3] Bài tập 3 - Filter contacts bằng derivedStateOf
     val filteredContacts by remember {
         derivedStateOf {
             contacts.filter { contact ->
@@ -110,15 +105,12 @@ fun SearchFilterScreen() {
             .background(bg_page)
             .padding(horizontal = 3.w, vertical = 1.h)
     ) {
-        // TODO: [Session 3] Bài tập 3 - OutlinedTextField cho search
-        // modifier = Modifier.fillMaxWidth().padding(16.dp)
         SearchBar(
             query = query,
             onQueryChange = { query = it },
             modifier = Modifier.fillMaxWidth(),
         )
 
-        // TODO: [Session 3] Bài tập 3 - Row chứa Text "Chỉ hiện favorites" + Switch
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -150,11 +142,9 @@ fun SearchFilterScreen() {
         }
 
         if (filteredContacts.isEmpty()) {
-            // TODO: [Session 3] Bài tập 3 - Empty state khi filteredContacts rỗng
             // Text "Không tìm thấy liên hệ nào" + emoji
             EmptyContactView()
         } else {
-            // TODO: [Session 3] Bài tập 3 - LazyColumn hiển thị filteredContacts
             // Mỗi item: ListItem(headlineContent = name, supportingContent = phone)
             LazyColumn(
                 modifier = Modifier
