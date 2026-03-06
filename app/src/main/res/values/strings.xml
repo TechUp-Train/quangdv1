@@ -26,4 +26,7 @@
     <string name="movies">🎬 Movies</string>
     <string name="trending">🔥 Trending</string>
     <string name="all_movies">📋 All Movies</string>
+    <string name="stream_app">🎬 StreamApp</string>
+    <string name="watch">▶ Watch</string>
+    <string name="my_list">My List</string>
 </resources>
