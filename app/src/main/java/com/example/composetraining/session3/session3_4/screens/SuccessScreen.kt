@@ -3,7 +3,9 @@ package com.example.composetraining.session3.session3_4.screens
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.composetraining.session3.session3_4.FormState
+import com.example.composetraining.ui.theme.ComposeTrainingTheme
 
 // ─── Success Screen ───────────────────────────────────────────────────────────
 
@@ -18,4 +20,14 @@ fun SubmissionSuccessScreen(
     // - Spacer(24.dp) + Text "Registration Complete!" (headlineMedium)
     // - Spacer(8.dp) + Text "Welcome, ${firstName} ${lastName}!" (bodyLarge, onSurfaceVariant)
     Box {}
+}
+
+@Preview(showBackground = true, name = "Success Screen Preview")
+@Composable
+private fun SuccessScreenPreview() {
+    ComposeTrainingTheme {
+        SubmissionSuccessScreen(
+            formState = FormState(firstName = "John", lastName = "Doe"),
+        )
+    }
 }

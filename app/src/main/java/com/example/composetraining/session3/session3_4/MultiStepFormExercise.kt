@@ -174,7 +174,6 @@ fun MultiStepFormScreen(modifier: Modifier = Modifier) {
 }
 
 // ─── Previews ─────────────────────────────────────────────────────────────────
-
 @Preview(showBackground = true, name = "Multi Step Form - Light")
 @Composable
 private fun MultiStepFormPreview() {
@@ -192,35 +191,5 @@ private fun MultiStepFormPreview() {
 private fun MultiStepFormDarkPreview() {
     ComposeTrainingTheme(darkTheme = true) {
         MultiStepFormScreen()
-    }
-}
-
-@Preview(showBackground = true, name = "Review Step Preview")
-@Composable
-private fun ReviewStepPreview() {
-    ComposeTrainingTheme {
-        val sampleState = FormState(
-            firstName = "John",
-            lastName = "Doe",
-            birthYear = "1995",
-            email = "john@example.com",
-            phone = "0901234567",
-            city = "Ho Chi Minh City",
-            receiveNewsletter = true,
-            receiveNotifications = true,
-            preferredLanguage = "Vietnamese",
-            currentStep = 3,
-        )
-        FormContent(state = sampleState, onAction = {})
-    }
-}
-
-@Preview(showBackground = true, name = "Success Screen Preview")
-@Composable
-private fun SuccessScreenPreview() {
-    ComposeTrainingTheme {
-        SubmissionSuccessScreen(
-            formState = FormState(firstName = "John", lastName = "Doe"),
-        )
     }
 }

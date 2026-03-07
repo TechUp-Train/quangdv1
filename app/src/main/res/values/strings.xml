@@ -20,7 +20,11 @@
     <string name="contact_info">Thông tin liên hệ</string>
     <string name="phone">Số điện thoại</string>
     <string name="email">Email</string>
-    <string name="invalid_email">Email không hợp lệ</string>
     <string name="address">Địa chỉ</string>
     <string name="submit_your_address">Nhập địa chỉ của bạn…</string>
+    <string name="invalid">Invalid %s</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="birth_year">Birth year</string>
+    <string name="city">City\n</string>
 </resources>
