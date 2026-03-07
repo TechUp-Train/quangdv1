@@ -1,13 +1,17 @@
 package com.example.composetraining.session3.session3_4.component.reviewStep
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.composetraining.common.h
 import com.example.composetraining.ui.theme.ComposeTrainingTheme
 
 @Composable
@@ -18,7 +22,10 @@ fun ReviewRow(
 ) {
     // - Row(fillMaxWidth, SpaceBetween): Text label (onSurfaceVariant) + Text value (Medium)
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .padding(vertical = 1.h)
+            .background(Color.Transparent)
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
