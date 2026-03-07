@@ -121,11 +121,11 @@ fun FormNavigationButtons(
             }
         } else {
             OutlinedButton(
-                onClick = { onAction(FormAction.NextStep) },
+                onClick = { onAction(FormAction.Submit) },
                 shape = RoundedCornerShape(10.dp),
                 contentPadding = PaddingValues(vertical = 2.h),
                 colors = ButtonColors(
-                    containerColor = Color.Green.copy(alpha = 0.6f),
+                    containerColor = Color.Magenta.copy(alpha = 0.2f),
                     contentColor = Color.White,
                     disabledContainerColor = Color.Gray,
                     disabledContentColor = Color.LightGray,
@@ -157,7 +157,7 @@ fun FormNavigationButtons(
 fun FormNavigationButtonsPreview() {
     FormNavigationButtons(
         state = FormState(
-            currentStep = 2,
+            currentStep = 3,
         ),
         onAction = {},
     )

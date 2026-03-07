@@ -5,13 +5,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.composetraining.common.bg_page
 import com.example.composetraining.session3.session3_4.screens.FormContent
 import com.example.composetraining.session3.session3_4.component.FormHeader
 import com.example.composetraining.session3.session3_4.screens.SubmissionSuccessScreen
 import com.example.composetraining.ui.theme.ComposeTrainingTheme
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * ⭐⭐⭐⭐ BÀI TẬP 4: Multi-step Registration Form (Advanced)
@@ -119,29 +121,49 @@ sealed class FormAction {
  * - Dễ test: chỉ cần verify output state
  */
 fun reduceFormState(state: FormState, action: FormAction): FormState {
-    // TODO: Implement reduceFormState
-    // Với mỗi FormAction, trả về state.copy(...) phù hợp:
-    // - UpdateFirstName → copy(firstName = action.value, firstNameError = null)
-    // - UpdateEmail → copy(email = action.value, emailError = null)
-    // - NextStep → validate trước (gọi validateCurrentStep), nếu có lỗi → trả lại state có lỗi
-    //              nếu OK → copy(currentStep = min(currentStep + 1, totalSteps - 1))
-    // - PrevStep → copy(currentStep = max(currentStep - 1, 0))
-    // - Submit → copy(isSubmitted = true)
-    // GỢI Ý: Dùng when (action) { is UpdateFirstName → ... }
-    TODO("Not yet implemented")
+    return when (action) {
+        is FormAction.UpdateFirstName -> state.copy(firstName = action.value, firstNameError = null)
+        is FormAction.UpdateLastName -> state.copy(lastName = action.value, lastNameError = null)
+        is FormAction.UpdateBirthYear -> state.copy(birthYear = action.value)
+        is FormAction.UpdateEmail -> state.copy(email = action.value, emailError = null)
+        is FormAction.UpdatePhone -> state.copy(phone = action.value, phoneError = null)
+        is FormAction.UpdateCity -> state.copy(city = action.value)
+        is FormAction.UpdateNewsletter -> state.copy(receiveNewsletter = action.enabled)
+        is FormAction.UpdateNotifications -> state.copy(receiveNotifications = action.enabled)
+        is FormAction.UpdateLanguage -> state.copy(preferredLanguage = action.language)
+        FormAction.NextStep -> {
+            val validatedState = validateCurrentStep(state)
+            if (validatedState.hasCurrentStepErrors) {
+                validatedState
+            } else {
+                validatedState.copy(currentStep = min(state.currentStep + 1, state.totalSteps - 1))
+            }
+        }
+        FormAction.PrevStep -> state.copy(currentStep = max(state.currentStep - 1, 0))
+        FormAction.Submit -> state.copy(isSubmitted = true)
+    }
 }
 
 private fun validateCurrentStep(state: FormState): FormState {
-    // TODO: Validate dựa theo currentStep:
-    // - Step 0: kiểm tra firstName và lastName không blank
-    // - Step 1: kiểm tra email có "@", phone.length >= 9
-    // - Các step khác: không cần validate
-    // Trả về state.copy(xFirstNameError, lastNameError, emailError, phoneError)
-    TODO("Not yet implemented")
+    return when (state.currentStep) {
+        0 -> state.copy(
+            firstNameError = if (state.firstName.isBlank()) "First name is required" else null,
+            lastNameError = if (state.lastName.isBlank()) "Last name is required" else null
+        )
+        1 -> state.copy(
+            emailError = if (!state.email.contains("@")) "Invalid email" else null,
+            phoneError = if (state.phone.length < 9) "Phone number too short" else null
+        )
+        else -> state
+    }
 }
 
 private val FormState.hasCurrentStepErrors: Boolean
-    get() = false  // TODO: Trả về true nếu step hiện tại có lỗi
+    get() = when (currentStep) {
+        0 -> firstNameError != null || lastNameError != null
+        1 -> emailError != null || phoneError != null
+        else -> false
+    }
 
 // ─── Host Composable (Stateful) ───────────────────────────────────────────────
 
@@ -153,23 +175,24 @@ private val FormState.hasCurrentStepErrors: Boolean
  */
 @Composable
 fun MultiStepFormScreen(modifier: Modifier = Modifier) {
-    // TODO: Implement MultiStepFormScreen
     var formState by remember { mutableStateOf(FormState()) }
-    val onAction: (FormAction) -> Unit = {
-//        action → formState = reduceFormState(formState, action)
+    val onAction: (FormAction) -> Unit = { action ->
+        formState = reduceFormState(formState, action)
     }
-    // 3. Kiểm tra formState.isSubmitted:
-    //    → true: SubmissionSuccessScreen(formState)
-    //    → false: FormContent(formState, onAction)
-    Scaffold(
-        containerColor = bg_page,
-        topBar = { FormHeader() }
-    ) { contentPadding ->
-        FormContent(
-            state = formState,
-            onAction = onAction,
-            modifier = Modifier.padding(contentPadding)
-        )
+
+    if (formState.isSubmitted) {
+        SubmissionSuccessScreen(formState = formState)
+    } else {
+        Scaffold(
+            containerColor = bg_page,
+            topBar = { FormHeader() }
+        ) { contentPadding ->
+            FormContent(
+                state = formState,
+                onAction = onAction,
+                modifier = Modifier.padding(contentPadding)
+            )
+        }
     }
 }
 
