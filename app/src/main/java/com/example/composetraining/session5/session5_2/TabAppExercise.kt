@@ -1,0 +1,109 @@
+package com.example.composetraining.session5.session5_2
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.composetraining.ui.theme.ComposeTrainingTheme
+
+// TODO: Thêm imports Nav3
+// import androidx.navigation3.runtime.NavKey
+// import androidx.navigation3.runtime.entryProvider
+// import androidx.navigation3.runtime.rememberNavBackStack
+// import androidx.navigation3.ui.NavDisplay
+// import kotlinx.serialization.Serializable
+
+/**
+ * ⭐⭐ BÀI TẬP 2: Tab App với per-tab back stacks (Medium — 60 phút)
+ *
+ * Key insight: Navigation 3 = back stack là List → mỗi tab có List riêng!
+ *
+ * Yêu cầu:
+ * - 3 tabs: Home / Explore / Profile
+ * - Mỗi tab có back stack RIÊNG (3 rememberNavBackStack)
+ * - Scaffold + NavigationBar ở dưới
+ * - Home tab: có thể navigate vào ArticleDetailKey(articleId)
+ * - Explore tab: có thể navigate vào SearchResultKey(query)
+ * - Profile tab: có thể navigate vào EditProfileKey
+ * - Switch tab: back stack của tab cũ được GIỮ NGUYÊN (không reset)
+ * - Back ở root của tab: không crash (backStack.size == 1 → không pop)
+ *
+ * Gợi ý cấu trúc:
+ * ```kotlin
+ * // Keys — cần @Serializable + NavKey
+ * @Serializable data object HomeTabKey : NavKey
+ * @Serializable data class ArticleDetailKey(val articleId: Int) : NavKey
+ * @Serializable data object ExploreTabKey : NavKey
+ * @Serializable data class SearchResultKey(val query: String) : NavKey
+ * @Serializable data object ProfileTabKey : NavKey
+ * @Serializable data object EditProfileKey : NavKey
+ *
+ * enum class Tab { HOME, EXPLORE, PROFILE }
+ *
+ * // 3 back stacks riêng biệt — QUAN TRỌNG
+ * val homeStack = rememberNavBackStack(HomeTabKey)
+ * val exploreStack = rememberNavBackStack(ExploreTabKey)
+ * val profileStack = rememberNavBackStack(ProfileTabKey)
+ *
+ * var selectedTab by rememberSaveable { mutableStateOf(Tab.HOME) }
+ * val currentStack = when (selectedTab) {
+ *     Tab.HOME -> homeStack
+ *     Tab.EXPLORE -> exploreStack
+ *     Tab.PROFILE -> profileStack
+ * }
+ *
+ * Scaffold(bottomBar = { TabBar(selectedTab, onTabSelect = { selectedTab = it }) }) { padding ->
+ *     NavDisplay(
+ *         backStack = currentStack,
+ *         onBack = { if (currentStack.size > 1) currentStack.removeLastOrNull() },
+ *         entryProvider = entryProvider {
+ *             entry<HomeTabKey> { HomeTabScreen(onArticleClick = { homeStack.add(ArticleDetailKey(it)) }) }
+ *             entry<ArticleDetailKey> { key -> ArticleDetailScreen(articleId = key.articleId) }
+ *             // ... entries cho các tab khác
+ *         }
+ *     )
+ * }
+ * ```
+ *
+ * Tiêu chí nghiệm thu:
+ * - Switch tab giữ back stack của tab cũ
+ * - Back ở tab root không crash
+ * - Navigate vào detail rồi switch tab, quay lại tab → vẫn thấy detail
+ */
+
+// TODO: [Session 6] Bài tập 2 - Định nghĩa keys cho 3 tabs + detail screens
+// @Serializable data object HomeTabKey : NavKey
+// @Serializable data class ArticleDetailKey(val articleId: Int) : NavKey
+// ... thêm keys cho Explore và Profile tabs
+
+// TODO: [Session 6] Bài tập 2 - Định nghĩa enum Tab { HOME, EXPLORE, PROFILE }
+
+// TODO: [Session 6] Bài tập 2 - Implement TabAppScreen với 3 back stacks riêng
+@Composable
+fun TabAppScreen() {
+    // TODO: 3 back stacks
+    // val homeStack = rememberNavBackStack(HomeTabKey)
+    // val exploreStack = rememberNavBackStack(ExploreTabKey)
+    // val profileStack = rememberNavBackStack(ProfileTabKey)
+
+    // TODO: selectedTab state + currentStack
+
+    // TODO: Scaffold + NavigationBar + NavDisplay
+
+    // Placeholder
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text("TODO: Implement Tab App với per-tab back stacks")
+    }
+}
+
+// TODO: [Session 6] Bài tập 2 - Implement screens cho mỗi tab
+// HomeTabScreen, ArticleDetailScreen, ExploreTabScreen, SearchResultScreen, ProfileTabScreen, EditProfileScreen
+
+@Preview(showBackground = true)
+@Composable
+private fun TabAppScreenPreview() {
+    ComposeTrainingTheme { TabAppScreen() }
+}
