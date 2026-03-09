@@ -1,124 +1,144 @@
 package com.example.composetraining.session5.session5_3
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
+import com.example.composetraining.session5.session5_3.component.ECommerceAppBar
+import com.example.composetraining.session5.session5_3.data.Product
+import com.example.composetraining.session5.session5_3.data.sampleCategories
+import com.example.composetraining.session5.session5_3.data.sampleProducts
+import com.example.composetraining.session5.session5_3.route.ProductFlowKey
+import com.example.composetraining.session5.session5_3.screens.cart.CartScreen
+import com.example.composetraining.session5.session5_3.screens.cart.DiscardCartDialog
+import com.example.composetraining.session5.session5_3.screens.categoryList.CategoryListScreen
+import com.example.composetraining.session5.session5_3.screens.productDetail.ProductDetailScreen
+import com.example.composetraining.session5.session5_3.screens.productList.ProductListScreen
 import com.example.composetraining.ui.theme.ComposeTrainingTheme
 
-// TODO: Thêm imports Nav3
-// import androidx.navigation3.runtime.NavKey
-// import androidx.navigation3.runtime.entryProvider
-// import androidx.navigation3.runtime.rememberNavBackStack
-// import androidx.navigation3.ui.NavDisplay
-// import kotlinx.serialization.Serializable
-
-/**
- * ⭐⭐⭐ BÀI TẬP 3: E-Commerce Flow (Challenge — 90 phút)
- *
- * Yêu cầu:
- * - Flow: CategoryList → ProductList(categoryId) → ProductDetail(productId) → Cart
- * - Dùng sealed class ProductFlowKey : NavKey để nhóm tất cả keys
- * - "Add to Cart" không navigate — chỉ update cartCount (Int state)
- * - CartKey hiện danh sách items + tổng giá
- * - BackHandler trên Cart: hiện confirm dialog "Bỏ giỏ hàng?" trước khi back
- * - Badge trên cart icon hiện số lượng items
- *
- * Sealed class gợi ý:
- * ```kotlin
- * @Serializable
- * sealed class ProductFlowKey : NavKey {
- *     @Serializable data object CategoryList : ProductFlowKey()
- *     @Serializable data class ProductList(val categoryId: Int) : ProductFlowKey()
- *     @Serializable data class ProductDetail(val productId: Int, val categoryId: Int) : ProductFlowKey()
- *     @Serializable data object Cart : ProductFlowKey()
- * }
- * ```
- *
- * Back stack dùng <Any> vì NavDisplay yêu cầu List<Any>:
- * ```kotlin
- * val backStack = rememberNavBackStack<Any>(ProductFlowKey.CategoryList)
- * ```
- *
- * BackHandler pattern:
- * ```kotlin
- * entry<ProductFlowKey.Cart> {
- *     var showConfirmDialog by remember { mutableStateOf(false) }
- *
- *     BackHandler { showConfirmDialog = true }
- *
- *     CartScreen(onBack = { showConfirmDialog = true })
- *
- *     if (showConfirmDialog) {
- *         AlertDialog(
- *             onDismissRequest = { showConfirmDialog = false },
- *             title = { Text("Bỏ giỏ hàng?") },
- *             text = { Text("Các sản phẩm trong giỏ sẽ bị xóa") },
- *             confirmButton = {
- *                 TextButton(onClick = {
- *                     showConfirmDialog = false
- *                     backStack.removeLastOrNull()
- *                 }) { Text("Đồng ý") }
- *             },
- *             dismissButton = {
- *                 TextButton(onClick = { showConfirmDialog = false }) { Text("Ở lại") }
- *             }
- *         )
- *     }
- * }
- * ```
- *
- * Tiêu chí nghiệm thu:
- * - Sealed class đúng (CategoryList, ProductList, ProductDetail, Cart)
- * - cartCount tăng khi "Add to Cart", hiện trên Badge
- * - BackHandler trên Cart hiện dialog trước khi back
- * - Data class keys pass data đúng (categoryId, productId)
- */
-
-// TODO: [Session 6] Bài tập 3 - Định nghĩa sealed class ProductFlowKey : NavKey
-// @Serializable
-// sealed class ProductFlowKey : NavKey { ... }
-
-// TODO: [Session 6] Bài tập 3 - Sample data
-// data class Product(val id: Int, val name: String, val price: Int, val categoryId: Int)
-// data class Category(val id: Int, val name: String)
-// val sampleCategories = listOf(...)
-// val sampleProducts = listOf(...)
-
-// TODO: [Session 6] Bài tập 3 - Implement ECommerceApp
 @Composable
 fun ECommerceApp() {
-    // TODO: Back stack bắt đầu từ CategoryList
-    // val backStack = rememberNavBackStack<Any>(ProductFlowKey.CategoryList)
+    val backStack = rememberNavBackStack(ProductFlowKey.CategoryList)
+    var selectedCategoryId by remember { mutableStateOf(sampleCategories.first().id) }
+    var selectedProductId by remember { mutableStateOf(sampleProducts.first().id) }
+    val cartItems = remember { mutableStateListOf<Product>() }
+    var showConfirmDialog by remember { mutableStateOf(false) }
 
-    // TODO: Cart state (danh sách products đã add)
-    // val cartItems = remember { mutableStateListOf<Product>() }
+    val currentScreen = when (backStack.lastOrNull()) {
+        is ProductFlowKey.CategoryList -> "Category List"
+        is ProductFlowKey.ProductList -> "Product List"
+        is ProductFlowKey.ProductDetail -> "Product Detail"
+        is ProductFlowKey.Cart -> "Cart"
+        else -> ""
+    }
 
-    // TODO: NavDisplay với entryProvider cho tất cả screens
-    // NavDisplay(
-    //     backStack = backStack,
-    //     onBack = { backStack.removeLastOrNull() },
-    //     entryProvider = entryProvider {
-    //         entry<ProductFlowKey.CategoryList> { ... }
-    //         entry<ProductFlowKey.ProductList> { key -> ... }
-    //         entry<ProductFlowKey.ProductDetail> { key -> ... }
-    //         entry<ProductFlowKey.Cart> { ... } // BackHandler ở đây
-    //     }
-    // )
+    val handleBack = {
+        if (backStack.lastOrNull() is ProductFlowKey.Cart && cartItems.isNotEmpty()) {
+            showConfirmDialog = true
+        } else {
+            backStack.removeLastOrNull()
+        }
+    }
 
-    // Placeholder
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("TODO: Implement E-Commerce Flow với Navigation 3")
+    Scaffold(
+        topBar = {
+            ECommerceAppBar(
+                title = currentScreen,
+                onBack = { handleBack() },
+                onCart = {
+                    if (backStack.lastOrNull() !is ProductFlowKey.Cart) {
+                        backStack.add(ProductFlowKey.Cart)
+                    }
+                },
+                cartCount = cartItems.size
+            )
+        }
+    ) { contentPadding ->
+        Box(modifier = Modifier.padding(contentPadding)) {
+            NavDisplay(
+                backStack = backStack,
+                onBack = { handleBack() },
+                entryProvider = entryProvider {
+                    entry<ProductFlowKey.CategoryList> {
+                        CategoryListScreen(
+                            categories = sampleCategories,
+                            onCategoryClick = { categoryId ->
+                                backStack.add(ProductFlowKey.ProductList(categoryId))
+                                selectedCategoryId = categoryId
+                            },
+                            cartCount = cartItems.size
+                        )
+                    }
+                    entry<ProductFlowKey.ProductList> {
+                        ProductListScreen(
+                            products = sampleProducts.filter { it.categoryId == selectedCategoryId },
+                            onProductClick = { product ->
+                                selectedProductId = product.id
+                                backStack.add(
+                                    ProductFlowKey.ProductDetail(
+                                        product.id,
+                                        selectedCategoryId
+                                    )
+                                )
+                            },
+                            cartCount = cartItems.size
+                        )
+                    }
+                    entry<ProductFlowKey.ProductDetail> {
+                        ProductDetailScreen(
+                            product = sampleProducts.first { it.id == selectedProductId },
+                            onAddToCart = { product ->
+                                cartItems.add(product)
+                            },
+                            onViewCart = {
+                                if (backStack.lastOrNull() !is ProductFlowKey.Cart) {
+                                    backStack.add(ProductFlowKey.Cart)
+                                }
+                            },
+                            onBack = {
+                                handleBack()
+                            }
+                        )
+                    }
+                    entry<ProductFlowKey.Cart> {
+                        BackHandler(enabled = cartItems.isNotEmpty()) {
+                            showConfirmDialog = true
+                        }
+                        CartScreen(
+                            items = cartItems,
+                            onBack = { handleBack() },
+                            onRemoveItem = { product ->
+                                cartItems.remove(product)
+                            }
+                        )
+                    }
+                }
+            )
+
+            if (showConfirmDialog) {
+                DiscardCartDialog(
+                    onDismiss = { showConfirmDialog = false },
+                    onConfirm = {
+                        showConfirmDialog = false
+                        cartItems.clear()
+                        backStack.removeLastOrNull()
+                    }
+                )
+            }
+        }
     }
 }
-
-// TODO: Implement các screen composables
-// CategoryListScreen(categories, onCategoryClick, cartCount)
-// ProductListScreen(products, onProductClick, cartCount)
-// ProductDetailScreen(product, onAddToCart, onViewCart, onBack)
-// CartScreen(items, onBack)
 
 @Preview(showBackground = true)
 @Composable
