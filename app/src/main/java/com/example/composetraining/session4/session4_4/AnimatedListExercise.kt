@@ -1,13 +1,32 @@
 package com.example.composetraining.session4.session4_4
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.composetraining.session4.session4_4.data.TodoItem
+import com.example.composetraining.session4.session4_4.data.todoList
 import com.example.composetraining.ui.theme.ComposeTrainingTheme
+import androidx.compose.runtime.remember
+import com.example.composetraining.session4.session4_4.component.SectionHeader
+import com.example.composetraining.session4.session4_4.component.TodoRow
 
 /**
  * ⭐⭐⭐⭐ BÀI TẬP NÂNG CAO BUỔI 4: Animated Todo List
@@ -32,20 +51,10 @@ import com.example.composetraining.ui.theme.ComposeTrainingTheme
  * - rememberLazyListState() + derivedStateOf: track scroll direction → FAB show/hide
  */
 
-// ─── Data Model ──────────────────────────────────────────────────────────────
-
-data class TodoItem(
-    val id: Int,
-    val title: String,
-    val isDone: Boolean = false,
-)
-
 // ─── Main Screen ──────────────────────────────────────────────────────────────
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AnimatedListScreen(modifier: Modifier = Modifier) {
-    // TODO: Implement AnimatedListScreen
     // 1. State setup:
     //    - var todos by remember { mutableStateOf(listOf(...initial items...)) }
     //    - var newTodoText by remember { mutableStateOf("") }
@@ -88,69 +97,132 @@ fun AnimatedListScreen(modifier: Modifier = Modifier) {
     // - slide out khi remove
     // - move khi reorder
     // KEY BẮT BUỘC để animateItem hoạt động đúng!
-    Box {}
-}
+    var todos by remember { mutableStateOf(todoList) }
+    var newTodoText by remember { mutableStateOf("") }
+    val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+    var nextId by remember { mutableIntStateOf(todos.size + 1) }
 
-// ─── Section Header (Sticky) ──────────────────────────────────────────────────
+    val showFab by remember {
+        derivedStateOf { listState.firstVisibleItemIndex == 0 }
+    }
 
-@Composable
-private fun SectionHeader(
-    title: String,
-    modifier: Modifier = Modifier,
-) {
-    // TODO: Implement SectionHeader
-    // - Surface(fillMaxWidth, surfaceVariant color)
-    // - Text title (labelLarge, Bold, primary, padding horizontal=16 vertical=8)
-    Box {}
-}
+    val activeTodos by remember {
+        derivedStateOf { todos.filter { !it.isDone } }
+    }
+    val completedTodos by remember {
+        derivedStateOf { todos.filter { it.isDone } }
+    }
 
-// ─── Todo Row ─────────────────────────────────────────────────────────────────
+    fun moveItem(item: TodoItem, direction: Int) {
+        val index = todos.indexOf(item)
+        val targetIndex = index + direction
+        if (targetIndex in todos.indices) {
+            todos = todos.toMutableList().apply {
+                add(targetIndex, removeAt(index))
+            }
+        }
+    }
 
-@Composable
-private fun TodoRow(
-    todo: TodoItem,
-    onToggle: () -> Unit,
-    onDelete: () -> Unit,
-    onMoveUp: () -> Unit,
-    onMoveDown: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    // TODO: Implement TodoRow
-    // 1. animateFloatAsState cho alpha khi completed:
-    //    val alpha by animateFloatAsState(
-    //        targetValue = if (todo.isDone) 0.5f else 1f,
-    //        label = "todo_alpha"
-    //    )
-    //
-    // 2. ListItem với:
-    //    - headlineContent: Text todo.title với textDecoration = LineThrough nếu isDone
-    //    - leadingContent: Checkbox(checked = isDone, onCheckedChange = { onToggle() })
-    //    - trailingContent: Row với IconButton(ArrowBack/Up), IconButton(ArrowForward/Down), IconButton(Delete, error tint)
-    //    - modifier với background (surfaceVariant.alpha(0.5f) nếu done, surface nếu không)
-    //
-    // 3. HorizontalDivider ở cuối
-    Box {}
-}
-
-// ─── Add Todo Input ───────────────────────────────────────────────────────────
-
-@Composable
-private fun AddTodoInput(
-    value: String,
-    onValueChange: (String) -> Unit,
-    onAdd: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    // TODO: Implement AddTodoInput
-    // - Row(fillMaxWidth, CenterVertically, spacedBy=8.dp)
-    // - OutlinedTextField(weight(1f), singleLine, placeholder = "Add new task...")
-    // - IconButton(onClick = onAdd, enabled = value.isNotBlank())
-    //   Icon = Check nếu có text, Add nếu không; tint = primary nếu enabled, outline nếu không
-    Box {}
+    Scaffold(
+        topBar = {
+            Text(
+                "Animated Todo List",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.primary)
+                    .padding(16.dp),
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.headlineMedium
+            )
+        },
+        floatingActionButton = {
+            AnimatedVisibility(
+                visible = showFab,
+                enter = fadeIn() + slideInVertically { it },
+                exit = fadeOut() + slideOutVertically { it }
+            ) {
+                ExtendedFloatingActionButton(
+                    text = { Text("Add") },
+                    icon = { Text("+") },
+                    onClick = {
+                        todos = todos + TodoItem(nextId++, newTodoText)
+                        newTodoText = "New note"
+                    }
+                )
+            }
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+        ) {
+            LazyColumn(state = listState) {
+                stickyHeader(key = "active_header", contentType = "sticky_header") {
+                    SectionHeader(title = "Active Tasks")
+                }
+                items(
+                    items = activeTodos,
+                    key = { it.id },
+                    contentType = { _ -> "todo_item" },
+                ) { todoItem ->
+                    TodoRow(
+                        todo = todoItem,
+                        onDelete = {
+                            todos = todos - todoItem
+                        },
+                        onToggle = {
+                            todos = todos.map { toggleItem ->
+                                if (toggleItem.id == todoItem.id) {
+                                    toggleItem.copy(isDone = !toggleItem.isDone)
+                                } else {
+                                    toggleItem
+                                }
+                            }
+                        },
+                        onMoveUp = {
+                            moveItem(todoItem, -1)
+                        },
+                        onMoveDown = {
+                            moveItem(todoItem, 1)
+                        },
+                        modifier = Modifier.animateItem()
+                    )
+                }
+                stickyHeader(key = "completed_header", contentType = "sticky_header") {
+                    SectionHeader(title = "Completed Tasks")
+                }
+                items(
+                    items = completedTodos,
+                    key = { it.id },
+                    contentType = { _ -> "todo_item" },
+                ) { todoItem ->
+                    TodoRow(
+                        todo = todoItem,
+                        onDelete = {
+                            todos = todos - todoItem
+                        },
+                        onToggle = {
+                            todos = todos.map { toggleItem ->
+                                if (toggleItem.id == todoItem.id) {
+                                    toggleItem.copy(isDone = !toggleItem.isDone)
+                                } else {
+                                    toggleItem
+                                }
+                            }
+                        },
+                        onMoveUp = { moveItem(todoItem, -1) },
+                        onMoveDown = { moveItem(todoItem, 1) },
+                        modifier = Modifier.animateItem()
+                    )
+                }
+            }
+        }
+    }
 }
 
 // ─── Previews ─────────────────────────────────────────────────────────────────
-
 @Preview(showBackground = true, name = "Animated List - Light")
 @Composable
 private fun AnimatedListScreenPreview() {
@@ -168,28 +240,5 @@ private fun AnimatedListScreenPreview() {
 private fun AnimatedListScreenDarkPreview() {
     ComposeTrainingTheme(darkTheme = true) {
         AnimatedListScreen()
-    }
-}
-
-@Preview(showBackground = true, name = "Todo Row Preview")
-@Composable
-private fun TodoRowPreview() {
-    ComposeTrainingTheme {
-        Column {
-            TodoRow(
-                todo = TodoItem(1, "Design mockup", isDone = false),
-                onToggle = {},
-                onDelete = {},
-                onMoveUp = {},
-                onMoveDown = {},
-            )
-            TodoRow(
-                todo = TodoItem(2, "Write tests", isDone = true),
-                onToggle = {},
-                onDelete = {},
-                onMoveUp = {},
-                onMoveDown = {},
-            )
-        }
     }
 }
