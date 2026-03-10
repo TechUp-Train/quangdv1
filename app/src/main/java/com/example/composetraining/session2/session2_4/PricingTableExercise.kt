@@ -1,0 +1,160 @@
+package com.example.composetraining.session2.session2_4
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.composetraining.session2.session2_4.component.PricingCard
+import com.example.composetraining.ui.theme.ComposeTrainingTheme
+
+/**
+ * ⭐⭐ BÀI TẬP 2: Pricing Table (Medium — 45 phút)
+ *
+ * Yêu cầu:
+ * - Row chứa 3 PricingCard: Basic / Pro / Premium
+ * - Mỗi card có: tên gói + giá + danh sách features (số feature KHÁC NHAU mỗi card)
+ * - Dùng IntrinsicSize.Max để cả 3 card BẰNG CHIỀU CAO NHAU dù content dài ngắn khác nhau
+ * - Card "Pro" được highlight (border primary, "Popular" badge)
+ * - Spacer(Modifier.weight(1f)) đẩy button xuống bottom mỗi card
+ * - Button "Chọn gói" ở đáy mỗi card — luôn ngang hàng nhau
+ *
+ * Tiêu chí:
+ * - Row(Modifier.height(IntrinsicSize.Max)) bọc 3 card
+ * - Mỗi PricingCard dùng Modifier.fillMaxHeight() để chiếm hết chiều cao Row
+ * - Button ở đáy nhờ Spacer(Modifier.weight(1f)) bên trong Column
+ * - Không hardcode height
+ *
+ * Tại sao quan trọng:
+ * - Không có IntrinsicSize.Max: 3 card cao thấp theo content → mất thẩm mỹ
+ * - Có IntrinsicSize.Max: Compose đo chiều cao lớn nhất (Premium), apply cho tất cả
+ *
+ * Gợi ý:
+ * Row(
+ *     modifier = Modifier.height(IntrinsicSize.Max),  // ← KEY
+ *     horizontalArrangement = Arrangement.spacedBy(8.dp)
+ * ) {
+ *     PricingCard(..., modifier = Modifier.weight(1f).fillMaxHeight())
+ *     PricingCard(..., modifier = Modifier.weight(1f).fillMaxHeight(), isHighlighted = true)
+ *     PricingCard(..., modifier = Modifier.weight(1f).fillMaxHeight())
+ * }
+ */
+
+data class PricingPlan(
+    val name: String,
+    val price: String,
+    val period: String,
+    val features: List<String>,
+    val isPopular: Boolean = false
+)
+
+private val plans = listOf(
+    PricingPlan(
+        name = "Basic",
+        price = "Free",
+        period = "mãi mãi",
+        features = listOf(
+            "5 AI generations/ngày",
+            "Độ phân giải 512px",
+            "Watermark"
+        )
+    ),
+    PricingPlan(
+        name = "Pro",
+        price = "$9.99",
+        period = "/ tháng",
+        features = listOf(
+            "100 AI generations/ngày",
+            "Độ phân giải 1024px",
+            "Không watermark",
+            "Priority queue",
+            "Email support"
+        ),
+        isPopular = true
+    ),
+    PricingPlan(
+        name = "Premium",
+        price = "$19.99",
+        period = "/ tháng",
+        features = listOf(
+            "Unlimited generations",
+            "Độ phân giải 4K",
+            "Không watermark",
+            "Priority queue",
+            "24/7 Support",
+            "Custom styles",
+            "API access"
+        )
+    )
+)
+
+// TODO: [Session 2] Bài tập 2 - Implement PricingCard composable (stateless)
+// Params: plan: PricingPlan, modifier: Modifier = Modifier, isHighlighted: Boolean = plan.isPopular
+// Layout bên trong PricingCard (Column + fillMaxHeight):
+//   Box { Card { Column {
+//     if (isHighlighted) Badge "Popular" ở góc trên
+//     Text(plan.name, bold 16sp)
+//     Text(plan.price, bold 28sp, primary color)
+//     Text(plan.period, gray 12sp)
+//     Divider
+//     plan.features.forEach { feature →
+//       Row { Icon(Check, tint = primary); Text(feature) }
+//     }
+//     Spacer(Modifier.weight(1f))   ← đẩy button xuống
+//     Button("Chọn gói", Modifier.fillMaxWidth())
+//   }}}
+
+// TODO: [Session 2] Bài tập 2 - Implement PricingTableScreen
+// Dùng Row(Modifier.height(IntrinsicSize.Max)) bọc 3 PricingCard
+// Mỗi card dùng Modifier.weight(1f).fillMaxHeight()
+
+@Composable
+fun PricingTableScreen(modifier: Modifier = Modifier) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Text(
+            "Chọn Gói Phù Hợp",
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            "Tất cả gói đều có 7 ngày dùng thử miễn phí",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+
+        Row(
+            modifier = Modifier.height(IntrinsicSize.Max),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            plans.forEach { plan ->
+                PricingCard(
+                    plan,
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight(),
+                )
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PricingTableScreenPreview() {
+    ComposeTrainingTheme { PricingTableScreen() }
+}
