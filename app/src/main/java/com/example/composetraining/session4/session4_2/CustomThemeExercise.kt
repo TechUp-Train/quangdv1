@@ -89,21 +89,81 @@ fun MyAppTheme(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomThemeHomeScreen() {
-    // TODO: [Session 4] Bài tập 2 - Wrap trong MyAppTheme, tạo Home screen đơn giản
     // Card + Text dùng MaterialTheme.colorScheme + typography
     Text("Bắt đầu code Custom Theme ở đây!", modifier = Modifier.padding(16.dp))
+    MyAppTheme() {
+        Scaffold(
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = { Text("Home Screen", style = MaterialTheme.typography.titleLarge) },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                )
+            }
+        ) { padding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .padding(16.dp)
+            ) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant
+                    )
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = "Custom Theme Applied!",
+                            style = MaterialTheme.typography.headlineMedium,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "This screen automatically switches between Light and Dark mode based on system settings.",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Composable
 fun CustomThemeDetailScreen() {
     // TODO: [Session 4] Bài tập 2 - Detail screen cũng dùng MyAppTheme
-    Text("Detail screen với Custom Theme", modifier = Modifier.padding(16.dp))
+    Scaffold { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+        ) {
+            Text(
+                text = "Detail screen với Custom Theme",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.secondary
+            )
+        }
+    }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, name = "Custom Theme home screen")
 @Composable
 private fun CustomThemeHomeScreenPreview() {
     ComposeTrainingTheme { CustomThemeHomeScreen() }
+}
+
+@Preview(showBackground = true, name = "Custom Theme detail screen")
+@Composable
+private fun CustomThemeDetailScreenPreview() {
+    ComposeTrainingTheme { CustomThemeDetailScreen() }
 }
