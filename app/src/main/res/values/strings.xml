@@ -4,9 +4,9 @@
     <string name="user_bio">Android Developer tại Apero</string>
     <string name="follow">Follow</string>
     <string name="edit_profile">Edit profile</string>
-    <string name="posts">posts</string>
-    <string name="followers">followers</string>
-    <string name="following">following</string>
+    <string name="posts">Posts</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
     <string name="message">message</string>
     <string name="bio">Android Developer 📱\nLover of clean code ✨\nHà Nội, Việt Nam 🇻🇳</string>
     <string name="shopping_cart">Shopping cart</string>
@@ -23,4 +23,11 @@
     <string name="invalid_email">Email không hợp lệ</string>
     <string name="address">Địa chỉ</string>
     <string name="submit_your_address">Nhập địa chỉ của bạn…</string>
+    <string name="movies">🎬 Movies</string>
+    <string name="trending">🔥 Trending</string>
+    <string name="all_movies">📋 All Movies</string>
+    <string name="stream_app">🎬 StreamApp</string>
+    <string name="watch">▶ Watch</string>
+    <string name="my_list">My List</string>
+    <string name="choose_plan">Chọn gói</string>
 </resources>
