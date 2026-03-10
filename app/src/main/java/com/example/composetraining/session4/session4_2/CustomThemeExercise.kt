@@ -139,7 +139,6 @@ fun CustomThemeHomeScreen() {
 
 @Composable
 fun CustomThemeDetailScreen() {
-    // TODO: [Session 4] Bài tập 2 - Detail screen cũng dùng MyAppTheme
     Scaffold { padding ->
         Column(
             modifier = Modifier

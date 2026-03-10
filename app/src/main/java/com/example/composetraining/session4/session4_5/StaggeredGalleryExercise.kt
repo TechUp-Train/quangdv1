@@ -1,16 +1,40 @@
 package com.example.composetraining.session4.session4_5
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.composetraining.session4.session4_5.component.CategoryFilterRow
+import com.example.composetraining.session4.session4_5.component.StaggeredPhotoGrid
+import com.example.composetraining.session4.session4_5.data.samplePhotos
 import com.example.composetraining.ui.theme.ComposeTrainingTheme
-import kotlin.math.abs
+import kotlinx.coroutines.delay
 
 /**
  * ⭐⭐⭐⭐⭐ BÀI TẬP NÂNG CAO BUỔI 4: Pinterest-style Staggered Gallery
@@ -40,52 +64,13 @@ import kotlin.math.abs
  * - PullToRefreshBox: Material3 pull-to-refresh (experimental)
  */
 
-// ─── Data Model ──────────────────────────────────────────────────────────────
-
-data class Photo(
-    val id: Int,
-    val title: String,
-    val category: String,
-    val color: Color,
-)
-
 // Categories
 private val categories = listOf("All", "Nature", "City", "People", "Food", "Travel")
 
-// 24 photos giả với màu sắc đẹp
-private val samplePhotos = listOf(
-    Photo(1, "Mountain Sunrise", "Nature", Color(0xFF4CAF50)),
-    Photo(2, "City at Night", "City", Color(0xFF3F51B5)),
-    Photo(3, "Portrait", "People", Color(0xFFE91E63)),
-    Photo(4, "Street Food", "Food", Color(0xFFFF9800)),
-    Photo(5, "Beach Sunset", "Travel", Color(0xFFFF5722)),
-    Photo(6, "Forest Path", "Nature", Color(0xFF8BC34A)),
-    Photo(7, "Skyscrapers", "City", Color(0xFF607D8B)),
-    Photo(8, "Coffee Art", "Food", Color(0xFF795548)),
-    Photo(9, "Desert Dunes", "Travel", Color(0xFFFFEB3B)),
-    Photo(10, "Waterfall", "Nature", Color(0xFF00BCD4)),
-    Photo(11, "Night Market", "City", Color(0xFF9C27B0)),
-    Photo(12, "Family Photo", "People", Color(0xFFFF4081)),
-    Photo(13, "Sushi", "Food", Color(0xFFF06292)),
-    Photo(14, "Eiffel Tower", "Travel", Color(0xFF5C6BC0)),
-    Photo(15, "Cherry Blossoms", "Nature", Color(0xFFEC407A)),
-    Photo(16, "Subway Station", "City", Color(0xFF42A5F5)),
-    Photo(17, "Graduation", "People", Color(0xFF26A69A)),
-    Photo(18, "Pizza", "Food", Color(0xFFEF5350)),
-    Photo(19, "Bali Temple", "Travel", Color(0xFFAB47BC)),
-    Photo(20, "Ocean Waves", "Nature", Color(0xFF29B6F6)),
-    Photo(21, "Bridge View", "City", Color(0xFF66BB6A)),
-    Photo(22, "Street Performer", "People", Color(0xFFFF7043)),
-    Photo(23, "Ramen Bowl", "Food", Color(0xFFDCE775)),
-    Photo(24, "Tokyo Streets", "Travel", Color(0xFF26C6DA)),
-)
-
 // ─── Main Screen ──────────────────────────────────────────────────────────────
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StaggeredGalleryScreen(modifier: Modifier = Modifier) {
-    // TODO: Implement StaggeredGalleryScreen
     // 1. State setup:
     //    - var selectedCategory by remember { mutableStateOf("All") }
     //    - var isRefreshing by remember { mutableStateOf(false) }
@@ -114,89 +99,88 @@ fun StaggeredGalleryScreen(modifier: Modifier = Modifier) {
     //        if (filteredPhotos.isEmpty()) → Empty state
     //        else → StaggeredPhotoGrid(filteredPhotos)
     //      }
-    Box {}
-}
+    var selectedCategory by rememberSaveable { mutableStateOf(categories.first()) }
+    var isRefreshing by remember { mutableStateOf(false) }
 
-// ─── Staggered Grid ───────────────────────────────────────────────────────────
+    val filteredPhotos by remember(selectedCategory) {
+        derivedStateOf {
+            if (selectedCategory == "All") samplePhotos
+            else samplePhotos.filter { it.category == selectedCategory }
+        }
+    }
 
-@Composable
-private fun StaggeredPhotoGrid(
-    photos: List<Photo>,
-    modifier: Modifier = Modifier,
-) {
-    // TODO: Implement StaggeredPhotoGrid
-    // - LazyVerticalStaggeredGrid với:
-    //   columns = StaggeredGridCells.Adaptive(150.dp)
-    //   → Số cột tự tính để mỗi cột >= 150dp (responsive)
-    //   → Hoặc: StaggeredGridCells.Fixed(2) để luôn 2 cột
-    //   contentPadding = PaddingValues(horizontal=8.dp, vertical=8.dp)
-    //   horizontalArrangement = spacedBy(8.dp)
-    //   verticalItemSpacing = 8.dp
-    //
-    // - items(photos, key = { it.id }) { photo →
-    //     PhotoCard(photo, height = calculateDeterministicHeight(photo.title))
-    //   }
-    //
-    // GỢI Ý: Tại sao dùng Adaptive thay vì Fixed?
-    // → Adaptive: responsive (tablet nhiều cột hơn phone)
-    // → Fixed: predictable layout nhưng không responsive
-    Box {}
-}
+    LaunchedEffect(isRefreshing) {
+        if (isRefreshing) {
+            delay(1500L)
+            isRefreshing = false
+        }
+    }
 
-/**
- * Tính height deterministic từ title (không random)
- *
- * Tại sao không dùng Random?
- * → Compose có thể recompose bất kỳ lúc nào
- * → Random() mỗi lần recompose → height thay đổi → layout jump
- * → Dùng hashCode() đảm bảo cùng input = cùng output
- */
-private fun calculateDeterministicHeight(title: String): Dp {
-    val hash = abs(title.hashCode())
-    val minHeight = 120
-    val maxHeight = 280
-    return (minHeight + hash % (maxHeight - minHeight)).dp
-}
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                ),
+                title = { Text("📸 Gallery") },
+                actions = {
+                    IconButton(onClick = { }) {
+                        Icon(
+                            imageVector = Icons.Default.Search, contentDescription = "button_search"
+                        )
+                    }
+                    IconButton(
+                        onClick = {
+                            isRefreshing = true
+                            selectedCategory = categories.first()
+                        },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Refresh,
+                            contentDescription = "button_refresh"
+                        )
+                    }
+                },
+            )
+        },
+    ) { innerPadding ->
+        Column(
+            modifier = modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+        ) {
+            CategoryFilterRow(
+                categories = categories,
+                selectedCategory = selectedCategory,
+                onCategorySelect = { selectedCategory = it },
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("${filteredPhotos.size} photos")
+                Text("Adaptive(150dp)")
 
-// ─── Photo Card ───────────────────────────────────────────────────────────────
-
-@Composable
-private fun PhotoCard(
-    photo: Photo,
-    height: Dp,
-    modifier: Modifier = Modifier,
-) {
-    // TODO: Implement PhotoCard
-    // - Box với fillMaxWidth + height(height) + clip(shapes.medium)
-    // - Lớp 1: Box nền với background(photo.color)
-    // - Lớp 2: Box gradient overlay ở BottomCenter (height=80.dp)
-    //   background = Brush.verticalGradient(Transparent → Black.alpha0.7)
-    // - Lớp 3: Column (align = BottomStart, padding=8.dp):
-    //   → Text title (12.sp, Medium, White, maxLines=2)
-    //   → Spacer(4.dp)
-    //   → Surface chip với category text (10.sp, White, White.alpha0.25 background)
-    Box {}
-}
-
-// ─── Category Filter Row ──────────────────────────────────────────────────────
-
-@Composable
-private fun CategoryFilterRow(
-    categories: List<String>,
-    selectedCategory: String,
-    onCategorySelected: (String) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    // TODO: Implement CategoryFilterRow
-    // - LazyRow với contentPadding horizontal=16.dp, spacedBy=8.dp
-    // - items(categories, key = { it }) { category →
-    //     FilterChip(selected = category == selectedCategory, onClick = ...)
-    //   }
-    Box {}
+            }
+            PullToRefreshBox(
+                isRefreshing = isRefreshing, onRefresh = { isRefreshing = true }) {
+                if (filteredPhotos.isEmpty()) {
+                    Text(
+                        text = "No photos found", modifier = Modifier.padding(16.dp)
+                    )
+                } else {
+                    StaggeredPhotoGrid(photos = filteredPhotos)
+                }
+            }
+        }
+    }
 }
 
 // ─── Previews ─────────────────────────────────────────────────────────────────
-
 @Preview(showBackground = true, name = "Staggered Gallery - Light")
 @Composable
 private fun StaggeredGalleryPreview() {
@@ -214,16 +198,5 @@ private fun StaggeredGalleryPreview() {
 private fun StaggeredGalleryDarkPreview() {
     ComposeTrainingTheme(darkTheme = true) {
         StaggeredGalleryScreen()
-    }
-}
-
-@Preview(showBackground = true, name = "Photo Card Preview")
-@Composable
-private fun PhotoCardPreview() {
-    ComposeTrainingTheme {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(8.dp)) {
-            PhotoCard(photo = samplePhotos[0], height = 180.dp, modifier = Modifier.weight(1f))
-            PhotoCard(photo = samplePhotos[1], height = 240.dp, modifier = Modifier.weight(1f))
-        }
     }
 }
