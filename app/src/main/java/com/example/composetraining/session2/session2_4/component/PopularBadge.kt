@@ -16,16 +16,17 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun PopularBadge(modifier: Modifier = Modifier) {
     Box(
-        modifier = modifier
-            .clip(RoundedCornerShape(4.dp))
-            .background(MaterialTheme.colorScheme.primary)
-            .padding(horizontal = 6.dp, vertical = 2.dp)
+        modifier =
+            modifier
+                .clip(RoundedCornerShape(4.dp))
+                .background(MaterialTheme.colorScheme.primary)
+                .padding(horizontal = 6.dp, vertical = 2.dp),
     ) {
         Text(
             text = "Popular",
             color = MaterialTheme.colorScheme.onPrimary,
             fontSize = 10.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
         )
     }
 }

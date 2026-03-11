@@ -2,9 +2,7 @@ package com.example.composetraining.session3.session3_2.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,52 +33,57 @@ fun ShoppingCartBottomBar(total: Double) {
     BottomAppBar(
         containerColor = bg_card,
         tonalElevation = 0.dp,
-        modifier = Modifier.height(15.h)
+        modifier = Modifier.height(15.h),
     ) {
         Column {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
                     stringResource(R.string.total),
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    style =
+                        TextStyle(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                        ),
                 )
 
                 Text(
                     "$$total",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = primary_blue
-                    )
+                    style =
+                        TextStyle(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = primary_blue,
+                        ),
                 )
             }
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = primary_blue,
-                    contentColor = Color.White,
-                ),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = primary_blue,
+                        contentColor = Color.White,
+                    ),
                 shape = RoundedCornerShape(10.dp),
                 onClick = {},
             ) {
                 Text(
                     text = "Checkout",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    style =
+                        TextStyle(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                        ),
                 )
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                     contentDescription = null,
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier.size(18.dp),
                 )
             }
         }

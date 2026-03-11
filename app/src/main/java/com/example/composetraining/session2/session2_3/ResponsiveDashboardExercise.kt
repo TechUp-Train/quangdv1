@@ -3,7 +3,6 @@ package com.example.composetraining.session2.session2_3
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composetraining.session2.session2_3.component.PhoneLayout
@@ -46,31 +45,33 @@ import com.example.composetraining.ui.theme.ComposeTrainingTheme
 data class StatItem(
     val label: String,
     val value: String,
-    val unit: String = ""
+    val unit: String = "",
 )
 
 data class DashboardItem(
     val id: Int,
     val title: String,
     val description: String,
-    val category: String
+    val category: String,
 )
 
-private val sampleStats = listOf(
-    StatItem("Apps", "19", "apps"),
-    StatItem("Downloads", "2.4M", ""),
-    StatItem("Rating", "4.8", "⭐"),
-    StatItem("Reviews", "12K", "")
-)
-
-private val sampleItems = (1..8).map { i ->
-    DashboardItem(
-        i,
-        "App #$i",
-        "Mô tả app $i ngắn gọn",
-        listOf("AI", "Photo", "Video", "Utility")[i % 4]
+private val sampleStats =
+    listOf(
+        StatItem("Apps", "19", "apps"),
+        StatItem("Downloads", "2.4M", ""),
+        StatItem("Rating", "4.8", "⭐"),
+        StatItem("Reviews", "12K", ""),
     )
-}
+
+private val sampleItems =
+    (1..8).map { i ->
+        DashboardItem(
+            i,
+            "App #$i",
+            "Mô tả app $i ngắn gọn",
+            listOf("AI", "Photo", "Video", "Utility")[i % 4],
+        )
+    }
 
 // TODO: [Session 2] Bài tập 3 - Implement DashboardScreen
 // Dùng BoxWithConstraints để switch layout:
@@ -78,7 +79,7 @@ private val sampleItems = (1..8).map { i ->
 fun DashboardScreen(
     stats: List<StatItem> = sampleStats,
     items: List<DashboardItem> = sampleItems,
-    isPremium: Boolean = false
+    isPremium: Boolean = false,
 ) {
     BoxWithConstraints {
         if (maxWidth < 600.dp) {

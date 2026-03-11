@@ -1,35 +1,35 @@
-//package com.apero.composetraining.session4.exercises
+// package com.apero.composetraining.session4.exercises
 //
-//import android.content.res.Configuration
-//import androidx.compose.foundation.background
-//import androidx.compose.foundation.layout.*
-//import androidx.compose.foundation.lazy.LazyRow
-//import androidx.compose.foundation.lazy.items
-//import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-//import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-//import androidx.compose.foundation.lazy.staggeredgrid.items
-//import androidx.compose.material.icons.Icons
-//import androidx.compose.material.icons.filled.GridOn
-//import androidx.compose.material.icons.filled.Refresh
-//import androidx.compose.material.icons.filled.Search
-//import androidx.compose.material3.*
-//import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-//import androidx.compose.runtime.*
-//import androidx.compose.ui.Alignment
-//import androidx.compose.ui.Modifier
-//import androidx.compose.ui.draw.clip
-//import androidx.compose.ui.graphics.Brush
-//import androidx.compose.ui.graphics.Color
-//import androidx.compose.ui.text.font.FontWeight
-//import androidx.compose.ui.tooling.preview.Preview
-//import androidx.compose.ui.unit.Dp
-//import androidx.compose.ui.unit.dp
-//import androidx.compose.ui.unit.sp
-//import com.apero.composetraining.common.AppTheme
-//import kotlinx.coroutines.delay
-//import kotlin.math.abs
+// import android.content.res.Configuration
+// import androidx.compose.foundation.background
+// import androidx.compose.foundation.layout.*
+// import androidx.compose.foundation.lazy.LazyRow
+// import androidx.compose.foundation.lazy.items
+// import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+// import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+// import androidx.compose.foundation.lazy.staggeredgrid.items
+// import androidx.compose.material.icons.Icons
+// import androidx.compose.material.icons.filled.GridOn
+// import androidx.compose.material.icons.filled.Refresh
+// import androidx.compose.material.icons.filled.Search
+// import androidx.compose.material3.*
+// import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+// import androidx.compose.runtime.*
+// import androidx.compose.ui.Alignment
+// import androidx.compose.ui.Modifier
+// import androidx.compose.ui.draw.clip
+// import androidx.compose.ui.graphics.Brush
+// import androidx.compose.ui.graphics.Color
+// import androidx.compose.ui.text.font.FontWeight
+// import androidx.compose.ui.tooling.preview.Preview
+// import androidx.compose.ui.unit.Dp
+// import androidx.compose.ui.unit.dp
+// import androidx.compose.ui.unit.sp
+// import com.apero.composetraining.common.AppTheme
+// import kotlinx.coroutines.delay
+// import kotlin.math.abs
 //
-///**
+// /**
 // * ⭐⭐⭐⭐⭐ BÀI TẬP NÂNG CAO BUỔI 4: Pinterest-style Staggered Gallery
 // *
 // * Mô tả: Gallery với chiều cao item khác nhau (staggered) + category filtering
@@ -57,20 +57,20 @@
 // * - PullToRefreshBox: Material3 pull-to-refresh (experimental)
 // */
 //
-//// ─── Data Model ──────────────────────────────────────────────────────────────
+// // ─── Data Model ──────────────────────────────────────────────────────────────
 //
-//data class Photo(
+// data class Photo(
 //    val id: Int,
 //    val title: String,
 //    val category: String,
 //    val color: Color,
-//)
+// )
 //
-//// Categories
-//private val categories = listOf("All", "Nature", "City", "People", "Food", "Travel")
+// // Categories
+// private val categories = listOf("All", "Nature", "City", "People", "Food", "Travel")
 //
-//// 24 photos giả với màu sắc đẹp
-//private val samplePhotos = listOf(
+// // 24 photos giả với màu sắc đẹp
+// private val samplePhotos = listOf(
 //    Photo(1, "Mountain Sunrise", "Nature", Color(0xFF4CAF50)),
 //    Photo(2, "City at Night", "City", Color(0xFF3F51B5)),
 //    Photo(3, "Portrait", "People", Color(0xFFE91E63)),
@@ -95,13 +95,13 @@
 //    Photo(22, "Street Performer", "People", Color(0xFFFF7043)),
 //    Photo(23, "Ramen Bowl", "Food", Color(0xFFDCE775)),
 //    Photo(24, "Tokyo Streets", "Travel", Color(0xFF26C6DA)),
-//)
+// )
 //
-//// ─── Main Screen ──────────────────────────────────────────────────────────────
+// // ─── Main Screen ──────────────────────────────────────────────────────────────
 //
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun StaggeredGalleryScreen(modifier: Modifier = Modifier) {
+// @OptIn(ExperimentalMaterial3Api::class)
+// @Composable
+// fun StaggeredGalleryScreen(modifier: Modifier = Modifier) {
 //    // TODO: Implement StaggeredGalleryScreen
 //    // 1. State setup:
 //    //    - var selectedCategory by remember { mutableStateOf("All") }
@@ -132,15 +132,15 @@
 //    //        else → StaggeredPhotoGrid(filteredPhotos)
 //    //      }
 //    Box {}
-//}
+// }
 //
-//// ─── Staggered Grid ───────────────────────────────────────────────────────────
+// // ─── Staggered Grid ───────────────────────────────────────────────────────────
 //
-//@Composable
-//private fun StaggeredPhotoGrid(
+// @Composable
+// private fun StaggeredPhotoGrid(
 //    photos: List<Photo>,
 //    modifier: Modifier = Modifier,
-//) {
+// ) {
 //    // TODO: Implement StaggeredPhotoGrid
 //    // - LazyVerticalStaggeredGrid với:
 //    //   columns = StaggeredGridCells.Adaptive(150.dp)
@@ -158,9 +158,9 @@
 //    // → Adaptive: responsive (tablet nhiều cột hơn phone)
 //    // → Fixed: predictable layout nhưng không responsive
 //    Box {}
-//}
+// }
 //
-///**
+// /**
 // * Tính height deterministic từ title (không random)
 // *
 // * Tại sao không dùng Random?
@@ -168,21 +168,21 @@
 // * → Random() mỗi lần recompose → height thay đổi → layout jump
 // * → Dùng hashCode() đảm bảo cùng input = cùng output
 // */
-//private fun calculateDeterministicHeight(title: String): Dp {
+// private fun calculateDeterministicHeight(title: String): Dp {
 //    val hash = abs(title.hashCode())
 //    val minHeight = 120
 //    val maxHeight = 280
 //    return (minHeight + hash % (maxHeight - minHeight)).dp
-//}
+// }
 //
-//// ─── Photo Card ───────────────────────────────────────────────────────────────
+// // ─── Photo Card ───────────────────────────────────────────────────────────────
 //
-//@Composable
-//private fun PhotoCard(
+// @Composable
+// private fun PhotoCard(
 //    photo: Photo,
 //    height: Dp,
 //    modifier: Modifier = Modifier,
-//) {
+// ) {
 //    // TODO: Implement PhotoCard
 //    // - Box với fillMaxWidth + height(height) + clip(shapes.medium)
 //    // - Lớp 1: Box nền với background(photo.color)
@@ -193,54 +193,54 @@
 //    //   → Spacer(4.dp)
 //    //   → Surface chip với category text (10.sp, White, White.alpha0.25 background)
 //    Box {}
-//}
+// }
 //
-//// ─── Category Filter Row ──────────────────────────────────────────────────────
+// // ─── Category Filter Row ──────────────────────────────────────────────────────
 //
-//@Composable
-//private fun CategoryFilterRow(
+// @Composable
+// private fun CategoryFilterRow(
 //    categories: List<String>,
 //    selectedCategory: String,
 //    onCategorySelected: (String) -> Unit,
 //    modifier: Modifier = Modifier,
-//) {
+// ) {
 //    // TODO: Implement CategoryFilterRow
 //    // - LazyRow với contentPadding horizontal=16.dp, spacedBy=8.dp
 //    // - items(categories, key = { it }) { category →
 //    //     FilterChip(selected = category == selectedCategory, onClick = ...)
 //    //   }
 //    Box {}
-//}
+// }
 //
-//// ─── Previews ─────────────────────────────────────────────────────────────────
+// // ─── Previews ─────────────────────────────────────────────────────────────────
 //
-//@Preview(showBackground = true, name = "Staggered Gallery - Light")
-//@Composable
-//private fun StaggeredGalleryPreview() {
+// @Preview(showBackground = true, name = "Staggered Gallery - Light")
+// @Composable
+// private fun StaggeredGalleryPreview() {
 //    AppTheme {
 //        StaggeredGalleryScreen()
 //    }
-//}
+// }
 //
-//@Preview(
+// @Preview(
 //    showBackground = true,
 //    name = "Staggered Gallery - Dark",
 //    uiMode = Configuration.UI_MODE_NIGHT_YES,
-//)
-//@Composable
-//private fun StaggeredGalleryDarkPreview() {
+// )
+// @Composable
+// private fun StaggeredGalleryDarkPreview() {
 //    AppTheme(darkTheme = true) {
 //        StaggeredGalleryScreen()
 //    }
-//}
+// }
 //
-//@Preview(showBackground = true, name = "Photo Card Preview")
-//@Composable
-//private fun PhotoCardPreview() {
+// @Preview(showBackground = true, name = "Photo Card Preview")
+// @Composable
+// private fun PhotoCardPreview() {
 //    AppTheme {
 //        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(8.dp)) {
 //            PhotoCard(photo = samplePhotos[0], height = 180.dp, modifier = Modifier.weight(1f))
 //            PhotoCard(photo = samplePhotos[1], height = 240.dp, modifier = Modifier.weight(1f))
 //        }
 //    }
-//}
+// }

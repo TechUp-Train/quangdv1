@@ -34,13 +34,14 @@ fun MovieBrowserScreen() {
         topBar = {
             // TODO: [Session 2] Bài tập 2 - Tạo TopAppBar với title "🎬 Movies"
             MovieBrowserAppBar()
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(2.h)
+            modifier =
+                Modifier
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(2.h),
         ) {
             // === TRENDING SECTION ===
             // TODO: [Session 2] Bài tập 2 - Thêm Text "🔥 Trending" (padding 16dp)

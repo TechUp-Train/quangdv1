@@ -55,48 +55,52 @@ data class PricingPlan(
     val price: String,
     val period: String,
     val features: List<String>,
-    val isPopular: Boolean = false
+    val isPopular: Boolean = false,
 )
 
-private val plans = listOf(
-    PricingPlan(
-        name = "Basic",
-        price = "Free",
-        period = "mãi mãi",
-        features = listOf(
-            "5 AI generations/ngày",
-            "Độ phân giải 512px",
-            "Watermark"
-        )
-    ),
-    PricingPlan(
-        name = "Pro",
-        price = "$9.99",
-        period = "/ tháng",
-        features = listOf(
-            "100 AI generations/ngày",
-            "Độ phân giải 1024px",
-            "Không watermark",
-            "Priority queue",
-            "Email support"
+private val plans =
+    listOf(
+        PricingPlan(
+            name = "Basic",
+            price = "Free",
+            period = "mãi mãi",
+            features =
+                listOf(
+                    "5 AI generations/ngày",
+                    "Độ phân giải 512px",
+                    "Watermark",
+                ),
         ),
-        isPopular = true
-    ),
-    PricingPlan(
-        name = "Premium",
-        price = "$19.99",
-        period = "/ tháng",
-        features = listOf(
-            "Unlimited generations",
-            "Độ phân giải 4K",
-            "Không watermark",
-            "Priority queue",
-            "24/7 Support",
-            "Custom styles",
-            "API access"
-        )
+        PricingPlan(
+            name = "Pro",
+            price = "$9.99",
+            period = "/ tháng",
+            features =
+                listOf(
+                    "100 AI generations/ngày",
+                    "Độ phân giải 1024px",
+                    "Không watermark",
+                    "Priority queue",
+                    "Email support",
+                ),
+            isPopular = true,
+        ),
+        PricingPlan(
+            name = "Premium",
+            price = "$19.99",
+            period = "/ tháng",
+            features =
+                listOf(
+                    "Unlimited generations",
+                    "Độ phân giải 4K",
+                    "Không watermark",
+                    "Priority queue",
+                    "24/7 Support",
+                    "Custom styles",
+                    "API access",
+                ),
+        ),
     )
-)
 
 // TODO: [Session 2] Bài tập 2 - Implement PricingCard composable (stateless)
 // Params: plan: PricingPlan, modifier: Modifier = Modifier, isHighlighted: Boolean = plan.isPopular
@@ -121,32 +125,34 @@ private val plans = listOf(
 @Composable
 fun PricingTableScreen(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Text(
             "Chọn Gói Phù Hợp",
             style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
         )
         Text(
             "Tất cả gói đều có 7 ngày dùng thử miễn phí",
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
         Row(
             modifier = Modifier.height(IntrinsicSize.Max),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             plans.forEach { plan ->
                 PricingCard(
                     plan,
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight(),
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .fillMaxHeight(),
                 )
             }
         }

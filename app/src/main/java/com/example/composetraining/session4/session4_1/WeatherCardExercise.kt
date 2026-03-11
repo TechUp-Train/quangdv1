@@ -26,18 +26,16 @@ import com.example.composetraining.ui.theme.ComposeTrainingTheme
 @Composable
 fun WeatherCardScreen() {
     // TODO: [Session 4] Bài tập 1 - Tạo state cho dark mode toggle
-     var isDark by remember { mutableStateOf(false) }
+    var isDark by remember { mutableStateOf(false) }
 
     // TODO: [Session 4] Bài tập 1 - Wrap trong AppTheme(darkTheme = isDark, dynamicColor = false)
     ComposeTrainingTheme(
         darkTheme = isDark,
-        dynamicColor = false
+        dynamicColor = false,
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             // TODO: [Session 4] Bài tập 1 - Row với Text "Dark Mode" + Switch
-            Row(
-
-            ) { }
+            Row { }
 
             // TODO: [Session 4] Bài tập 1 - Card với RoundedCornerShape(16.dp) chứa:
             // - Text "Hà Nội" (titleLarge, colorScheme.primary)
@@ -49,8 +47,6 @@ fun WeatherCardScreen() {
             Text("Bắt đầu code Weather Card ở đây!", modifier = Modifier.padding(16.dp))
         }
     }
-
-
 }
 
 @Preview(showBackground = true)

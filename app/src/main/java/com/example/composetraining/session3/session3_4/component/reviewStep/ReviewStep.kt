@@ -2,9 +2,7 @@ package com.example.composetraining.session3.session3_4.component.reviewStep
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -21,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composetraining.R
-import com.example.composetraining.common.h
 import com.example.composetraining.common.w
 import com.example.composetraining.session3.session3_4.FormState
 import com.example.composetraining.ui.theme.ComposeTrainingTheme
@@ -42,28 +39,31 @@ fun ReviewStep(
     val scrollState = rememberScrollState()
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .padding(horizontal = 2.w),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .padding(horizontal = 2.w),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Column {
             Text(
                 stringResource(R.string.review_information),
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold,
-                )
+                style =
+                    TextStyle(
+                        color = Color.Black,
+                        fontSize = 28.sp,
+                        fontWeight = FontWeight.Bold,
+                    ),
             )
             Text(
                 stringResource(R.string.review_information_description),
-                style = TextStyle(
-                    color = Color.Gray,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal,
-                )
+                style =
+                    TextStyle(
+                        color = Color.Gray,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Normal,
+                    ),
             )
         }
 
@@ -85,7 +85,7 @@ fun ReviewStep(
             "Press Submit to complete your registration",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally),
         )
     }
 }
@@ -95,17 +95,18 @@ fun ReviewStep(
 private fun ReviewStepPreview() {
     ComposeTrainingTheme {
         ReviewStep(
-            state = FormState(
-                firstName = "John",
-                lastName = "Doe",
-                birthYear = "1990",
-                email = "john.doe@example.com",
-                phone = "0123456789",
-                city = "Hanoi",
-                receiveNewsletter = true,
-                receiveNotifications = true,
-                preferredLanguage = "English"
-            )
+            state =
+                FormState(
+                    firstName = "John",
+                    lastName = "Doe",
+                    birthYear = "1990",
+                    email = "john.doe@example.com",
+                    phone = "0123456789",
+                    city = "Hanoi",
+                    receiveNewsletter = true,
+                    receiveNotifications = true,
+                    preferredLanguage = "English",
+                ),
         )
     }
 }

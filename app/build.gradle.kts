@@ -2,14 +2,16 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
+    id("org.jlleitschuh.gradle.ktlint") version "14.1.0"
 }
 
 android {
     namespace = "com.example.composetraining"
     compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
+        version =
+            release(36) {
+                minorApiLevel = 1
+            }
     }
 
     defaultConfig {
@@ -27,7 +29,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -38,6 +40,12 @@ android {
     buildFeatures {
         compose = true
     }
+}
+
+ktlint {
+    android.set(true)
+    ignoreFailures.set(false)
+    outputToConsole.set(true)
 }
 
 dependencies {

@@ -19,7 +19,11 @@ import com.example.composetraining.common.border_strong
 import com.example.composetraining.common.text_territory
 
 @Composable
-fun SearchBar(query: String, onQueryChange: (String) -> Unit, modifier: Modifier = Modifier) {
+fun SearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),
         value = query,
@@ -27,17 +31,20 @@ fun SearchBar(query: String, onQueryChange: (String) -> Unit, modifier: Modifier
         shape = RoundedCornerShape(15.dp),
         leadingIcon = {
             Icon(
-                imageVector = Icons.Default.Search, contentDescription = null, tint = text_territory
+                imageVector = Icons.Default.Search,
+                contentDescription = null,
+                tint = text_territory,
             )
         },
         placeholder = { Text(stringResource(R.string.search)) },
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = bg_card,
-            focusedBorderColor = border_strong,
-            unfocusedContainerColor = bg_card,
-            unfocusedBorderColor = border_strong,
-            cursorColor = Color.Black
-        ),
+        colors =
+            OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = bg_card,
+                focusedBorderColor = border_strong,
+                unfocusedContainerColor = bg_card,
+                unfocusedBorderColor = border_strong,
+                cursorColor = Color.Black,
+            ),
         singleLine = true,
     )
 }

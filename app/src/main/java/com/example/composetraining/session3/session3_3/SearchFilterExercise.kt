@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
@@ -29,20 +27,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apero.composetraining.common.SampleData
-import com.example.composetraining.ui.theme.ComposeTrainingTheme
 import com.example.composetraining.R
 import com.example.composetraining.common.bg_card
 import com.example.composetraining.common.bg_page
-import com.example.composetraining.common.border_strong
 import com.example.composetraining.common.h
 import com.example.composetraining.common.text_secondary
-import com.example.composetraining.common.text_territory
 import com.example.composetraining.common.w
 import com.example.composetraining.session3.session3_3.component.ContactItem
 import com.example.composetraining.session3.session3_3.component.EmptyContactView
 import com.example.composetraining.session3.session3_3.component.SearchBar
+import com.example.composetraining.ui.theme.ComposeTrainingTheme
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -100,10 +95,11 @@ fun SearchFilterScreen() {
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(bg_page)
-            .padding(horizontal = 3.w, vertical = 1.h)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(bg_page)
+                .padding(horizontal = 3.w, vertical = 1.h),
     ) {
         SearchBar(
             query = query,
@@ -112,32 +108,35 @@ fun SearchFilterScreen() {
         )
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 1.h),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 1.h),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 stringResource(R.string.fav_contacts_only),
-                style = TextStyle(
-                    color = text_secondary,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                style =
+                    TextStyle(
+                        color = text_secondary,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                    ),
             )
 
             Switch(
                 checked = showFavoritesOnly,
                 onCheckedChange = { showFavoritesOnly = it },
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = Color.White,
-                    uncheckedThumbColor = Color.White,
-                    checkedTrackColor = MaterialTheme.colorScheme.primary,
-                    uncheckedTrackColor = Color(0xFFE0DFDC),
-                    checkedBorderColor = Color.Transparent,
-                    uncheckedBorderColor = Color.Transparent
-                )
+                colors =
+                    SwitchDefaults.colors(
+                        checkedThumbColor = Color.White,
+                        uncheckedThumbColor = Color.White,
+                        checkedTrackColor = MaterialTheme.colorScheme.primary,
+                        uncheckedTrackColor = Color(0xFFE0DFDC),
+                        checkedBorderColor = Color.Transparent,
+                        uncheckedBorderColor = Color.Transparent,
+                    ),
             )
         }
 
@@ -147,12 +146,13 @@ fun SearchFilterScreen() {
         } else {
             // Mỗi item: ListItem(headlineContent = name, supportingContent = phone)
             LazyColumn(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(15.dp))
-                    .background(bg_card)
-                    .fillMaxSize()
-                    .padding(horizontal = 3.w),
-                verticalArrangement = Arrangement.spacedBy(1.h)
+                modifier =
+                    Modifier
+                        .clip(RoundedCornerShape(15.dp))
+                        .background(bg_card)
+                        .fillMaxSize()
+                        .padding(horizontal = 3.w),
+                verticalArrangement = Arrangement.spacedBy(1.h),
             ) {
                 itemsIndexed(filteredContacts) { index, contact ->
                     ContactItem(contact)
@@ -161,7 +161,7 @@ fun SearchFilterScreen() {
                         HorizontalDivider(
                             modifier = Modifier.padding(vertical = 8.dp),
                             thickness = DividerDefaults.Thickness,
-                            color = DividerDefaults.color
+                            color = DividerDefaults.color,
                         )
                     }
                 }

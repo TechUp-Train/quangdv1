@@ -18,21 +18,21 @@ fun PhoneLayout(
     stats: List<StatItem>,
     items: List<DashboardItem>,
     isPremium: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         if (!isPremium) {
             item {
                 PremiumBanner()
             }
         }
-        
-        item { 
-            StatsRow(stats = stats) 
+
+        item {
+            StatsRow(stats = stats)
         }
 
         items(items) { item ->

@@ -29,11 +29,12 @@ import com.example.composetraining.ui.theme.ComposeTrainingTheme
 @Composable
 fun InteractiveCounterScreen() {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text("Interactive Counter", style = MaterialTheme.typography.headlineMedium)
 
@@ -44,9 +45,11 @@ fun InteractiveCounterScreen() {
 
         // TODO: [Session 3] Bài tập 1 - Hiển thị count với fontSize 48sp
         Text(
-            text = count.toString(), style = TextStyle(
-                fontSize = 48.sp
-            )
+            text = count.toString(),
+            style =
+                TextStyle(
+                    fontSize = 48.sp,
+                ),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -71,5 +74,5 @@ fun InteractiveCounterScreen() {
 @Preview(showBackground = true)
 @Composable
 private fun InteractiveCounterScreenPreview() {
-    ComposeTrainingTheme() { InteractiveCounterScreen() }
+    ComposeTrainingTheme { InteractiveCounterScreen() }
 }

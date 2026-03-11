@@ -59,62 +59,73 @@ import com.example.composetraining.session2.session2_1.UserProfile
 //     }
 //   }
 @Composable
-fun ProfileCard(profile: UserProfile, onFollowClick: () -> Unit, modifier: Modifier = Modifier) {
+fun ProfileCard(
+    profile: UserProfile,
+    onFollowClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(10.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        )
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            ),
     ) {
         Column(
             modifier = Modifier.padding(10.dp),
             horizontalAlignment = CenterHorizontally,
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 2.h),
-                verticalAlignment = Alignment.CenterVertically
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 2.h),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(
-                    modifier = Modifier
-                        .size(72.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primary),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .size(72.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.primary),
+                    contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = profile.name.first().toString(),
                         color = MaterialTheme.colorScheme.onPrimary,
                         fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
                     )
                 }
                 Spacer(Modifier.width(5.w))
                 Column(
                     horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.Center
+                    verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
-                        profile.name, style = TextStyle(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                        profile.name,
+                        style =
+                            TextStyle(
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                            ),
                     )
 
                     Text(
-                        profile.jobTitle, style = TextStyle(
-                            fontSize = 16.sp,
-                            color = Color.Gray
-                        )
+                        profile.jobTitle,
+                        style =
+                            TextStyle(
+                                fontSize = 16.sp,
+                                color = Color.Gray,
+                            ),
                     )
                 }
             }
 
             HorizontalDivider(
                 color = MaterialTheme.colorScheme.outline,
-                thickness = 1.dp
+                thickness = 1.dp,
             )
 
             Row(
@@ -127,41 +138,42 @@ fun ProfileCard(profile: UserProfile, onFollowClick: () -> Unit, modifier: Modif
                 StatsColumn(
                     stringResource(R.string.posts),
                     profile.postsCount,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
                 VerticalDivider(
                     color = MaterialTheme.colorScheme.outline,
-                    thickness = 0.5.dp
+                    thickness = 0.5.dp,
                 )
                 StatsColumn(
                     stringResource(R.string.followers),
                     profile.followersCount,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
                 VerticalDivider(
                     color = MaterialTheme.colorScheme.outline,
-                    thickness = 0.5.dp
+                    thickness = 0.5.dp,
                 )
                 StatsColumn(
                     stringResource(R.string.following),
                     profile.followingCount,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
             }
 
             HorizontalDivider(
                 color = MaterialTheme.colorScheme.outline,
-                thickness = 1.dp
+                thickness = 1.dp,
             )
 
             Spacer(Modifier.weight(1f))
 
             Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 2.h),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 2.h),
                 onClick = onFollowClick,
-                shape = RoundedCornerShape(10.dp)
+                shape = RoundedCornerShape(10.dp),
             ) {
                 Text(
                     stringResource(R.string.follow),
@@ -175,13 +187,14 @@ fun ProfileCard(profile: UserProfile, onFollowClick: () -> Unit, modifier: Modif
 @Composable
 fun ProfileCardPreview() {
     ProfileCard(
-        profile = UserProfile(
-            name = "Đoàn Việt Quang",
-            jobTitle = "Android Developer tại Apero",
-            postsCount = 128,
-            followersCount = 1200,
-            followingCount = 890
-        ),
-        onFollowClick = {}
+        profile =
+            UserProfile(
+                name = "Đoàn Việt Quang",
+                jobTitle = "Android Developer tại Apero",
+                postsCount = 128,
+                followersCount = 1200,
+                followingCount = 890,
+            ),
+        onFollowClick = {},
     )
 }

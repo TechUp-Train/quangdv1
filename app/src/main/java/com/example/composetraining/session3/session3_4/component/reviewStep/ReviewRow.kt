@@ -22,10 +22,11 @@ fun ReviewRow(
 ) {
     // - Row(fillMaxWidth, SpaceBetween): Text label (onSurfaceVariant) + Text value (Medium)
     Row(
-        modifier = modifier
-            .padding(vertical = 1.h)
-            .background(Color.Transparent)
-            .fillMaxWidth(),
+        modifier =
+            modifier
+                .padding(vertical = 1.h)
+                .background(Color.Transparent)
+                .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
@@ -47,7 +48,7 @@ private fun ReviewRowPreview() {
     ComposeTrainingTheme {
         ReviewRow(
             label = "Full Name",
-            value = "John Doe"
+            value = "John Doe",
         )
     }
 }

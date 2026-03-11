@@ -1,4 +1,4 @@
-package com.example.composetraining.session1
+package com.example.composetraining.session1.session1_1
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -26,44 +26,49 @@ import com.example.composetraining.ui.theme.ComposeTrainingTheme
 @Composable
 fun GreetingCard() {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
     ) {
         var text by remember { mutableStateOf("Hello, Quang!") }
 
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
         ) {
             // TODO: [Session 1] Bài tập 1 - Thêm Icon từ Material Icons (ví dụ: Icons.Default.Favorite)
             Icon(
                 imageVector = Icons.Default.AccountCircle,
                 contentDescription = "avatar",
-                modifier = Modifier.size(60.dp)
+                modifier = Modifier.size(60.dp),
             )
 
             // TODO: [Session 1] Bài tập 1 - Thêm Text "Hello, [tên bạn]!" với fontSize 24sp, FontWeight.Bold
             // Gợi ý: Dùng remember + mutableStateOf để lưu trạng thái text
             Text(
                 text = text,
-                style = TextStyle(
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                style =
+                    TextStyle(
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                    ),
             )
 
             // TODO: [Session 1] Bài tập 1 - Thêm Button "Say Hi"
             // Khi click → đổi text thành "Hi back!"
             // Gợi ý: var greeting by remember { mutableStateOf("Hello, ...!") }
             Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
                 onClick = {
                     text = "Hi back!"
-                }) {
+                },
+            ) {
                 Text(text = "Say Hi")
             }
         }

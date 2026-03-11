@@ -36,20 +36,27 @@ fun EmptyContactView() {
             imageVector = Icons.Default.Clear,
             contentDescription = null,
             modifier = Modifier.padding(bottom = 16.dp),
-            tint = text_territory
+            tint = text_territory,
         )
         Text(
-            stringResource(R.string.no_contact_found), style = TextStyle(
-                color = text_secondary, fontSize = 16.sp, fontWeight = FontWeight.Bold
-            )
+            stringResource(R.string.no_contact_found),
+            style =
+                TextStyle(
+                    color = text_secondary,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                ),
         )
         Spacer(modifier = Modifier.height(2.h))
         Text(
-            stringResource(R.string.try_other_filter), style = TextStyle(
-                color = text_territory,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-            ), maxLines = 2
+            stringResource(R.string.try_other_filter),
+            style =
+                TextStyle(
+                    color = text_territory,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                ),
+            maxLines = 2,
         )
     }
 }

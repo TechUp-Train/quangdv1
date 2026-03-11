@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 fun TagsLayout(
     tags: List<String>,
     onTagClick: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Layout(
         content = {
@@ -21,7 +21,7 @@ fun TagsLayout(
                 SuggestionChip(onClick = { onTagClick(tag) }, label = { Text(tag) })
             }
         },
-        modifier = modifier
+        modifier = modifier,
     ) { measurables, constraints ->
         val placeables = measurables.map { it.measure(constraints.copy(minWidth = 0)) }
         val gap = 8.dp.roundToPx()
@@ -45,11 +45,12 @@ fun TagsLayout(
 
         val totalHeight = if (placeables.isEmpty()) 0 else yPosition + currentRowHeight
 
-        val layoutWidth = if (constraints.hasBoundedWidth) {
-            constraints.maxWidth
-        } else {
-            maxRowWidth
-        }
+        val layoutWidth =
+            if (constraints.hasBoundedWidth) {
+                constraints.maxWidth
+            } else {
+                maxRowWidth
+            }
 
         layout(width = layoutWidth, height = totalHeight) {
             var x = 0

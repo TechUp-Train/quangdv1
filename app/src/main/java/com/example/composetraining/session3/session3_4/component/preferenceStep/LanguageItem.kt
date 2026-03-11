@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonColors
@@ -27,31 +26,34 @@ fun LanguageItem(
     language: String,
     isSelected: Boolean,
     onSelect: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier
-            .clickable { onSelect(language) }
-            .background(if (isSelected) Color.Blue.copy(alpha = 0.1f) else Color.Transparent),
+        modifier =
+            modifier
+                .clickable { onSelect(language) }
+                .background(if (isSelected) Color.Blue.copy(alpha = 0.1f) else Color.Transparent),
         horizontalArrangement = Arrangement.spacedBy(2.w),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         RadioButton(
             selected = isSelected,
             onClick = { onSelect(language) },
-            colors = RadioButtonColors(
-                selectedColor = Color.Blue.copy(alpha = 0.6f),
-                unselectedColor = Color.Gray.copy(alpha = 0.3f),
-                disabledSelectedColor = Color.Gray.copy(alpha = 0.3f),
-                disabledUnselectedColor = Color.Gray.copy(alpha = 0.3f)
-            )
+            colors =
+                RadioButtonColors(
+                    selectedColor = Color.Blue.copy(alpha = 0.6f),
+                    unselectedColor = Color.Gray.copy(alpha = 0.3f),
+                    disabledSelectedColor = Color.Gray.copy(alpha = 0.3f),
+                    disabledUnselectedColor = Color.Gray.copy(alpha = 0.3f),
+                ),
         )
         Text(
             language,
-            style = TextStyle(
-                color = if (isSelected) Color.Blue.copy(alpha = 0.6f) else Color.Black,
-                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
-            )
+            style =
+                TextStyle(
+                    color = if (isSelected) Color.Blue.copy(alpha = 0.6f) else Color.Black,
+                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                ),
         )
     }
 }
@@ -65,12 +67,12 @@ private fun LanguageItemPreview() {
                 LanguageItem(
                     language = "English",
                     isSelected = true,
-                    onSelect = {}
+                    onSelect = {},
                 )
                 LanguageItem(
                     language = "Vietnamese",
                     isSelected = false,
-                    onSelect = {}
+                    onSelect = {},
                 )
             }
         }

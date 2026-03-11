@@ -42,32 +42,33 @@ fun FormNavigationButtons(
     // - Button "Next" hoặc "Submit" (weight(1f)) → onAction(NextStep) hoặc onAction(Submit)
     val isLastStep = state.currentStep == state.totalSteps - 1
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .drawBehind {
-                val strokeWidth = 1.dp.toPx()
-                drawLine(
-                    color = Color.LightGray,
-                    start = Offset(0f, 0f),
-                    end = Offset(size.width, 0f),
-                    strokeWidth = strokeWidth
-                )
-            }
-            .padding(10.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .drawBehind {
+                    val strokeWidth = 1.dp.toPx()
+                    drawLine(
+                        color = Color.LightGray,
+                        start = Offset(0f, 0f),
+                        end = Offset(size.width, 0f),
+                        strokeWidth = strokeWidth,
+                    )
+                }.padding(10.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         OutlinedButton(
             onClick = { onAction(FormAction.PrevStep) },
             shape = RoundedCornerShape(10.dp),
-            contentPadding = PaddingValues(horizontal = 4.w, vertical = 2.h)
+            contentPadding = PaddingValues(horizontal = 4.w, vertical = 2.h),
         ) {
             if (state.currentStep == 0) {
                 Text(
                     "Cancel",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        color = Color.Gray
-                    )
+                    style =
+                        TextStyle(
+                            fontSize = 16.sp,
+                            color = Color.Gray,
+                        ),
                 )
             } else {
                 Row(
@@ -77,14 +78,15 @@ fun FormNavigationButtons(
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = null,
-                        tint = Color.Gray
+                        tint = Color.Gray,
                     )
                     Text(
                         "Back",
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            color = Color.Gray
-                        )
+                        style =
+                            TextStyle(
+                                fontSize = 16.sp,
+                                color = Color.Gray,
+                            ),
                     )
                 }
             }
@@ -95,23 +97,25 @@ fun FormNavigationButtons(
                 onClick = { onAction(FormAction.NextStep) },
                 shape = RoundedCornerShape(10.dp),
                 contentPadding = PaddingValues(vertical = 2.h),
-                colors = ButtonColors(
-                    containerColor = Color.Blue.copy(alpha = 0.6f),
-                    contentColor = Color.White,
-                    disabledContainerColor = Color.Gray,
-                    disabledContentColor = Color.LightGray,
-                ),
+                colors =
+                    ButtonColors(
+                        containerColor = Color.Blue.copy(alpha = 0.6f),
+                        contentColor = Color.White,
+                        disabledContainerColor = Color.Gray,
+                        disabledContentColor = Color.LightGray,
+                    ),
                 modifier = Modifier.weight(1f),
             ) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(2.w),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
                         "Next step",
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                        )
+                        style =
+                            TextStyle(
+                                fontSize = 16.sp,
+                            ),
                     )
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowForward,
@@ -124,17 +128,18 @@ fun FormNavigationButtons(
                 onClick = { onAction(FormAction.Submit) },
                 shape = RoundedCornerShape(10.dp),
                 contentPadding = PaddingValues(vertical = 2.h),
-                colors = ButtonColors(
-                    containerColor = Color.Magenta.copy(alpha = 0.2f),
-                    contentColor = Color.White,
-                    disabledContainerColor = Color.Gray,
-                    disabledContentColor = Color.LightGray,
-                ),
+                colors =
+                    ButtonColors(
+                        containerColor = Color.Magenta.copy(alpha = 0.2f),
+                        contentColor = Color.White,
+                        disabledContainerColor = Color.Gray,
+                        disabledContentColor = Color.LightGray,
+                    ),
                 modifier = Modifier.weight(1f),
             ) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(2.w),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
                         imageVector = Icons.Default.Check,
@@ -142,9 +147,10 @@ fun FormNavigationButtons(
                     )
                     Text(
                         "Submit",
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                        )
+                        style =
+                            TextStyle(
+                                fontSize = 16.sp,
+                            ),
                     )
                 }
             }
@@ -156,9 +162,10 @@ fun FormNavigationButtons(
 @Composable
 fun FormNavigationButtonsPreview() {
     FormNavigationButtons(
-        state = FormState(
-            currentStep = 3,
-        ),
+        state =
+            FormState(
+                currentStep = 3,
+            ),
         onAction = {},
     )
 }

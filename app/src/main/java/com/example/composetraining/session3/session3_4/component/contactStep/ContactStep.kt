@@ -48,26 +48,29 @@ fun ContactStep(
     val scrollState = rememberScrollState()
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Text(
             stringResource(R.string.contact_details),
-            style = TextStyle(
-                color = Color.Black,
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-            )
+            style =
+                TextStyle(
+                    color = Color.Black,
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                ),
         )
         Text(
             stringResource(R.string.contact_details_description),
-            style = TextStyle(
-                color = Color.Gray,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-            )
+            style =
+                TextStyle(
+                    color = Color.Gray,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal,
+                ),
         )
         Spacer(Modifier.height(2.h))
         ValidatedTextField(
@@ -77,7 +80,7 @@ fun ContactStep(
             errorMessage = state.emailError,
             keyboardType = KeyboardType.Email,
             icon = { Icon(imageVector = Icons.Default.MailOutline, contentDescription = null) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
         ValidatedTextField(
             value = state.phone,
@@ -86,8 +89,7 @@ fun ContactStep(
             errorMessage = state.phoneError,
             keyboardType = KeyboardType.Number,
             icon = { Icon(imageVector = Icons.Default.Call, contentDescription = null) },
-            modifier = Modifier.fillMaxWidth()
-
+            modifier = Modifier.fillMaxWidth(),
         )
         ValidatedTextField(
             value = state.city,
@@ -96,7 +98,7 @@ fun ContactStep(
             keyboardType = KeyboardType.Text,
             icon = { Icon(imageVector = Icons.Default.Place, contentDescription = null) },
             errorMessage = null,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
@@ -107,13 +109,14 @@ private fun ContactStepPreview() {
     ComposeTrainingTheme {
         Surface {
             ContactStep(
-                state = FormState(
-                    email = "example@email.com",
-                    phone = "0123456789",
-                    city = "Hanoi"
-                ),
+                state =
+                    FormState(
+                        email = "example@email.com",
+                        phone = "0123456789",
+                        city = "Hanoi",
+                    ),
                 onAction = {},
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
             )
         }
     }
@@ -125,14 +128,15 @@ private fun ContactStepErrorPreview() {
     ComposeTrainingTheme {
         Surface {
             ContactStep(
-                state = FormState(
-                    email = "invalid-email",
-                    emailError = "Invalid email format",
-                    phone = "123",
-                    phoneError = "Phone must be 10 digits"
-                ),
+                state =
+                    FormState(
+                        email = "invalid-email",
+                        emailError = "Invalid email format",
+                        phone = "123",
+                        phoneError = "Phone must be 10 digits",
+                    ),
                 onAction = {},
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
             )
         }
     }

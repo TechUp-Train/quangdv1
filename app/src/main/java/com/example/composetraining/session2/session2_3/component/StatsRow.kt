@@ -28,25 +28,26 @@ import com.example.composetraining.session2.session2_3.StatItem
 @Composable
 fun StatsRow(
     stats: List<StatItem>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(IntrinsicSize.Min),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min),
         horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         stats.forEachIndexed { index, stat ->
             StatColumn(
                 stat = stat,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             if (index < stats.size - 1) {
                 VerticalDivider(
                     modifier = Modifier.padding(vertical = 8.dp),
                     thickness = 1.dp,
-                    color = MaterialTheme.colorScheme.outlineVariant
+                    color = MaterialTheme.colorScheme.outlineVariant,
                 )
             }
         }
@@ -56,23 +57,23 @@ fun StatsRow(
 @Composable
 private fun StatColumn(
     stat: StatItem,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = stat.value + if (stat.unit.isNotEmpty()) " ${stat.unit}" else "",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.primary,
         )
         Text(
             text = stat.label,
             style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }
@@ -81,11 +82,12 @@ private fun StatColumn(
 @Composable
 fun StatsRowPreview() {
     StatsRow(
-        stats = listOf(
-            StatItem("Apps", "19", "apps"),
-            StatItem("Downloads", "2.4M", ""),
-            StatItem("Rating", "4.8", "⭐"),
-            StatItem("Reviews", "12K", "")
-        )
+        stats =
+            listOf(
+                StatItem("Apps", "19", "apps"),
+                StatItem("Downloads", "2.4M", ""),
+                StatItem("Rating", "4.8", "⭐"),
+                StatItem("Reviews", "12K", ""),
+            ),
     )
 }

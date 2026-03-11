@@ -28,11 +28,11 @@ import com.example.composetraining.session2.session2_3.DashboardItem
 @Composable
 fun DashboardCard(
     item: DashboardItem,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -40,25 +40,25 @@ fun DashboardCard(
                     imageVector = Icons.Default.Info,
                     contentDescription = null,
                     modifier = Modifier.size(24.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
                     text = item.title,
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
             }
 
             Text(
                 text = item.description,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(vertical = 8.dp)
+                modifier = Modifier.padding(vertical = 8.dp),
             )
 
             AssistChip(
                 onClick = { },
-                label = { Text(item.category) }
+                label = { Text(item.category) },
             )
         }
     }
@@ -68,6 +68,6 @@ fun DashboardCard(
 @Composable
 fun DashboardCardPreview() {
     DashboardCard(
-        item = DashboardItem(1, "Mock App", "This is a description", "Category")
+        item = DashboardItem(1, "Mock App", "This is a description", "Category"),
     )
 }

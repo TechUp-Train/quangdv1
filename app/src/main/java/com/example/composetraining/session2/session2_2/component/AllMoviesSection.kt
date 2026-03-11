@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,30 +24,37 @@ import com.apero.composetraining.common.SampleData
 import com.example.composetraining.R
 
 @Composable
-fun AllMoviesSection(movies: List<Movie>, onMovieClick: (Movie) -> Unit, modifier: Modifier) {
+fun AllMoviesSection(
+    movies: List<Movie>,
+    onMovieClick: (Movie) -> Unit,
+    modifier: Modifier,
+) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .clip(RoundedCornerShape(8.dp))
-            .background(Color.White)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color.White),
     ) {
         Text(
             stringResource(R.string.all_movies),
             modifier = Modifier.padding(16.dp),
-            style = TextStyle(
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-            )
+            style =
+                TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                ),
         )
 
         LazyColumn(
-            modifier = Modifier
-                .padding(top = 5.dp)
-                .fillMaxSize()
+            modifier =
+                Modifier
+                    .padding(top = 5.dp)
+                    .fillMaxSize(),
         ) {
             itemsIndexed(
                 items = movies,
-                key = { _, movie -> movie.id }
+                key = { _, movie -> movie.id },
             ) { index, movie ->
                 MovieCard(movie, onMovieClick)
                 if (index < movies.size - 1) {
@@ -60,7 +66,6 @@ fun AllMoviesSection(movies: List<Movie>, onMovieClick: (Movie) -> Unit, modifie
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)
