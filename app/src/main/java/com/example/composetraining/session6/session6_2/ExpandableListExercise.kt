@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apero.composetraining.common.SampleData
-import com.example.composetraining.session6.session6_3.component.FaqItemCard
+import com.example.composetraining.session6.session6_2.component.FaqItemCard
 import com.example.composetraining.ui.theme.ComposeTrainingTheme
 
 /**

@@ -1,4 +1,4 @@
-package com.example.composetraining.session6.session6_3.component
+package com.example.composetraining.session6.session6_2.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -19,13 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apero.composetraining.common.FaqItem
 import com.apero.composetraining.common.SampleData
-import com.example.composetraining.ui.theme.ComposeTrainingTheme
 
 // Params: question, answer, isExpanded, onToggle
 // - Row: Text question + Icon arrow (rotate animation)

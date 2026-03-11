@@ -1,14 +1,24 @@
 package com.example.composetraining.session6.session6_3
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apero.composetraining.common.SampleData
+import com.example.composetraining.session6.session6_3.component.InteractionButtonsRow
+import com.example.composetraining.session6.session6_3.component.SwipeableProfileCard
 import com.example.composetraining.ui.theme.ComposeTrainingTheme
+import kotlinx.coroutines.launch
+import kotlin.math.abs
+import androidx.compose.runtime.remember
 
 /**
  * ⭐⭐⭐ BÀI TẬP 3: Tinder Swipe Card (Challenge)
@@ -27,12 +37,19 @@ import com.example.composetraining.ui.theme.ComposeTrainingTheme
 @Composable
 fun SwipeCardScreen() {
     val profiles = SampleData.profileCards
+    val scope = rememberCoroutineScope()
+    var currentIndex by remember { mutableIntStateOf(0) }
+    val offsetX = remember { Animatable(0f) }
 
-    // TODO: [Session 6] Bài tập 3 - State cho current card index
-    // var currentIndex by remember { mutableIntStateOf(0) }
+    val threshold = 300f
 
-    // TODO: [Session 6] Bài tập 3 - State cho drag offset
-    // var offsetX by remember { mutableFloatStateOf(0f) }
+    fun swipe(direction: Float) {
+        scope.launch {
+            offsetX.animateTo(direction * 1000f)
+            currentIndex++
+            offsetX.snapTo(0f)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -41,35 +58,67 @@ fun SwipeCardScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text("Swipe Cards", style = MaterialTheme.typography.headlineMedium)
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
-        // TODO: [Session 6] Bài tập 3 - Box chứa stacked cards
-        // Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-        //     // Render cards từ dưới lên trên
-        //     profiles.drop(currentIndex).take(3).reversed().forEachIndexed { index, profile ->
-        //         SwipeableProfileCard(
-        //             profile = profile,
-        //             isTopCard = index == ... ,
-        //             offsetX = if (isTopCard) offsetX else 0f,
-        //             modifier = Modifier.offset(y = (index * -8).dp) // stack effect
-        //         )
-        //     }
-        // }
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            if (currentIndex < profiles.size) {
+                val visibleCards = remember { profiles.drop(currentIndex).take(3).reversed() }
+                visibleCards.forEachIndexed { index, profile ->
+                    val isTopCard = index == visibleCards.lastIndex
 
-        // TODO: [Session 6] Bài tập 3 - Row với Nope + Like buttons ở dưới
-        // Row { Button "❌ Nope" + Button "💚 Like" }
+                    SwipeableProfileCard(
+                        profile = profile,
+                        isTopCard = isTopCard,
+                        offsetX = if (isTopCard) offsetX.value else 0f,
+                        modifier = Modifier
+                            .fillMaxSize(0.9f)
+                            .offset(y = (index * -4).dp)
+                            .then(
+                                if (isTopCard) {
+                                    Modifier.pointerInput(Unit) {
+                                        detectDragGestures(
+                                            onDrag = { change, dragAmount ->
+                                                change.consume()
+                                                scope.launch {
+                                                    offsetX.snapTo(offsetX.value + dragAmount.x)
+                                                }
+                                            },
+                                            onDragEnd = {
+                                                if (abs(offsetX.value) > threshold) {
+                                                    swipe(if (offsetX.value > 0) 1f else -1f)
+                                                } else {
+                                                    scope.launch {
+                                                        offsetX.animateTo(0f, spring())
+                                                    }
+                                                }
+                                            }
+                                        )
+                                    }
+                                } else Modifier
+                            )
+                    )
+                }
+            } else {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("No more profiles!", style = MaterialTheme.typography.bodyLarge)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(onClick = { currentIndex = 0 }) {
+                        Text("Restart")
+                    }
+                }
+            }
+        }
 
-        // Placeholder
-        Text("Bắt đầu code Swipe Card ở đây!")
+        Spacer(modifier = Modifier.height(32.dp))
+
+        InteractionButtonsRow(isEnabled = currentIndex < profiles.size, onSwipeLeft = { swipe(-1f) }, onSwipeRight = { swipe(1f) })
     }
 }
-
-// TODO: [Session 6] Bài tập 3 - Tạo SwipeableProfileCard composable
-// - Card với profile info (name, age, bio)
-// - pointerInput { detectDragGestures(...) } cho top card
-// - graphicsLayer { rotationZ = offsetX / 20 } cho rotation theo drag
-// - Color overlay: red khi swipe left, green khi swipe right
-// - Threshold: abs(offsetX) > 300 → dismiss, else snap back
 
 @Preview(showBackground = true)
 @Composable
