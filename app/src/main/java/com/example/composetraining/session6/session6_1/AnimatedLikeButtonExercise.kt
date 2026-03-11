@@ -1,4 +1,4 @@
-package com.example.composetraining.session6
+package com.example.composetraining.session6.session6_1
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring

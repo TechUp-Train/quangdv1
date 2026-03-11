@@ -1,4 +1,4 @@
-package com.example.composetraining.session6
+package com.example.composetraining.session6.session6_3
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
