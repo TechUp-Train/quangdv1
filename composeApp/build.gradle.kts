@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -38,6 +39,8 @@ kotlin {
             implementation(libs.material.icons.extended)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
+            implementation(libs.navigation3.ui)
+            implementation(libs.kotlinx.serialization.json)
         }
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
