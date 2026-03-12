@@ -6,14 +6,14 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class ProductFlowKey : NavKey {
     @Serializable
-    data object CategoryList : ProductFlowKey()
+    data object CategoryList : com.example.kmptraining.migrate.session5.session5_3.route.ProductFlowKey()
 
     @Serializable
-    data class ProductList(val categoryId: Int) : ProductFlowKey()
+    data class ProductList(val categoryId: Int) : com.example.kmptraining.migrate.session5.session5_3.route.ProductFlowKey()
 
     @Serializable
-    data class ProductDetail(val productId: Int, val categoryId: Int) : ProductFlowKey()
+    data class ProductDetail(val productId: Int, val categoryId: Int) : com.example.kmptraining.migrate.session5.session5_3.route.ProductFlowKey()
 
     @Serializable
-    data object Cart : ProductFlowKey()
+    data object Cart : com.example.kmptraining.migrate.session5.session5_3.route.ProductFlowKey()
 }

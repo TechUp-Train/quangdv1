@@ -1,10 +1,16 @@
 package com.example.kmptraining.migrate.navigation
 
-sealed class SessionNavigationKey {
-    data object Session1 : SessionNavigationKey()
-    data object Session2 : SessionNavigationKey()
-    data object Session3 : SessionNavigationKey()
-    data object Session4 : SessionNavigationKey()
-    data object Session5 : SessionNavigationKey()
-    data object Session6 : SessionNavigationKey()
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
+
+@Serializable
+sealed class SessionNavigationKey : NavKey {
+    @Serializable
+    data object SessionList : SessionNavigationKey()
+
+    @Serializable
+    data class
+    Session(val sessionName: String) : SessionNavigationKey()
+    @Serializable
+    data class SubSession(val subSessionName: String) : SessionNavigationKey()
 }

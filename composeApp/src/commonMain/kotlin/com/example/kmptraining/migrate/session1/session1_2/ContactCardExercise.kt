@@ -32,8 +32,8 @@ import org.jetbrains.compose.resources.stringResource
  */
 @Composable
 fun ContactCard(
-    name: String,
-    bio: String,
+    name: String = stringResource(Res.string.user_name),
+    bio: String = stringResource(Res.string.user_bio),
 ) {
     Card(
         modifier =

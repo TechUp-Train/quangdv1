@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.kmptraining.migrate.session1.session1_4.component.PostActionBar
 import com.example.kmptraining.migrate.session1.session1_4.component.PostHeader
+import com.example.kmptraining.migrate.session1.session1_4.data.SocialPostData
 import com.example.kmptraining.migrate.ui.theme.ComposeTrainingTheme
 
 /**
@@ -47,18 +48,37 @@ import com.example.kmptraining.migrate.ui.theme.ComposeTrainingTheme
  * - Multiple @Preview
  */
 
+val sampleSocialPostData = SocialPostData(
+    username = "thang44hdai",
+    timeAgo = "15 min ago",
+    content =
+        "DSA practice session hôm nay — solved Binary Search Tree in O(log n). " +
+                "Cái này sẽ apply được vào Room database query optimization không nhỉ?",
+    likeCount = 15,
+    commentCount = 3,
+    retweetCount = 2,
+    attachment = {
+        Box(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(180.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                "📸 Image Attachment",
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    },
+)
+
 @Composable
 fun SocialPostCard(
-    username: String,
-    timeAgo: String,
-    content: String,
-    likeCount: Int = 0,
-    commentCount: Int = 0,
-    retweetCount: Int = 0,
+    socialPostData: SocialPostData,
     modifier: Modifier = Modifier,
-    // TODO: [Nâng cao] Khai báo nullable slot cho attachment
-    // Gợi ý: attachment: (@Composable () -> Unit)? = null
-    attachment: (@Composable () -> Unit)? = null,
 ) {
     Card(
         modifier =
@@ -70,14 +90,14 @@ fun SocialPostCard(
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             // 1. Header: Avatar + Username + Time
-            PostHeader(username = username, timeAgo = timeAgo)
+            PostHeader(username = socialPostData.username, timeAgo = socialPostData.timeAgo)
 
             Spacer(modifier = Modifier.height(8.dp))
 
             // 2. Content text — giới hạn 3 dòng
             // TODO: [Nâng cao] Thêm maxLines và overflow
             Text(
-                text = content,
+                text = socialPostData.content,
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
@@ -86,7 +106,7 @@ fun SocialPostCard(
             // 3. Attachment slot — chỉ render khi có
             // TODO: [Nâng cao] Kiểm tra attachment != null trước khi render
             // Gợi ý: if (attachment != null) { Spacer + attachment() }
-            attachment?.let {
+            socialPostData.attachment?.let {
                 Spacer(modifier = Modifier.height(8.dp))
                 it()
             }
@@ -97,9 +117,9 @@ fun SocialPostCard(
 
             // 4. Action bar
             PostActionBar(
-                likeCount = likeCount,
-                commentCount = commentCount,
-                retweetCount = retweetCount,
+                likeCount = socialPostData.likeCount,
+                commentCount = socialPostData.commentCount,
+                retweetCount = socialPostData.retweetCount,
             )
         }
     }
@@ -113,15 +133,17 @@ fun SocialPostCard(
 private fun SocialPostNoAttachmentPreview() {
     ComposeTrainingTheme {
         SocialPostCard(
-            username = "nqmgaming",
-            timeAgo = "2 min ago",
-            content =
-                "Vừa migrate ANeko sang Jetpack Compose xong! " +
-                        "Smart recomposition giúp animation smooth hơn hẳn so với View system. " +
-                        "Ai đang dùng Compose production chưa?",
-            likeCount = 42,
-            commentCount = 12,
-            retweetCount = 7,
+            socialPostData = SocialPostData(
+                username = "nqmgaming",
+                timeAgo = "2 min ago",
+                content =
+                    "Vừa migrate ANeko sang Jetpack Compose xong! " +
+                            "Smart recomposition giúp animation smooth hơn hẳn so với View system. " +
+                            "Ai đang dùng Compose production chưa?",
+                likeCount = 42,
+                commentCount = 12,
+                retweetCount = 7,
+            )
         )
     }
 }
@@ -132,31 +154,33 @@ private fun SocialPostNoAttachmentPreview() {
 private fun SocialPostWithImagePreview() {
     ComposeTrainingTheme {
         SocialPostCard(
-            username = "thang44hdai",
-            timeAgo = "15 min ago",
-            content =
-                "DSA practice session hôm nay — solved Binary Search Tree in O(log n). " +
-                        "Cái này sẽ apply được vào Room database query optimization không nhỉ?",
-            likeCount = 15,
-            commentCount = 3,
-            retweetCount = 2,
-            // TODO: [Nâng cao] Thêm Image thật từ painterResource hoặc AsyncImage
-            attachment = {
-                Box(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .height(180.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(MaterialTheme.colorScheme.surfaceVariant),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(
-                        "📸 Image Attachment",
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            },
+            socialPostData = SocialPostData(
+                username = "thang44hdai",
+                timeAgo = "15 min ago",
+                content =
+                    "DSA practice session hôm nay — solved Binary Search Tree in O(log n). " +
+                            "Cái này sẽ apply được vào Room database query optimization không nhỉ?",
+                likeCount = 15,
+                commentCount = 3,
+                retweetCount = 2,
+                // TODO: [Nâng cao] Thêm Image thật từ painterResource hoặc AsyncImage
+                attachment = {
+                    Box(
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(180.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(MaterialTheme.colorScheme.surfaceVariant),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            "📸 Image Attachment",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                },
+            )
         )
     }
 }
@@ -167,24 +191,25 @@ private fun SocialPostWithImagePreview() {
 private fun SocialPostWithCodePreview() {
     ComposeTrainingTheme {
         SocialPostCard(
-            username = "KhacMinh2305",
-            timeAgo = "1 hour ago",
-            content = "Mới học được cái Slot API trong Compose — flexible hơn XML include rất nhiều!",
-            likeCount = 8,
-            commentCount = 5,
-            retweetCount = 1,
-            attachment = {
-                // Code block attachment — mono font, nền tối
-                Surface(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(8.dp)),
-                    color = Color(0xFF1E1E1E),
-                ) {
-                    Text(
-                        text =
-                            """
+            socialPostData = SocialPostData(
+                username = "KhacMinh2305",
+                timeAgo = "1 hour ago",
+                content = "Mới học được cái Slot API trong Compose — flexible hơn XML include rất nhiều!",
+                likeCount = 8,
+                commentCount = 5,
+                retweetCount = 1,
+                attachment = {
+                    // Code block attachment — mono font, nền tối
+                    Surface(
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(8.dp)),
+                        color = Color(0xFF1E1E1E),
+                    ) {
+                        Text(
+                            text =
+                                """
 @Composable
 fun AppCard(
     title: String,
@@ -195,13 +220,14 @@ fun AppCard(
     }
 }
                             """.trimIndent(),
-                        modifier = Modifier.padding(12.dp),
-                        fontFamily = FontFamily.Monospace,
-                        fontSize = 12.sp,
-                        color = Color(0xFFD4D4D4),
-                    )
-                }
-            },
+                            modifier = Modifier.padding(12.dp),
+                            fontFamily = FontFamily.Monospace,
+                            fontSize = 12.sp,
+                            color = Color(0xFFD4D4D4),
+                        )
+                    }
+                },
+            )
         )
     }
 }
