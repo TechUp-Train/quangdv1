@@ -1,6 +1,5 @@
 package com.example.composetraining.session2.session2_bonus.component
 
-import android.R
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -33,7 +32,7 @@ import com.example.composetraining.session2.session2_bonus.MovieSection
 fun MovieSectionView(
     section: MovieSection,
     onSecTionClick: (MovieSection) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     // - Column:
     //   → Text section.title (titleMedium, Bold, White, padding horizontal=16dp vertical=8dp)
@@ -45,37 +44,41 @@ fun MovieSectionView(
     val interactionSource = remember { MutableInteractionSource() }
 
     Column(
-        modifier = modifier, verticalArrangement = Arrangement.spacedBy(1.h)
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(1.h),
     ) {
         Row(
-            modifier = modifier
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = ripple(color = Color.White.copy(alpha = 0.4f)),
-                    onClick = { onSecTionClick(section) }
-                ),
-            horizontalArrangement = Arrangement.spacedBy(1.w)
+            modifier =
+                modifier
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = ripple(color = Color.White.copy(alpha = 0.4f)),
+                        onClick = { onSecTionClick(section) },
+                    ),
+            horizontalArrangement = Arrangement.spacedBy(1.w),
         ) {
             Text(
                 section.title,
-                style = TextStyle(
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                ),
+                style =
+                    TextStyle(
+                        color = Color.White,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                    ),
             )
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = null,
-                tint = Color.White
+                tint = Color.White,
             )
         }
         Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .horizontalScroll(scrollState),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            modifier =
+                modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .horizontalScroll(scrollState),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             section.movies.forEachIndexed { index, movie ->
                 MovieCard(movie)
@@ -88,16 +91,18 @@ fun MovieSectionView(
 @Composable
 private fun MovieSectionViewPreview() {
     MovieSectionView(
-        section = MovieSection(
-            title = "🔥 Trending Now",
-            movies = listOf(
-                Movie("The Matrix", "Sci-Fi", "💊", "8.7", "Movies", Color(0xFF0D2818)),
-                Movie("Dune", "Epic", "🏜️", "8.0", "Movies", Color(0xFF2D1B00)),
-                Movie("Interstellar", "Space", "🌌", "8.6", "Movies", Color(0xFF000D1A)),
-                Movie("Blade Runner", "Neo-noir", "🤖", "8.1", "Movies", Color(0xFF1A0000)),
-                Movie("Tenet", "Action", "⏰", "7.4", "Movies", Color(0xFF001A2D))
-            )
-        ),
-        onSecTionClick = {}
+        section =
+            MovieSection(
+                title = "🔥 Trending Now",
+                movies =
+                    listOf(
+                        Movie("The Matrix", "Sci-Fi", "💊", "8.7", "Movies", Color(0xFF0D2818)),
+                        Movie("Dune", "Epic", "🏜️", "8.0", "Movies", Color(0xFF2D1B00)),
+                        Movie("Interstellar", "Space", "🌌", "8.6", "Movies", Color(0xFF000D1A)),
+                        Movie("Blade Runner", "Neo-noir", "🤖", "8.1", "Movies", Color(0xFF1A0000)),
+                        Movie("Tenet", "Action", "⏰", "7.4", "Movies", Color(0xFF001A2D)),
+                    ),
+            ),
+        onSecTionClick = {},
     )
 }

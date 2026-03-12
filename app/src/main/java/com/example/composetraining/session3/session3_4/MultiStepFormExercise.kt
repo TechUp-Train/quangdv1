@@ -6,10 +6,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.example.composetraining.common.bg_page
-import com.example.composetraining.session3.session3_4.screens.FormContent
 import com.example.composetraining.session3.session3_4.component.FormHeader
+import com.example.composetraining.session3.session3_4.screens.FormContent
 import com.example.composetraining.session3.session3_4.screens.SubmissionSuccessScreen
 import com.example.composetraining.ui.theme.ComposeTrainingTheme
 import kotlin.math.max
@@ -53,26 +52,21 @@ data class FormState(
     val firstName: String = "",
     val lastName: String = "",
     val birthYear: String = "",
-
     // Step 2: Contact
     val email: String = "",
     val phone: String = "",
     val city: String = "",
-
     // Step 3: Preferences
     val receiveNewsletter: Boolean = false,
     val receiveNotifications: Boolean = true,
     val preferredLanguage: String = "Vietnamese",
-
     // Navigation
     val currentStep: Int = 0,
-
     // Validation errors
     val firstNameError: String? = null,
     val lastNameError: String? = null,
     val emailError: String? = null,
     val phoneError: String? = null,
-
     // Submission
     val isSubmitted: Boolean = false,
 )
@@ -80,13 +74,14 @@ data class FormState(
 val FormState.totalSteps: Int get() = 4
 val FormState.progress: Float get() = (currentStep + 1).toFloat() / totalSteps.toFloat()
 val FormState.stepTitle: String
-    get() = when (currentStep) {
-        0 -> "Personal Info"
-        1 -> "Contact Details"
-        2 -> "Preferences"
-        3 -> "Review & Submit"
-        else -> ""
-    }
+    get() =
+        when (currentStep) {
+            0 -> "Personal Info"
+            1 -> "Contact Details"
+            2 -> "Preferences"
+            3 -> "Review & Submit"
+            else -> ""
+        }
 
 /**
  * sealed class FormAction — type-safe events từ UI lên ViewModel/Host
@@ -97,17 +92,46 @@ val FormState.stepTitle: String
  * Lợi ích: API gọn hơn, dễ log, dễ test
  */
 sealed class FormAction {
-    data class UpdateFirstName(val value: String) : FormAction()
-    data class UpdateLastName(val value: String) : FormAction()
-    data class UpdateBirthYear(val value: String) : FormAction()
-    data class UpdateEmail(val value: String) : FormAction()
-    data class UpdatePhone(val value: String) : FormAction()
-    data class UpdateCity(val value: String) : FormAction()
-    data class UpdateNewsletter(val enabled: Boolean) : FormAction()
-    data class UpdateNotifications(val enabled: Boolean) : FormAction()
-    data class UpdateLanguage(val language: String) : FormAction()
+    data class UpdateFirstName(
+        val value: String,
+    ) : FormAction()
+
+    data class UpdateLastName(
+        val value: String,
+    ) : FormAction()
+
+    data class UpdateBirthYear(
+        val value: String,
+    ) : FormAction()
+
+    data class UpdateEmail(
+        val value: String,
+    ) : FormAction()
+
+    data class UpdatePhone(
+        val value: String,
+    ) : FormAction()
+
+    data class UpdateCity(
+        val value: String,
+    ) : FormAction()
+
+    data class UpdateNewsletter(
+        val enabled: Boolean,
+    ) : FormAction()
+
+    data class UpdateNotifications(
+        val enabled: Boolean,
+    ) : FormAction()
+
+    data class UpdateLanguage(
+        val language: String,
+    ) : FormAction()
+
     data object NextStep : FormAction()
+
     data object PrevStep : FormAction()
+
     data object Submit : FormAction()
 }
 
@@ -120,8 +144,11 @@ sealed class FormAction {
  * - Input: (FormState, FormAction) → Output: FormState
  * - Dễ test: chỉ cần verify output state
  */
-fun reduceFormState(state: FormState, action: FormAction): FormState {
-    return when (action) {
+fun reduceFormState(
+    state: FormState,
+    action: FormAction,
+): FormState =
+    when (action) {
         is FormAction.UpdateFirstName -> state.copy(firstName = action.value, firstNameError = null)
         is FormAction.UpdateLastName -> state.copy(lastName = action.value, lastNameError = null)
         is FormAction.UpdateBirthYear -> state.copy(birthYear = action.value)
@@ -142,28 +169,29 @@ fun reduceFormState(state: FormState, action: FormAction): FormState {
         FormAction.PrevStep -> state.copy(currentStep = max(state.currentStep - 1, 0))
         FormAction.Submit -> state.copy(isSubmitted = true)
     }
-}
 
-private fun validateCurrentStep(state: FormState): FormState {
-    return when (state.currentStep) {
-        0 -> state.copy(
-            firstNameError = if (state.firstName.isBlank()) "First name is required" else null,
-            lastNameError = if (state.lastName.isBlank()) "Last name is required" else null
-        )
-        1 -> state.copy(
-            emailError = if (!state.email.contains("@")) "Invalid email" else null,
-            phoneError = if (state.phone.length < 9) "Phone number too short" else null
-        )
+private fun validateCurrentStep(state: FormState): FormState =
+    when (state.currentStep) {
+        0 ->
+            state.copy(
+                firstNameError = if (state.firstName.isBlank()) "First name is required" else null,
+                lastNameError = if (state.lastName.isBlank()) "Last name is required" else null,
+            )
+        1 ->
+            state.copy(
+                emailError = if (!state.email.contains("@")) "Invalid email" else null,
+                phoneError = if (state.phone.length < 9) "Phone number too short" else null,
+            )
         else -> state
     }
-}
 
 private val FormState.hasCurrentStepErrors: Boolean
-    get() = when (currentStep) {
-        0 -> firstNameError != null || lastNameError != null
-        1 -> emailError != null || phoneError != null
-        else -> false
-    }
+    get() =
+        when (currentStep) {
+            0 -> firstNameError != null || lastNameError != null
+            1 -> emailError != null || phoneError != null
+            else -> false
+        }
 
 // ─── Host Composable (Stateful) ───────────────────────────────────────────────
 
@@ -185,12 +213,12 @@ fun MultiStepFormScreen(modifier: Modifier = Modifier) {
     } else {
         Scaffold(
             containerColor = bg_page,
-            topBar = { FormHeader() }
+            topBar = { FormHeader() },
         ) { contentPadding ->
             FormContent(
                 state = formState,
                 onAction = onAction,
-                modifier = Modifier.padding(contentPadding)
+                modifier = Modifier.padding(contentPadding),
             )
         }
     }

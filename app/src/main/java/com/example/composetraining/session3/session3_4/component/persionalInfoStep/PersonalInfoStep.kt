@@ -46,26 +46,29 @@ fun PersonalInfoStep(
     val scrollState = rememberScrollState()
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Text(
             stringResource(R.string.personal_info),
-            style = TextStyle(
-                color = Color.Black,
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-            )
+            style =
+                TextStyle(
+                    color = Color.Black,
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                ),
         )
         Text(
             stringResource(R.string.personal_info_description),
-            style = TextStyle(
-                color = Color.Gray,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-            )
+            style =
+                TextStyle(
+                    color = Color.Gray,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal,
+                ),
         )
         Spacer(Modifier.height(2.h))
         ValidatedTextField(
@@ -76,11 +79,11 @@ fun PersonalInfoStep(
                 Icon(
                     imageVector = Icons.Default.Person,
                     contentDescription = null,
-                    tint = Color.Black
+                    tint = Color.Black,
                 )
             },
             errorMessage = state.firstNameError,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
         ValidatedTextField(
             value = state.lastName,
@@ -90,12 +93,11 @@ fun PersonalInfoStep(
                 Icon(
                     imageVector = Icons.Default.Person,
                     contentDescription = null,
-                    tint = Color.Black
+                    tint = Color.Black,
                 )
             },
             errorMessage = state.lastNameError,
-            modifier = Modifier.fillMaxWidth()
-
+            modifier = Modifier.fillMaxWidth(),
         )
         ValidatedTextField(
             value = state.birthYear,
@@ -106,7 +108,7 @@ fun PersonalInfoStep(
                 Icon(imageVector = Icons.Default.DateRange, contentDescription = null)
             },
             errorMessage = null,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
@@ -117,15 +119,17 @@ private fun PersonalInfoStepPreview() {
     ComposeTrainingTheme {
         Scaffold { padding ->
             PersonalInfoStep(
-                state = FormState(
-                    firstName = "John",
-                    lastName = "Doe",
-                    birthYear = "1990"
-                ),
+                state =
+                    FormState(
+                        firstName = "John",
+                        lastName = "Doe",
+                        birthYear = "1990",
+                    ),
                 onAction = {},
-                modifier = Modifier
-                    .padding(padding)
-                    .padding(16.dp)
+                modifier =
+                    Modifier
+                        .padding(padding)
+                        .padding(16.dp),
             )
         }
     }
@@ -137,17 +141,19 @@ private fun PersonalInfoStepErrorPreview() {
     ComposeTrainingTheme {
         Scaffold { padding ->
             PersonalInfoStep(
-                state = FormState(
-                    firstName = "John",
-                    lastName = "Doe",
-                    birthYear = "1990",
-                    firstNameError = "Invalid First name",
-                    lastNameError = "Invalid Last name"
-                ),
+                state =
+                    FormState(
+                        firstName = "John",
+                        lastName = "Doe",
+                        birthYear = "1990",
+                        firstNameError = "Invalid First name",
+                        lastNameError = "Invalid Last name",
+                    ),
                 onAction = {},
-                modifier = Modifier
-                    .padding(padding)
-                    .padding(16.dp)
+                modifier =
+                    Modifier
+                        .padding(padding)
+                        .padding(16.dp),
             )
         }
     }

@@ -18,13 +18,14 @@ import com.example.composetraining.R
 @Composable
 fun StreamingHomeAppBar(onSearchClick: () -> Unit) {
     TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Transparent,
-            titleContentColor = Color.White
-        ),
+        colors =
+            TopAppBarDefaults.topAppBarColors(
+                containerColor = Color.Transparent,
+                titleContentColor = Color.White,
+            ),
         title = {
             Text(
-                stringResource(R.string.stream_app)
+                stringResource(R.string.stream_app),
             )
         },
         actions = {
@@ -34,12 +35,12 @@ fun StreamingHomeAppBar(onSearchClick: () -> Unit) {
                     contentDescription = null,
                 )
             }
-        }
+        },
     )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun StreamingHomeAppBarPreview() {
-    StreamingHomeAppBar {  }
+    StreamingHomeAppBar { }
 }

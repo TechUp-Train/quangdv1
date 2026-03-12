@@ -32,18 +32,19 @@ data class UserProfile(
     val jobTitle: String,
     val postsCount: Int,
     val followersCount: Int,
-    val followingCount: Int
+    val followingCount: Int,
 )
 
 @Composable
 fun ProfileCardScreen() {
-    val profile = UserProfile(
-        name = "Đoàn Việt Quang",
-        jobTitle = "Android Developer tại Apero",
-        postsCount = 128,
-        followersCount = 1200,
-        followingCount = 890
-    )
+    val profile =
+        UserProfile(
+            name = "Đoàn Việt Quang",
+            jobTitle = "Android Developer tại Apero",
+            postsCount = 128,
+            followersCount = 1200,
+            followingCount = 890,
+        )
 
     ProfileCard(
         profile = profile,

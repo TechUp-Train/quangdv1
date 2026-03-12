@@ -60,9 +60,10 @@ fun FormContent(
     //   ) { step → when(step) { 0 → PersonalInfoStep, 1 → ContactStep, 2 → PreferencesStep, 3 → ReviewStep } }
     // - FormNavigationButtons(state, onAction)
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(16.dp),
     ) {
         LinearProgressIndicator(
             progress = { state.progress },
@@ -74,9 +75,10 @@ fun FormContent(
         Spacer(Modifier.height(4.dp))
         Text(
             text = "Step ${state.currentStep + 1} of ${state.totalSteps}: ${state.stepTitle}",
-            style = TextStyle(
-                fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
-            )
+            style =
+                TextStyle(
+                    fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
+                ),
         )
         Spacer(Modifier.height(24.dp))
         AnimatedContent(
@@ -85,7 +87,7 @@ fun FormContent(
                 val direction = if (targetState > initialState) 1 else -1
                 slideInHorizontally { it * direction } togetherWith slideOutHorizontally { it * -direction }
             },
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         ) { step ->
             when (step) {
                 0 -> PersonalInfoStep(state, onAction)

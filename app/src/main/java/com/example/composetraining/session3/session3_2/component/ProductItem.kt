@@ -29,41 +29,52 @@ import com.example.composetraining.session3.session3_2.ModifyAction
 import com.example.composetraining.ui.theme.ComposeTrainingTheme
 
 @Composable
-fun ProductItem(cartItem: CartItem, onIncrease: () -> Unit, onDecrease: () -> Unit) {
+fun ProductItem(
+    cartItem: CartItem,
+    onIncrease: () -> Unit,
+    onDecrease: () -> Unit,
+) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(15.dp))
-            .border(0.5.dp, Color.LightGray.copy(alpha = 0.5f), RoundedCornerShape(15.dp))
-            .background(bg_card)
-            .padding(12.dp), verticalAlignment = Alignment.CenterVertically
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(15.dp))
+                .border(0.5.dp, Color.LightGray.copy(alpha = 0.5f), RoundedCornerShape(15.dp))
+                .background(bg_card)
+                .padding(12.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         ) {
             Text(
                 text = cartItem.name,
-                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp),
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "$${cartItem.price}", style = TextStyle(
-                    color = Color.Gray, fontSize = 14.sp, fontWeight = FontWeight.Bold
-                )
+                text = "$${cartItem.price}",
+                style =
+                    TextStyle(
+                        color = Color.Gray,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                    ),
             )
         }
 
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             QuantitySelector(modifyAction = ModifyAction.DECREASE, onModify = onDecrease)
             Text(
                 text = cartItem.quantity.toString(),
-                style = TextStyle(
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp,
-                ),
+                style =
+                    TextStyle(
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 16.sp,
+                    ),
             )
             QuantitySelector(modifyAction = ModifyAction.INCREASE, onModify = onIncrease)
         }
@@ -75,14 +86,15 @@ fun ProductItem(cartItem: CartItem, onIncrease: () -> Unit, onDecrease: () -> Un
 private fun ProductItemPreview() {
     ComposeTrainingTheme {
         Box(
-            modifier = Modifier
-                .background(bg_page)
-                .padding(10.dp)
+            modifier =
+                Modifier
+                    .background(bg_page)
+                    .padding(10.dp),
         ) {
             ProductItem(
                 cartItem = CartItem(1, "iPhone 16 Pro", 999.0, 2),
                 onIncrease = {},
-                onDecrease = {}
+                onDecrease = {},
             )
         }
     }

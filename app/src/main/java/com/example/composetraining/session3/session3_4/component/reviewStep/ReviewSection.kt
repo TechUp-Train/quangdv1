@@ -35,32 +35,36 @@ fun ReviewSection(
 ) {
     // - Card(fillMaxWidth, surfaceVariant color) { Column(padding=12.dp) { Text title + content() } }
     Card(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier =
+            modifier
+                .fillMaxWidth(),
         shape = RoundedCornerShape(10.dp),
         border = BorderStroke(1.dp, Color.LightGray),
     ) {
         Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.surfaceVariant)
-                .padding(12.dp),
+            modifier =
+                Modifier
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .padding(12.dp),
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(2.w),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(
-                    modifier = Modifier
-                        .height(2.h)
-                        .width(1.w)
-                        .clip(RoundedCornerShape(5.dp))
-                        .background(Color.Blue.copy(alpha = 0.6f))
+                    modifier =
+                        Modifier
+                            .height(2.h)
+                            .width(1.w)
+                            .clip(RoundedCornerShape(5.dp))
+                            .background(Color.Blue.copy(alpha = 0.6f)),
                 )
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        color = Color.Blue.copy(alpha = 0.6f)
-                    ),
+                    style =
+                        MaterialTheme.typography.titleMedium.copy(
+                            color = Color.Blue.copy(alpha = 0.6f),
+                        ),
                 )
             }
 
@@ -80,15 +84,15 @@ private fun ReviewSectionPreview() {
     ComposeTrainingTheme {
         ReviewSection(
             title = "Personal Information",
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
         ) {
             ReviewRow(
                 label = "Full Name",
-                value = "John Doe"
+                value = "John Doe",
             )
             ReviewRow(
                 label = "Email",
-                value = "john.doe@example.com"
+                value = "john.doe@example.com",
             )
         }
     }

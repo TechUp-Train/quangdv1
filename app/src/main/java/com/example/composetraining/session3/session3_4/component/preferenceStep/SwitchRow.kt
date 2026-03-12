@@ -33,7 +33,7 @@ import com.example.composetraining.ui.theme.ComposeTrainingTheme
 
 class RowIcon(
     val icon: ImageVector,
-    val color: Color
+    val color: Color,
 )
 
 @Composable
@@ -48,65 +48,72 @@ fun SwitchRow(
     // - Row(fillMaxWidth, SpaceBetween, CenterVertically)
     // - Text label (bodyLarge) + Switch(checked, onCheckedChange)
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(Color.White)
-            .clip(RoundedCornerShape(10.dp))
-            .border(
-                width = 1.dp,
-                color = Color.LightGray,
-            )
-            .padding(10.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .background(Color.White)
+                .clip(RoundedCornerShape(10.dp))
+                .border(
+                    width = 1.dp,
+                    color = Color.LightGray,
+                ).padding(10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         RowIcon(rowIcon = icon)
         Spacer(Modifier.width(2.w))
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         ) {
             Text(
                 text = label,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = 18.sp
-                )
+                style =
+                    MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 18.sp,
+                    ),
             )
             Text(
                 text = description,
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = Color.Gray,
-                    fontSize = 14.sp,
-                )
+                style =
+                    MaterialTheme.typography.bodyMedium.copy(
+                        color = Color.Gray,
+                        fontSize = 14.sp,
+                    ),
             )
         }
         Switch(
             checked = checked,
             onCheckedChange = onCheckedChange,
             modifier = Modifier.padding(end = 10.dp),
-            colors = SwitchDefaults.colors(
-                checkedThumbColor = Color.White,
-                uncheckedThumbColor = Color.White,
-                checkedTrackColor = Color.Blue.copy(alpha = 0.6f),
-                uncheckedTrackColor = Color(0xFFE0DFDC),
-                checkedBorderColor = Color.Transparent,
-                uncheckedBorderColor = Color.Transparent
-            )
+            colors =
+                SwitchDefaults.colors(
+                    checkedThumbColor = Color.White,
+                    uncheckedThumbColor = Color.White,
+                    checkedTrackColor = Color.Blue.copy(alpha = 0.6f),
+                    uncheckedTrackColor = Color(0xFFE0DFDC),
+                    checkedBorderColor = Color.Transparent,
+                    uncheckedBorderColor = Color.Transparent,
+                ),
         )
     }
 }
 
 @Composable
-fun RowIcon(rowIcon: RowIcon, modifier: Modifier = Modifier) {
+fun RowIcon(
+    rowIcon: RowIcon,
+    modifier: Modifier = Modifier,
+) {
     Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(5.dp))
-            .background(rowIcon.color.copy(alpha = 0.1f))
-            .padding(5.dp)
+        modifier =
+            Modifier
+                .clip(RoundedCornerShape(5.dp))
+                .background(rowIcon.color.copy(alpha = 0.1f))
+                .padding(5.dp),
     ) {
         Icon(
             imageVector = rowIcon.icon,
             contentDescription = null,
-            tint = rowIcon.color.copy(alpha = 0.4f)
+            tint = rowIcon.color.copy(alpha = 0.4f),
         )
     }
 }
@@ -119,11 +126,12 @@ private fun SwitchRowPreview() {
             label = "Notifications",
             description = "Enable or disable notifications",
             checked = true,
-            icon = RowIcon(
-                icon = Icons.Default.Email,
-                color = Color.Blue,
-            ),
-            onCheckedChange = {}
+            icon =
+                RowIcon(
+                    icon = Icons.Default.Email,
+                    color = Color.Blue,
+                ),
+            onCheckedChange = {},
         )
     }
 }

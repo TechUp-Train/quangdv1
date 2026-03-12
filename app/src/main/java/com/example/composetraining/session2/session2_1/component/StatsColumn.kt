@@ -15,26 +15,32 @@ import androidx.compose.ui.unit.sp
 // Params: label: String, count: Int
 // Layout: Column(CenterHorizontally) { Text(count bold 18sp); Text(label gray 12sp) }
 @Composable
-fun StatsColumn(label: String, count: Int, modifier: Modifier) {
+fun StatsColumn(
+    label: String,
+    count: Int,
+    modifier: Modifier,
+) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = count.toString(),
-            style = TextStyle(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
+            style =
+                TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                ),
         )
 
         Text(
             text = label,
-            style = TextStyle(
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Normal,
-                color = Color.Gray
-            )
+            style =
+                TextStyle(
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.Gray,
+                ),
         )
     }
 }

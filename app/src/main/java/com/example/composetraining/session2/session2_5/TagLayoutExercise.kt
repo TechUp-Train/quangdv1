@@ -50,38 +50,49 @@ import com.example.composetraining.ui.theme.ComposeTrainingTheme
 
 @Composable
 fun TagLayoutScreen() {
-    val tags = listOf(
-        "Android", "Jetpack Compose", "Kotlin", "UI Design",
-        "Material3", "Jetpack", "Mobile Dev", "Coroutines",
-        "Flow", "MVVM", "Clean Architecture", "Hilt"
-    )
+    val tags =
+        listOf(
+            "Android",
+            "Jetpack Compose",
+            "Kotlin",
+            "UI Design",
+            "Material3",
+            "Jetpack",
+            "Mobile Dev",
+            "Coroutines",
+            "Flow",
+            "MVVM",
+            "Clean Architecture",
+            "Hilt",
+        )
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Text("Custom Tag Layout", style = MaterialTheme.typography.headlineSmall)
         Text(
             "Implement TagsLayout dùng Layout composable (không dùng FlowRow)",
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         HorizontalDivider()
 
         TagsLayout(
             tags = tags,
             onTagClick = {},
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
 
         HorizontalDivider()
         Text(
             "Sau khi implement TagsLayout, tags sẽ tự wrap xuống hàng mới khi hết width ↑",
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }

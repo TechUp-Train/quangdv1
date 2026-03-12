@@ -31,12 +31,18 @@ import com.example.composetraining.R
 import com.example.composetraining.session2.session2_4.PricingPlan
 
 @Composable
-fun PricingCard(pricingPlan: PricingPlan, modifier: Modifier = Modifier) {
+fun PricingCard(
+    pricingPlan: PricingPlan,
+    modifier: Modifier = Modifier,
+) {
     Card(
         modifier = modifier,
-        border = if (pricingPlan.isPopular)
-            BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
-        else null
+        border =
+            if (pricingPlan.isPopular) {
+                BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+            } else {
+                null
+            },
     ) {
         Box {
             Column(modifier = Modifier.padding(12.dp)) {
@@ -44,37 +50,37 @@ fun PricingCard(pricingPlan: PricingPlan, modifier: Modifier = Modifier) {
                     text = pricingPlan.name,
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
-                    color = if (pricingPlan.isPopular) MaterialTheme.colorScheme.primary else Color.Unspecified
+                    color = if (pricingPlan.isPopular) MaterialTheme.colorScheme.primary else Color.Unspecified,
                 )
                 Text(
                     text = pricingPlan.price,
                     fontWeight = FontWeight.Bold,
                     fontSize = 22.sp,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
                     text = pricingPlan.period,
                     fontSize = 11.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
                 pricingPlan.features.forEach { feature ->
                     Row(
                         modifier = Modifier.padding(vertical = 2.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Icon(
                             imageVector = Icons.Default.Check,
                             contentDescription = null,
                             modifier = Modifier.size(14.dp),
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MaterialTheme.colorScheme.primary,
                         )
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = feature,
                             fontSize = 11.sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                 }
@@ -83,21 +89,22 @@ fun PricingCard(pricingPlan: PricingPlan, modifier: Modifier = Modifier) {
 
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {}
+                    onClick = {},
                 ) {
                     Text(
                         text = stringResource(R.string.choose_plan),
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
                     )
                 }
             }
 
             if (pricingPlan.isPopular) {
                 PopularBadge(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(8.dp)
+                    modifier =
+                        Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(8.dp),
                 )
             }
         }
@@ -112,11 +119,12 @@ private fun PricingCardPreview() {
             name = "Basic",
             price = "Free",
             period = "mãi mãi",
-            features = listOf(
-                "5 AI generations/ngày",
-                "Độ phân giải 512px",
-                "Watermark"
-            )
+            features =
+                listOf(
+                    "5 AI generations/ngày",
+                    "Độ phân giải 512px",
+                    "Watermark",
+                ),
         ),
     )
 }

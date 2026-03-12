@@ -16,7 +16,7 @@ import com.example.composetraining.session2.session2_bonus.component.MovieSectio
 import com.example.composetraining.session2.session2_bonus.component.StreamingHomeAppBar
 import com.example.composetraining.ui.theme.ComposeTrainingTheme
 
-///**
+// /**
 // * ⭐⭐⭐⭐⭐ BONUS NÂNG CAO: Streaming App Home (Nested Scroll — Concept 5) (Netflix-style)
 // *
 // * Mô tả: Build Home screen với nested scrolling đúng cách
@@ -65,62 +65,68 @@ data class Movie(
     val emoji: String,
     val rating: String,
     val category: String,
-    val color: Color = Color(0xFF1E1E2E)
+    val color: Color = Color(0xFF1E1E2E),
 )
 
 data class MovieSection(
     val title: String,
-    val movies: List<Movie>
+    val movies: List<Movie>,
 )
 
 // ─── Sample Data ──────────────────────────────────────────────────────────────
 
-private val featuredMovie = Movie(
-    title = "Inception",
-    genre = "Sci-Fi · Thriller",
-    emoji = "🌀",
-    rating = "8.8",
-    category = "Movies",
-    color = Color(0xFF0D1117)
-)
-
-private val movieSections = listOf(
-    MovieSection(
-        title = "🔥 Trending Now",
-        movies = listOf(
-            Movie("The Matrix", "Sci-Fi", "💊", "8.7", "Movies", Color(0xFF0D2818)),
-            Movie("Dune", "Epic", "🏜️", "8.0", "Movies", Color(0xFF2D1B00)),
-            Movie("Interstellar", "Space", "🌌", "8.6", "Movies", Color(0xFF000D1A)),
-            Movie("Blade Runner", "Neo-noir", "🤖", "8.1", "Movies", Color(0xFF1A0000)),
-            Movie("Tenet", "Action", "⏰", "7.4", "Movies", Color(0xFF001A2D))
-        )
-    ),
-    MovieSection(
-        title = "▶ Continue Watching",
-        movies = listOf(
-            Movie("Pulp Fiction", "Crime", "🎬", "8.9", "Movies", Color(0xFF1A0D00)),
-            Movie("Dark Knight", "Action", "🦇", "9.0", "Movies", Color(0xFF0D0D0D)),
-            Movie("Parasite", "Thriller", "🏠", "8.5", "Movies", Color(0xFF0D1A0D))
-        )
-    ),
-    MovieSection(
-        title = "🎭 Because you watched Inception",
-        movies = listOf(
-            Movie("Shutter Island", "Mystery", "🏝️", "8.1", "Movies", Color(0xFF0D1A2D)),
-            Movie("Prestige", "Drama", "🎩", "8.5", "Movies", Color(0xFF1A1A0D)),
-            Movie("Memento", "Thriller", "📸", "8.4", "Movies", Color(0xFF2D0D0D)),
-            Movie("Fight Club", "Drama", "🥊", "8.8", "Movies", Color(0xFF1A0D1A))
-        )
-    ),
-    MovieSection(
-        title = "📺 Popular Series",
-        movies = listOf(
-            Movie("Breaking Bad", "Crime", "⚗️", "9.5", "Series", Color(0xFF0D1A0D)),
-            Movie("Stranger Things", "Sci-Fi", "🚲", "8.7", "Series", Color(0xFF1A0000)),
-            Movie("The Crown", "History", "👑", "8.6", "Series", Color(0xFF1A1A0D))
-        )
+private val featuredMovie =
+    Movie(
+        title = "Inception",
+        genre = "Sci-Fi · Thriller",
+        emoji = "🌀",
+        rating = "8.8",
+        category = "Movies",
+        color = Color(0xFF0D1117),
     )
-)
+
+private val movieSections =
+    listOf(
+        MovieSection(
+            title = "🔥 Trending Now",
+            movies =
+                listOf(
+                    Movie("The Matrix", "Sci-Fi", "💊", "8.7", "Movies", Color(0xFF0D2818)),
+                    Movie("Dune", "Epic", "🏜️", "8.0", "Movies", Color(0xFF2D1B00)),
+                    Movie("Interstellar", "Space", "🌌", "8.6", "Movies", Color(0xFF000D1A)),
+                    Movie("Blade Runner", "Neo-noir", "🤖", "8.1", "Movies", Color(0xFF1A0000)),
+                    Movie("Tenet", "Action", "⏰", "7.4", "Movies", Color(0xFF001A2D)),
+                ),
+        ),
+        MovieSection(
+            title = "▶ Continue Watching",
+            movies =
+                listOf(
+                    Movie("Pulp Fiction", "Crime", "🎬", "8.9", "Movies", Color(0xFF1A0D00)),
+                    Movie("Dark Knight", "Action", "🦇", "9.0", "Movies", Color(0xFF0D0D0D)),
+                    Movie("Parasite", "Thriller", "🏠", "8.5", "Movies", Color(0xFF0D1A0D)),
+                ),
+        ),
+        MovieSection(
+            title = "🎭 Because you watched Inception",
+            movies =
+                listOf(
+                    Movie("Shutter Island", "Mystery", "🏝️", "8.1", "Movies", Color(0xFF0D1A2D)),
+                    Movie("Prestige", "Drama", "🎩", "8.5", "Movies", Color(0xFF1A1A0D)),
+                    Movie("Memento", "Thriller", "📸", "8.4", "Movies", Color(0xFF2D0D0D)),
+                    Movie("Fight Club", "Drama", "🥊", "8.8", "Movies", Color(0xFF1A0D1A)),
+                ),
+        ),
+        MovieSection(
+            title = "📺 Popular Series",
+            movies =
+                listOf(
+                    Movie("Breaking Bad", "Crime", "⚗️", "9.5", "Series", Color(0xFF0D1A0D)),
+                    Movie("Stranger Things", "Sci-Fi", "🚲", "8.7", "Series", Color(0xFF1A0000)),
+                    Movie("The Crown", "History", "👑", "8.6", "Series", Color(0xFF1A1A0D)),
+                ),
+        ),
+    )
 
 private val categories = listOf("All", "Movies", "Series", "Anime", "Documentary", "Kids")
 
@@ -166,33 +172,36 @@ fun StreamingHomeScreen(modifier: Modifier = Modifier) {
             if (selectedCategory == "All") {
                 movieSections
             } else {
-                movieSections.map { section ->
-                    section.copy(
-                        movies = section.movies.filter { movie ->
-                            movie.category == selectedCategory
-                        }
-                    )
-                }.filter { it.movies.isNotEmpty() }
+                movieSections
+                    .map { section ->
+                        section.copy(
+                            movies =
+                                section.movies.filter { movie ->
+                                    movie.category == selectedCategory
+                                },
+                        )
+                    }.filter { it.movies.isNotEmpty() }
             }
         }
     }
 
     Scaffold(
-        topBar = { StreamingHomeAppBar {} }
+        topBar = { StreamingHomeAppBar {} },
     ) { innerPadding ->
         Column(
-            modifier = modifier
-                .fillMaxSize()
-                .background(Color(0xFF0D0D0D))
-                .padding(innerPadding)
-                .verticalScroll(scrollState)
+            modifier =
+                modifier
+                    .fillMaxSize()
+                    .background(Color(0xFF0D0D0D))
+                    .padding(innerPadding)
+                    .verticalScroll(scrollState),
         ) {
             HeroBanner(featuredMovie)
             Spacer(modifier = Modifier.height(16.dp))
             CategoryChipRow(
                 categories = categories,
                 selectedCategory = selectedCategory,
-                onCategorySelect = { selectedCategory = it }
+                onCategorySelect = { selectedCategory = it },
             )
             Spacer(modifier = Modifier.height(24.dp))
             filteredMovies.forEachIndexed { index, section ->

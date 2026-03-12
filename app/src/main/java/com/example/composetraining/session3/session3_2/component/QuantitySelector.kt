@@ -19,24 +19,33 @@ import com.example.composetraining.common.primary_green
 import com.example.composetraining.session3.session3_2.ModifyAction
 
 @Composable
-fun QuantitySelector(modifyAction: ModifyAction, onModify: () -> Unit) {
+fun QuantitySelector(
+    modifyAction: ModifyAction,
+    onModify: () -> Unit,
+) {
     Button(
         onClick = onModify,
         modifier = Modifier.size(32.dp),
         shape = CircleShape,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = if (modifyAction == ModifyAction.INCREASE) primary_green else bg_muted,
-            contentColor = if (modifyAction == ModifyAction.INCREASE) Color.White else Color.Black
-        ),
-        border = if (modifyAction == ModifyAction.DECREASE) BorderStroke(
-            1.dp,
-            Color.LightGray
-        ) else null,
-        contentPadding = PaddingValues(0.dp)
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = if (modifyAction == ModifyAction.INCREASE) primary_green else bg_muted,
+                contentColor = if (modifyAction == ModifyAction.INCREASE) Color.White else Color.Black,
+            ),
+        border =
+            if (modifyAction == ModifyAction.DECREASE) {
+                BorderStroke(
+                    1.dp,
+                    Color.LightGray,
+                )
+            } else {
+                null
+            },
+        contentPadding = PaddingValues(0.dp),
     ) {
         Text(
             text = if (modifyAction == ModifyAction.DECREASE) "-" else "+",
-            style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
         )
     }
 }

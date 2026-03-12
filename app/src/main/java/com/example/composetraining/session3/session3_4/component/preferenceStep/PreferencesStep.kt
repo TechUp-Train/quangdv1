@@ -53,73 +53,80 @@ fun PreferencesStep(
     val languages = listOf("Vietnamese", "English", "Japanese", "Korean")
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Text(
             stringResource(R.string.preferences),
-            style = TextStyle(
-                color = Color.Black,
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-            )
+            style =
+                TextStyle(
+                    color = Color.Black,
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                ),
         )
         Text(
             stringResource(R.string.preferences_description),
-            style = TextStyle(
-                color = Color.Gray,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-            )
+            style =
+                TextStyle(
+                    color = Color.Gray,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal,
+                ),
         )
         Spacer(Modifier.height(2.h))
         SwitchRow(
             label = "Receive newsletter",
             description = "Get weekly updates and tips",
-            icon = RowIcon(
-                icon = Icons.Default.Email,
-                color = Color.Blue,
-            ),
+            icon =
+                RowIcon(
+                    icon = Icons.Default.Email,
+                    color = Color.Blue,
+                ),
             checked = state.receiveNewsletter,
             onCheckedChange = { enabled -> onAction(FormAction.UpdateNewsletter(enabled)) },
         )
         SwitchRow(
             label = "Push notifications",
             description = "Stay updated with real-time updates",
-            icon = RowIcon(
-                icon = Icons.Default.Notifications,
-                color = Color.Magenta,
-            ),
+            icon =
+                RowIcon(
+                    icon = Icons.Default.Notifications,
+                    color = Color.Magenta,
+                ),
             checked = state.receiveNotifications,
             onCheckedChange = { enabled -> onAction(FormAction.UpdateNotifications(enabled)) },
         )
         HorizontalDivider()
         Text("Preferred language")
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(PaddingValues(0.dp))
-                .border(
-                    width = 1.dp,
-                    color = Color.LightGray,
-                    shape = RoundedCornerShape(10.dp)
-                )
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(PaddingValues(0.dp))
+                    .border(
+                        width = 1.dp,
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(10.dp),
+                    ),
         ) {
             languages.forEachIndexed { index, lang ->
                 LanguageItem(
                     language = lang,
                     isSelected = state.preferredLanguage == lang,
                     onSelect = { onAction(FormAction.UpdateLanguage(lang)) },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
-                if (index < languages.lastIndex)
-                HorizontalDivider(
-                    color = Color.LightGray,
-                    thickness = 1.dp,
-                    modifier = Modifier.padding(PaddingValues(0.dp))
-                )
+                if (index < languages.lastIndex) {
+                    HorizontalDivider(
+                        color = Color.LightGray,
+                        thickness = 1.dp,
+                        modifier = Modifier.padding(PaddingValues(0.dp)),
+                    )
+                }
             }
         }
     }
@@ -130,13 +137,14 @@ fun PreferencesStep(
 private fun PreferencesStepPreview() {
     ComposeTrainingTheme {
         PreferencesStep(
-            state = FormState(
-                receiveNewsletter = true,
-                receiveNotifications = false,
-                preferredLanguage = "English"
-            ),
+            state =
+                FormState(
+                    receiveNewsletter = true,
+                    receiveNotifications = false,
+                    preferredLanguage = "English",
+                ),
             onAction = {},
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
         )
     }
 }

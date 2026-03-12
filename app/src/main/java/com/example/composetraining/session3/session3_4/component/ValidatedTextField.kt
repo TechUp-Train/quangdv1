@@ -35,12 +35,13 @@ fun ValidatedTextField(
         supportingText = errorMessage?.let { { Text(it) } },
         maxLines = 1,
         shape = RoundedCornerShape(10.dp),
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = androidx.compose.ui.graphics.Color.Blue,
-            unfocusedBorderColor = androidx.compose.ui.graphics.Color.LightGray,
-            errorBorderColor = androidx.compose.ui.graphics.Color.Red
-        ),
-        modifier = modifier
+        colors =
+            OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = androidx.compose.ui.graphics.Color.Blue,
+                unfocusedBorderColor = androidx.compose.ui.graphics.Color.LightGray,
+                errorBorderColor = androidx.compose.ui.graphics.Color.Red,
+            ),
+        modifier = modifier,
     )
 }
 
@@ -52,6 +53,6 @@ private fun ValidatedTextFieldPreview() {
         onValueChange = {},
         label = "Label",
         errorMessage = null,
-        keyboardType = KeyboardType.Number
+        keyboardType = KeyboardType.Number,
     )
 }

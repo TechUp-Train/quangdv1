@@ -15,7 +15,7 @@ fun CategoryChipRow(
     categories: List<String>,
     selectedCategory: String,
     onCategorySelect: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     // - Row với horizontalScroll(rememberScrollState()) + padding(horizontal=16.dp)
     // - horizontalArrangement = spacedBy(8.dp)
@@ -24,15 +24,17 @@ fun CategoryChipRow(
     val scrollState = rememberScrollState()
 
     Row(
-        modifier = modifier.horizontalScroll(scrollState)
-            .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        modifier =
+            modifier
+                .horizontalScroll(scrollState)
+                .padding(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         categories.forEachIndexed { index, category ->
             FilterChip(
                 category = category,
                 selected = category == selectedCategory,
-                onClick = { onCategorySelect(category) }
+                onClick = { onCategorySelect(category) },
             )
         }
     }
@@ -44,6 +46,6 @@ private fun CategoryChipRowPreview() {
     CategoryChipRow(
         categories = listOf("All", "Movies", "Series", "Anime", "Documentary", "Kids"),
         selectedCategory = "All",
-        onCategorySelect = {}
+        onCategorySelect = {},
     )
 }

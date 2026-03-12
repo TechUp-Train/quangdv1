@@ -9,10 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Warning
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -31,38 +27,45 @@ import com.apero.composetraining.common.SampleData
 import com.example.composetraining.R
 
 @Composable
-fun TrendingMoviesSection(movies: List<Movie>, onMovieClick: (Movie) -> Unit) {
+fun TrendingMoviesSection(
+    movies: List<Movie>,
+    onMovieClick: (Movie) -> Unit,
+) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .background(Color.White)
-            .padding(5.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color.White)
+                .padding(5.dp),
     ) {
         Text(
             stringResource(R.string.trending),
             modifier = Modifier.padding(16.dp),
-            style = TextStyle(
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-            )
+            style =
+                TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                ),
         )
 
         LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 5.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 5.dp),
         ) {
             items(movies.size, key = { movies[it].id }) { index ->
                 AsyncImage(
                     model = movies[index].posterUrl,
                     contentDescription = null,
-                    modifier = Modifier
-                        .padding(5.dp)
-                        .width(120.dp)
-                        .height(180.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .clickable(onClick = { onMovieClick(movies[index]) }),
+                    modifier =
+                        Modifier
+                            .padding(5.dp)
+                            .width(120.dp)
+                            .height(180.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .clickable(onClick = { onMovieClick(movies[index]) }),
                     contentScale = ContentScale.Crop,
                 )
             }

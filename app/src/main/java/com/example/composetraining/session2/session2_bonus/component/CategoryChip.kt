@@ -19,21 +19,27 @@ import com.example.composetraining.common.h
 import com.example.composetraining.common.w
 
 @Composable
-fun FilterChip(category: String, selected: Boolean, onClick: () -> Unit) {
+fun FilterChip(
+    category: String,
+    selected: Boolean,
+    onClick: () -> Unit,
+) {
     Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(20.dp))
-            .background(if (selected) Color.White else Color.Black.copy(alpha = 0.6f))
-            .clickable { onClick() }
-            .padding(horizontal = 3.w, vertical = 1.h)
+        modifier =
+            Modifier
+                .clip(RoundedCornerShape(20.dp))
+                .background(if (selected) Color.White else Color.Black.copy(alpha = 0.6f))
+                .clickable { onClick() }
+                .padding(horizontal = 3.w, vertical = 1.h),
     ) {
         Text(
             category,
-            style = TextStyle(
-                color = if (selected) Color.Black else Color.White,
-                fontSize = 16.sp,
-                fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
-            )
+            style =
+                TextStyle(
+                    color = if (selected) Color.Black else Color.White,
+                    fontSize = 16.sp,
+                    fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
+                ),
         )
     }
 }

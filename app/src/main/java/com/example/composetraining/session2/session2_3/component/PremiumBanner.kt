@@ -28,27 +28,30 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun PremiumBanner(modifier: Modifier = Modifier) {
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(80.dp)
-            .drawBehind {
-                drawRect(
-                    brush = Brush.horizontalGradient(
-                        colors = listOf(
-                            Color(0xFF6750A4),
-                            Color(0xFF9C27B0)
-                        )
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(80.dp)
+                .drawBehind {
+                    drawRect(
+                        brush =
+                            Brush.horizontalGradient(
+                                colors =
+                                    listOf(
+                                        Color(0xFF6750A4),
+                                        Color(0xFF9C27B0),
+                                    ),
+                            ),
                     )
-                )
-            },
-        contentAlignment = Alignment.CenterStart
+                },
+        contentAlignment = Alignment.CenterStart,
     ) {
         Text(
             text = "Upgrade to Premium for More Insights!",
             color = Color.White,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = 16.dp),
         )
     }
 }

@@ -7,7 +7,6 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,14 +22,15 @@ fun ContactItem(contact: Contact) {
             Icon(
                 imageVector = Icons.Default.AccountCircle,
                 contentDescription = null,
-                modifier = Modifier.size(50.dp)
+                modifier = Modifier.size(50.dp),
             )
         },
         headlineContent = { Text(contact.name) },
         supportingContent = { Text(contact.phone) },
-        colors = ListItemDefaults.colors(
-            containerColor = Color.White
-        )
+        colors =
+            ListItemDefaults.colors(
+                containerColor = Color.White,
+            ),
     )
 }
 
@@ -38,13 +38,14 @@ fun ContactItem(contact: Contact) {
 @Composable
 fun ContactItemPreview() {
     ContactItem(
-        contact = Contact(
-            1,
-            "Nguyễn Văn An",
-            "0901234567",
-            "an.nguyen@email.com",
-            isFavorite = true,
-            bio = "Android Developer tại Apero"
-        )
+        contact =
+            Contact(
+                1,
+                "Nguyễn Văn An",
+                "0901234567",
+                "an.nguyen@email.com",
+                isFavorite = true,
+                bio = "Android Developer tại Apero",
+            ),
     )
 }

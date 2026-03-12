@@ -1,13 +1,10 @@
 package com.example.composetraining.session2.session2_2.component
 
-import androidx.compose.foundation.background
-import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -37,32 +35,38 @@ import coil.compose.AsyncImage
 import com.apero.composetraining.common.Movie
 import com.example.composetraining.common.h
 import com.example.composetraining.common.w
-import com.example.composetraining.ui.theme.ComposeTrainingTheme
 
 @Composable
-fun MovieCard(movie: Movie, onMovieClick: (Movie) -> Unit) {
+fun MovieCard(
+    movie: Movie,
+    onMovieClick: (Movie) -> Unit,
+) {
     Card(
-        modifier = Modifier
-            .padding(5.dp)
-            .fillMaxWidth()
-            .clickable { onMovieClick(movie) },
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Transparent,
-        )
+        modifier =
+            Modifier
+                .padding(5.dp)
+                .fillMaxWidth()
+                .clickable { onMovieClick(movie) },
+        colors =
+            CardDefaults.cardColors(
+                containerColor = Color.Transparent,
+            ),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             AsyncImage(
                 model = movie.posterUrl,
                 contentDescription = null,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(8.dp))
-                    .width(80.dp)
-                    .height(120.dp),
+                modifier =
+                    Modifier
+                        .clip(RoundedCornerShape(8.dp))
+                        .width(80.dp)
+                        .height(120.dp),
                 contentScale = ContentScale.Crop,
             )
 
@@ -71,45 +75,48 @@ fun MovieCard(movie: Movie, onMovieClick: (Movie) -> Unit) {
             Column(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.spacedBy(2.h)
+                verticalArrangement = Arrangement.spacedBy(2.h),
             ) {
                 Text(
                     movie.title,
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                    ),
+                    style =
+                        TextStyle(
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                        ),
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
                     movie.year.toString(),
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        color = MaterialTheme.colorScheme.outline,
-                    )
+                    style =
+                        TextStyle(
+                            fontSize = 16.sp,
+                            color = MaterialTheme.colorScheme.outline,
+                        ),
                 )
             }
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(1.w)
+                horizontalArrangement = Arrangement.spacedBy(1.w),
             ) {
                 Icon(
                     imageVector = Icons.Default.Star,
                     contentDescription = null,
-                    tint = Color.Yellow.copy(alpha = 0.7f)
+                    tint = Color.Yellow.copy(alpha = 0.7f),
                 )
                 Text(
                     movie.rating.toString(),
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        color = MaterialTheme.colorScheme.outline,
-                    )
+                    style =
+                        TextStyle(
+                            fontSize = 16.sp,
+                            color = MaterialTheme.colorScheme.outline,
+                        ),
                 )
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = null
+                    contentDescription = null,
                 )
             }
         }
@@ -125,7 +132,7 @@ private fun MovieCardPreview() {
             title = "The Shawshank Redemption",
             year = 1994,
             rating = 9.3f,
-            genre = "Drama"
-        )
+            genre = "Drama",
+        ),
     ) {}
 }

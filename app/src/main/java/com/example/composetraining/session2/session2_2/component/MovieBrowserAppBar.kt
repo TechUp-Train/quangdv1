@@ -14,9 +14,10 @@ import com.example.composetraining.R
 @Composable
 fun MovieBrowserAppBar() {
     TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Transparent
-        ),
+        colors =
+            TopAppBarDefaults.topAppBarColors(
+                containerColor = Color.Transparent,
+            ),
         title = { Text(stringResource(R.string.movies)) },
     )
 }
