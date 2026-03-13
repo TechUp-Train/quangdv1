@@ -22,6 +22,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            export(libs.androidx.lifecycle.viewmodel)
         }
     }
     
@@ -42,6 +43,7 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            api(libs.androidx.lifecycle.viewmodel)
         }
     }
 }
