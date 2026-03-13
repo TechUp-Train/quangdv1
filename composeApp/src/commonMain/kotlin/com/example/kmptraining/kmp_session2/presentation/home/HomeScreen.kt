@@ -2,6 +2,7 @@ package com.example.kmptraining.kmp_session2.presentation.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -38,17 +39,23 @@ fun HomeScreen(
         viewModel.getNews()
     }
 
-    when(newsState) {
+    when (newsState) {
         is ResponseStatus.Loading -> {
             CircularProgressIndicator(
                 modifier = Modifier.size(50.dp)
                     .background(MaterialTheme.colorScheme.surface),
             )
         }
-        is ResponseStatus.Error -> { HomeErrorUI() }
+
+        is ResponseStatus.Error -> {
+            HomeErrorUI()
+        }
+
         is ResponseStatus.Success -> {
             val newsList = newsState.data
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier.padding(horizontal = 10.dp)
+            ) {
                 items(newsList, key = { it.id }) { newsItem ->
                     NewsItem(newsItem, onNewsClick = { onNewsClick(newsItem) })
                 }
