@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">KMPTraining</string>
+    <string name="session2_app_name">News App</string>
+    <string name="search">Search</string>
+    <string name="error_data_fetching">There is an error while fetching data. Please try again later!</string>
+</resources>
