@@ -5,43 +5,39 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
+import com.example.kmptraining.kmp_session2.presentation.components.BaseBottomNavigationBar
+import com.example.kmptraining.kmp_session2.presentation.components.BaseTopAppBar
 import com.example.kmptraining.kmp_session2.presentation.home.HomeScreen
 import com.example.kmptraining.kmp_session2.presentation.home.HomeViewModel
 import com.example.kmptraining.kmp_session2.presentation.navigation.HomeNavigationKey
 import com.example.kmptraining.kmp_session2.presentation.navigation.SettingNavigationKey
 import com.example.kmptraining.kmp_session2.presentation.newsDetail.NewsDetailScreen
-import com.example.kmptraining.kmp_session2.presentation.setting.languageSetting.LanguageSettingScreen
 import com.example.kmptraining.kmp_session2.presentation.setting.SettingScreen
+import com.example.kmptraining.kmp_session2.presentation.setting.languageSetting.LanguageSettingScreen
+import com.example.kmptraining.kmp_session2.ui.NewsAppTheme
 import kmptraining.composeapp.generated.resources.Res
-import kmptraining.composeapp.generated.resources.ic_home
 import kmptraining.composeapp.generated.resources.ic_search
-import kmptraining.composeapp.generated.resources.ic_setting
-
+import kmptraining.composeapp.generated.resources.search
+import kmptraining.composeapp.generated.resources.session2_app_name
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview
-fun Session2App() {
-    MaterialTheme {
+fun Session2App(modifier: Modifier = Modifier) {
+    NewsAppTheme {
         val navConfig = SavedStateConfiguration {
             serializersModule = SerializersModule {
                 polymorphic(NavKey::class) {
@@ -73,53 +69,18 @@ fun Session2App() {
         Scaffold(
             bottomBar = {
                 if (showBottomBar) {
-                    NavigationBar {
-                        NavigationBarItem(
-                            selected = currentScreen is HomeNavigationKey.HomeKey,
-                            onClick = {
-                                if (currentScreen !is HomeNavigationKey.HomeKey) {
-                                    backStack.clear()
-                                    backStack.add(HomeNavigationKey.HomeKey)
-                                }
-                            },
-                            icon = {
-                                Icon(
-                                    painter = painterResource(Res.drawable.ic_home),
-                                    contentDescription = "Home",
-                                    modifier = Modifier.size(30.dp)
-                                )
-                            },
-                            label = { Text("Home") }
-                        )
-                        NavigationBarItem(
-                            selected = currentScreen is SettingNavigationKey.SettingKey,
-                            onClick = {
-                                if (currentScreen !is SettingNavigationKey.SettingKey) {
-                                    backStack.clear()
-                                    backStack.add(SettingNavigationKey.SettingKey)
-                                }
-                            },
-                            icon = {
-                                Icon(
-                                    painter = painterResource(Res.drawable.ic_setting),
-                                    contentDescription = "Settings",
-                                    modifier = Modifier.size(30.dp)
-                                )
-                            },
-                            label = { Text("Settings") }
-                        )
-                    }
+                    BaseBottomNavigationBar(backStack = backStack, currentScreen = currentScreen)
                 }
             },
             topBar = {
                 if (currentScreen is HomeNavigationKey.HomeKey) {
-                    TopAppBar(
-                        title = { Text("News App") },
+                    BaseTopAppBar(
+                        title = Res.string.session2_app_name,
                         actions = {
                             IconButton(onClick = {}) {
                                 Icon(
                                     painter = painterResource(Res.drawable.ic_search),
-                                    contentDescription = "Search",
+                                    contentDescription = stringResource(Res.string.search),
                                     modifier = Modifier.size(25.dp)
                                 )
                             }
@@ -135,9 +96,9 @@ fun Session2App() {
                 entryProvider = entryProvider {
                     entry<HomeNavigationKey.HomeKey> {
                         val homeViewModel: HomeViewModel = koinInject()
-                        HomeScreen(homeViewModel, onNewsClick = { news ->
+                        HomeScreen(onNewsClick = { news ->
                             backStack.add(HomeNavigationKey.NewsDetailKey(news.id))
-                        })
+                        }, viewModel = homeViewModel)
                     }
                     entry<HomeNavigationKey.NewsDetailKey> {
                         NewsDetailScreen(it.newsId)
