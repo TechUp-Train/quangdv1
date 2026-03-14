@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface RemoteNewsDataSource {
     fun fetchNews() : Flow<ResponseStatus<List<News>>>
+    fun fetchNewsDetail(newsId: Int) : Flow<ResponseStatus<News>>
 }

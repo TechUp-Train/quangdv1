@@ -1,4 +1,4 @@
-package com.example.kmptraining.kmp_session2.presentation.home
+package com.example.kmptraining.kmp_session2.presentation.newsDetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,21 +10,21 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class HomeViewModel(
+class NewsDetailViewModel(
     private val newsRepository: NewsRepository
 ) : ViewModel() {
-    private val _newsState = MutableStateFlow<ResponseStatus<List<News>>>(ResponseStatus.Loading)
-    val newsState : StateFlow<ResponseStatus<List<News>>> = _newsState.asStateFlow()
+    private val _newsState = MutableStateFlow<ResponseStatus<News>>(ResponseStatus.Loading)
+    val newsState: StateFlow<ResponseStatus<News>> = _newsState.asStateFlow()
 
-    init {
-        getNews()
-    }
-
-    fun getNews() {
+    fun fetchNews(newsId: Int) {
         viewModelScope.launch {
-            newsRepository.getNews().collect { result ->
+            newsRepository.getNewsDetail(newsId).collect { result ->
                 _newsState.value = result
             }
         }
     }
+
+    fun bookmarkNews(news: News) {}
+
+    fun shareNews(news: News) {}
 }

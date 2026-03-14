@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.kmptraining.kmp_session2.data.News
+import com.example.kmptraining.kmp_session2.data.newsData
 
 @Composable
 fun NewsItem(news: News, itemHeight: Dp, onNewsClick: (News) -> Unit) {
@@ -48,7 +49,7 @@ fun NewsItem(news: News, itemHeight: Dp, onNewsClick: (News) -> Unit) {
         Row(
             modifier = Modifier.padding(10.dp),
             verticalAlignment = Alignment.CenterVertically
-        ){
+        ) {
             AsyncImage(
                 model = news.imageUrl,
                 contentDescription = "News thumb",
@@ -116,15 +117,7 @@ fun NewsItem(news: News, itemHeight: Dp, onNewsClick: (News) -> Unit) {
 @Composable
 private fun NewsItemPreview() {
     NewsItem(
-        news = News(
-            id = 1,
-            title = "AI Breakthrough",
-            content = "A new AI model has achieved state-of-the-art performance in multiple benchmarks.",
-            imageUrl = "https://picsum.photos/400/300?random=1",
-            author = "John Doe",
-            category = "Technology",
-            readDuration = "5 min read"
-        ),
+        news = newsData.first(),
         itemHeight = 150.dp
     ) {}
 }

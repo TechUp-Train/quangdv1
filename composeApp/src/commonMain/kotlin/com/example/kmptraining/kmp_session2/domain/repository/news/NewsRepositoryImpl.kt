@@ -11,4 +11,8 @@ class NewsRepositoryImpl(
     override fun getNews(): Flow<ResponseStatus<List<News>>> {
         return newsDataSource.fetchNews()
     }
+
+    override fun getNewsDetail(newsId: Int): Flow<ResponseStatus<News>> {
+        return newsDataSource.fetchNewsDetail(newsId)
+    }
 }

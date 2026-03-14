@@ -25,22 +25,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HomeScreen(onNewsClick: (News) -> Unit, viewModel: HomeViewModel = koinViewModel()) {
-    val news = News(
-        id = 12,
-        title = "Why Developers Love Kotlin",
-        content = "Kotlin’s concise syntax and powerful features make it one of the most loved programming languages today.",
-        imageUrl = "https://picsum.photos/id/1057",
-        author = "Emma Thompson",
-        category = "Technology",
-        readDuration = "3 min read"
-    )
-    val newsState = viewModel.newsState.collectAsStateWithLifecycle().value
-
-    LaunchedEffect(Unit) {
-        viewModel.getNews()
-    }
-
-    when (newsState) {
+    when (val newsState = viewModel.newsState.collectAsStateWithLifecycle().value) {
         is ResponseStatus.Loading -> { HomeLoadingUI() }
 
         is ResponseStatus.Error -> { HomeErrorUI() }

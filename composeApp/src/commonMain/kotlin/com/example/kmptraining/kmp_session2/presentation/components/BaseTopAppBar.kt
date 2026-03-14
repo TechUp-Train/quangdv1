@@ -17,8 +17,8 @@ import org.jetbrains.compose.resources.stringResource
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BaseTopAppBar(
-    title: StringResource,
     modifier: Modifier = Modifier,
+    title: StringResource? = null,
     scrollBehavior: TopAppBarScrollBehavior? = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
     onPageRefresh: (() -> Unit)? = null,
     navigationIcon: @Composable (() -> Unit) = {},
@@ -27,13 +27,15 @@ fun BaseTopAppBar(
     TopAppBar(
         modifier = modifier,
         title = {
-            Text(
-                text = stringResource(title),
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontWeight = FontWeight.Bold
-                ),
-                modifier = Modifier.clickable { onPageRefresh?.invoke() }
-            )
+            if (title != null) {
+                Text(
+                    text = stringResource(title),
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold
+                    ),
+                    modifier = Modifier.clickable { onPageRefresh?.invoke() }
+                )
+            }
         },
         navigationIcon = navigationIcon,
         actions = actions,

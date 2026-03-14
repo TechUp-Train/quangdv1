@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
     fun getNews() : Flow<ResponseStatus<List<News>>>
+
+    fun getNewsDetail(newsId: Int) : Flow<ResponseStatus<News>>
 }

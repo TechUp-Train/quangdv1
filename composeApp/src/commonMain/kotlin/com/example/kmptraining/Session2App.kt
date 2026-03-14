@@ -14,6 +14,9 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
+import coil3.ImageLoader
+import coil3.compose.setSingletonImageLoaderFactory
+import coil3.network.ktor3.KtorNetworkFetcherFactory
 import com.example.kmptraining.kmp_session2.presentation.components.BaseBottomNavigationBar
 import com.example.kmptraining.kmp_session2.presentation.components.BaseTopAppBar
 import com.example.kmptraining.kmp_session2.presentation.home.HomeScreen
@@ -37,6 +40,13 @@ import org.koin.compose.koinInject
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Session2App(modifier: Modifier = Modifier) {
+    setSingletonImageLoaderFactory { context ->
+        ImageLoader.Builder(context)
+            .components {
+                add(KtorNetworkFetcherFactory())
+            }
+            .build()
+    }
     NewsAppTheme {
         val navConfig = SavedStateConfiguration {
             serializersModule = SerializersModule {
@@ -101,7 +111,10 @@ fun Session2App(modifier: Modifier = Modifier) {
                         }, viewModel = homeViewModel)
                     }
                     entry<HomeNavigationKey.NewsDetailKey> {
-                        NewsDetailScreen(it.newsId)
+                        NewsDetailScreen(
+                            it.newsId,
+                            onBack = { backStack.removeLastOrNull() },
+                        )
                     }
                     entry<SettingNavigationKey.SettingKey> {
                         SettingScreen()
