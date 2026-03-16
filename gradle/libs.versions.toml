@@ -21,9 +21,18 @@ kotlin = "2.3.10"
 material3 = "1.10.0-alpha05"
 materialIconsExtended = "1.7.3"
 kotlinx-coroutines = "1.10.2"
+mediaCompose = "0.12.0"
+mediaComposeVersion = "0.11.0"
+mediaVersion = "0.12.0"
+mpfilepicker = "3.1.0"
 multiplatform-nav3-ui = "1.0.0-alpha05"
 nav3 = "1.0.0-alpha05"
 koin = "4.0.0"
+permissions = "0.17.0"
+permissionsCompose = "0.19.0"
+permissionsComposeVersion = "0.17.0"
+ui = "0.2.0"
+uiVersion = "0.2.0"
 
 [libraries]
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
@@ -57,8 +66,19 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 ktor-client-java = { group = "io.ktor", name = "ktor-client-java", version.ref = "ktor" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 jetbrains-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "multiplatform-nav3-ui" }
+media-compose-v0110 = { module = "dev.icerock.moko:media-compose", version.ref = "mediaComposeVersion" }
+media-compose-v0120 = { module = "dev.icerock.moko:media-compose", version.ref = "mediaCompose" }
+media-v0120 = { module = "dev.icerock.moko:media", version.ref = "mediaVersion" }
+mpfilepicker = { module = "com.darkrockstudios:mpfilepicker", version.ref = "mpfilepicker" }
 navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "nav3" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+permissions = { module = "dev.icerock.moko:permissions", version.ref = "permissionsCompose" }
+permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "permissionsCompose" }
+permissions-compose-v0170 = { module = "dev.icerock.moko:permissions-compose", version.ref = "permissionsComposeVersion" }
+permissions-gallery = { module = "dev.icerock.moko:permissions-gallery", version.ref = "permissionsCompose" }
+permissions-v0170 = { module = "dev.icerock.moko:permissions", version.ref = "permissions" }
+skia = { module = "org.jetbrains.skia:skia" }
+ui = { module = "com.attafitamim.krop:ui", version.ref = "uiVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

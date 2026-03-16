@@ -15,7 +15,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -25,7 +25,7 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -45,11 +45,18 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.kmp.shimmer.compose)
+
+            implementation(libs.mpfilepicker)
+            implementation(libs.permissions.v0170)
+            implementation(libs.permissions.compose.v0170)
+            implementation(libs.media.compose.v0110)
+            implementation(libs.ui)
         }
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.android)
+            implementation(libs.coil.network.okhttp)
             implementation(libs.koin.android)
         }
         iosMain.dependencies {
