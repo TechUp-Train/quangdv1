@@ -3,4 +3,9 @@
     <string name="session2_app_name">News App</string>
     <string name="search">Search</string>
     <string name="error_data_fetching">There is an error while fetching data. Please try again later!</string>
+    <string name="settings">Settings</string>
+    <string name="language">Language</string>
+    <string name="theme">Theme</string>
+    <string name="about">About</string>
+    <string name="app_version">App Version: 1.0.0</string>
 </resources>

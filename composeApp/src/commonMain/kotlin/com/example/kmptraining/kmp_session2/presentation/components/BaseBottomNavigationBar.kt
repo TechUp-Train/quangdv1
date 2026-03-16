@@ -42,7 +42,7 @@ fun BaseBottomNavigationBar(
             selected = currentScreen is HomeNavigationKey.HomeKey,
             onClick = {
                 if (currentScreen !is HomeNavigationKey.HomeKey) {
-                    backStack.clear()
+//                    backStack.clear()
                     backStack.add(HomeNavigationKey.HomeKey)
                 }
             },
@@ -54,7 +54,7 @@ fun BaseBottomNavigationBar(
             selected = currentScreen is SettingNavigationKey.SettingKey,
             onClick = {
                 if (currentScreen !is SettingNavigationKey.SettingKey) {
-                    backStack.clear()
+//                    backStack.clear()
                     backStack.add(SettingNavigationKey.SettingKey)
                 }
             },

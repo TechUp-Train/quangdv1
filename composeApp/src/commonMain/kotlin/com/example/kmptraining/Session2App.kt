@@ -105,10 +105,11 @@ fun Session2App(modifier: Modifier = Modifier) {
                 onBack = { if (backStack.size > 1) backStack.removeLastOrNull() },
                 entryProvider = entryProvider {
                     entry<HomeNavigationKey.HomeKey> {
-                        val homeViewModel: HomeViewModel = koinInject()
-                        HomeScreen(onNewsClick = { news ->
-                            backStack.add(HomeNavigationKey.NewsDetailKey(news.id))
-                        }, viewModel = homeViewModel)
+                        HomeScreen(
+                            onNewsClick = { news ->
+                                backStack.add(HomeNavigationKey.NewsDetailKey(news.id))
+                            },
+                        )
                     }
                     entry<HomeNavigationKey.NewsDetailKey> {
                         NewsDetailScreen(
@@ -117,7 +118,9 @@ fun Session2App(modifier: Modifier = Modifier) {
                         )
                     }
                     entry<SettingNavigationKey.SettingKey> {
-                        SettingScreen()
+                        SettingScreen(onNavigateToLanguage = {
+                            backStack.add(SettingNavigationKey.LanguageSettingKey)
+                        })
                     }
                     entry<SettingNavigationKey.LanguageSettingKey> {
                         LanguageSettingScreen()

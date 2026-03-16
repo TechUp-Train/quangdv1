@@ -6,12 +6,14 @@ import com.example.kmptraining.kmp_session2.domain.repository.news.NewsRepositor
 import com.example.kmptraining.kmp_session2.domain.repository.news.NewsRepositoryImpl
 import com.example.kmptraining.kmp_session2.presentation.home.HomeViewModel
 import com.example.kmptraining.kmp_session2.presentation.newsDetail.NewsDetailViewModel
+import com.example.kmptraining.kmp_session2.presentation.setting.SettingViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val appModule = module {
     single<RemoteNewsDataSource> { RemoteDataSourceImpl() }
     single<NewsRepository> { NewsRepositoryImpl(get()) }
-    factory { HomeViewModel(get()) }
-    factory { NewsDetailViewModel(get()) }
+    viewModelOf(::HomeViewModel)
+    viewModelOf(::NewsDetailViewModel)
+    viewModelOf(::SettingViewModel)
 }
