@@ -31,6 +31,7 @@ koin = "4.0.0"
 permissions = "0.17.0"
 permissionsCompose = "0.19.0"
 permissionsComposeVersion = "0.17.0"
+skiko = "0.144.4"
 ui = "0.2.0"
 uiVersion = "0.2.0"
 
@@ -78,6 +79,7 @@ permissions-compose-v0170 = { module = "dev.icerock.moko:permissions-compose", v
 permissions-gallery = { module = "dev.icerock.moko:permissions-gallery", version.ref = "permissionsCompose" }
 permissions-v0170 = { module = "dev.icerock.moko:permissions", version.ref = "permissions" }
 skia = { module = "org.jetbrains.skia:skia" }
+skiko = { module = "org.jetbrains.skiko:skiko", version.ref = "skiko" }
 ui = { module = "com.attafitamim.krop:ui", version.ref = "uiVersion" }
 
 [plugins]

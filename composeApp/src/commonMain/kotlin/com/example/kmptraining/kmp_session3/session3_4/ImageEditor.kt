@@ -3,13 +3,11 @@ package com.example.kmptraining.kmp_session3.session3_4
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -36,6 +34,9 @@ import com.attafitamim.krop.core.crop.crop
 import com.attafitamim.krop.core.crop.rememberImageCropper
 import com.attafitamim.krop.ui.ImageCropperDialog
 import com.example.kmptraining.kmp_session3.session3_4.component.EditingBar
+import com.example.kmptraining.kmp_session3.utils.EditorFilter
+import com.example.kmptraining.kmp_session3.utils.rotate
+import com.example.kmptraining.kmp_session3.utils.toColorFilter
 import dev.icerock.moko.media.compose.BindMediaPickerEffect
 import dev.icerock.moko.media.compose.rememberMediaPickerControllerFactory
 import dev.icerock.moko.media.compose.toImageBitmap
@@ -64,6 +65,8 @@ fun ImageEditor() {
 
     val imageCropper = rememberImageCropper()
     val cropState = imageCropper.cropState
+    var filter by remember { mutableStateOf(EditorFilter.NONE) }
+    val filters = EditorFilter.values()
 
     BindEffect(permissionController)
     BindMediaPickerEffect(mediaPicker)
@@ -81,9 +84,11 @@ fun ImageEditor() {
                         coroutineScope.launch {
                             when (val result = imageCropper.crop(bitmap)) {
 
-                                CropResult.Cancelled -> { }
+                                CropResult.Cancelled -> {}
 
-                                is CropError -> { println("Crop error") }
+                                is CropError -> {
+                                    println("Crop error")
+                                }
 
                                 is CropResult.Success -> {
                                     image = result.bitmap
@@ -92,8 +97,11 @@ fun ImageEditor() {
                         }
                     }
                 },
-                onRotate = { },
-                onFilter = { }
+                onRotate = { image?.let { image = it.rotate(90f) } },
+                onFilter = {
+                    val currentIndex = filters.indexOf(filter)
+                    filter = filters[(currentIndex + 1) % filters.size]
+                }
             )
         }
     ) {
@@ -109,6 +117,7 @@ fun ImageEditor() {
                     Image(
                         bitmap = it,
                         contentDescription = "Selected image",
+                        colorFilter = filter.toColorFilter(),
                         modifier = Modifier
                             .clip(RoundedCornerShape(10.dp))
                             .width(screenWidth)
@@ -128,7 +137,6 @@ fun ImageEditor() {
                         onClick = {
                             coroutineScope.launch {
                                 permissionController.providePermission(Permission.GALLERY)
-
                                 val result = mediaPicker.pickImage(MediaSource.GALLERY)
 
                                 result?.let {

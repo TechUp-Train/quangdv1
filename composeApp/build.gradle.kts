@@ -51,6 +51,7 @@ kotlin {
             implementation(libs.permissions.compose.v0170)
             implementation(libs.media.compose.v0110)
             implementation(libs.ui)
+//            implementation(libs.skiko)
         }
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
