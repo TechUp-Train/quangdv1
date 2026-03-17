@@ -44,6 +44,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
 
             implementation(libs.bundles.ktor)
+            implementation(compose.components.resources)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
