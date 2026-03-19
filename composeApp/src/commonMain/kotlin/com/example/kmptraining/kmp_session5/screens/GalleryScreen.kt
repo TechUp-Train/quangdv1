@@ -30,7 +30,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.Uri
 import com.example.kmptraining.kmp_session5.data.PlatformImage
 import com.example.kmptraining.kmp_session5.data.PlatformImageThumbnail
 import com.example.kmptraining.kmp_session5.utils.rememberGalleryImageSource
@@ -48,7 +47,7 @@ fun GalleryScreen(
     var hasPermission by remember { mutableStateOf(false) }
     var loading by remember { mutableStateOf(true) }
     var images by remember { mutableStateOf<List<PlatformImage>>(emptyList()) }
-    var selected by remember { mutableStateOf<Set<Int>>(emptySet()) }
+    var selected by remember { mutableStateOf<Set<String>>(emptySet()) }
 
     LaunchedEffect(Unit) {
         hasPermission = permissionManager.requestGalleryPermission()
@@ -73,7 +72,7 @@ fun GalleryScreen(
                 actions = {
                     Button(
                         onClick = {
-                            val picked = selected.mapNotNull { index -> images.getOrNull(index) }
+                            val picked = images.filter { selected.contains(it.id) }
                             onConfirm(picked)
                         },
                         enabled = selected.isNotEmpty(),
@@ -121,35 +120,51 @@ fun GalleryScreen(
                     horizontalArrangement = Arrangement.spacedBy(1.dp),
                     verticalArrangement = Arrangement.spacedBy(1.dp)
                 ) {
-                    itemsIndexed(images, key = { index, _ -> index }) { index, image ->
-                        val isSelected = selected.contains(index)
+                    itemsIndexed(
+                        images,
+                        key = { _, image -> image.id },
+                        contentType = { _, _ -> "gallery_image" }
+                    ) { _, image ->
+                        val isSelected = selected.contains(image.id)
 
-                        Box(
-                            modifier = Modifier
-                                .aspectRatio(1f)
-                                .clickable {
-                                    selected =
-                                        if (isSelected) selected - index
-                                        else if (selected.size < maxSelection) selected + index
-                                        else selected
-                                }
-                        ) {
-                            PlatformImageThumbnail(
-                                image = image,
-                                modifier = Modifier.fillMaxSize()
-                            )
-
-                            if (isSelected) {
-                                Box(
-                                    modifier = Modifier
-                                        .matchParentSize()
-                                        .background(Color.Black.copy(alpha = 0.35f))
-                                )
+                        GalleryItem(
+                            image = image,
+                            isSelected = isSelected,
+                            onToggle = {
+                                selected = if (isSelected) selected - image.id
+                                else if (selected.size < maxSelection) selected + image.id
+                                else selected
                             }
-                        }
+                        )
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun GalleryItem(
+    image: PlatformImage,
+    isSelected: Boolean,
+    onToggle: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .aspectRatio(1f)
+            .clickable(onClick = onToggle)
+    ) {
+        PlatformImageThumbnail(
+            image = image,
+            modifier = Modifier.fillMaxSize()
+        )
+
+        if (isSelected) {
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .background(Color.Black.copy(alpha = 0.35f))
+            )
         }
     }
 }

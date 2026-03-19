@@ -1,3 +1,8 @@
 package com.example.kmptraining.kmp_session5.data
 
-expect class PlatformImage
+import androidx.compose.runtime.Immutable
+
+@Immutable
+expect class PlatformImage {
+    val id: String
+}

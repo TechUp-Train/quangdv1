@@ -37,6 +37,11 @@ actual fun rememberMediaPermissionManager(): MediaPermissionManager {
                     continuation = { granted ->
                         cont.resume(granted)
                     }
+
+                    cont.invokeOnCancellation {
+                        continuation = null
+                    }
+
                     launcher.launch(permission)
                 }
             }

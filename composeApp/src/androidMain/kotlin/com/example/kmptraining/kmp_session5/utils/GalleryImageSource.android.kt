@@ -24,9 +24,7 @@ class AndroidGalleryImageSource(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         }
 
-        val projection = arrayOf(
-            MediaStore.Images.Media._ID
-        )
+        val projection = arrayOf(MediaStore.Images.Media._ID)
 
         val sortOrder = "${MediaStore.Images.Media.DATE_ADDED} DESC"
 
@@ -35,7 +33,7 @@ class AndroidGalleryImageSource(
             projection,
             null,
             null,
-            sortOrder
+            sortOrder,
         )?.use { cursor ->
             val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
 
