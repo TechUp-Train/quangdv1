@@ -46,7 +46,7 @@ class IosGalleryImageSource : GalleryImageSource {
             val count = minOf(fetchResult.count.toInt(), limit)
 
             for (i in 0 until count) {
-                val asset = fetchResult.objectAtIndex(i) as? PHAsset ?: continue
+                val asset = fetchResult.objectAtIndex(i.toULong()) as? PHAsset ?: continue
                 result.add(PlatformImage(asset))
             }
 
