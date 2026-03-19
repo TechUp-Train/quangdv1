@@ -8,12 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import com.example.kmptraining.kmp_session5.data.PlatformImage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class AndroidGalleryImageSource(
     private val context: Context
 ) : GalleryImageSource {
 
-    override suspend fun loadImages(limit: Int): List<PlatformImage> {
+    override suspend fun loadImages(limit: Int): List<PlatformImage> = withContext(Dispatchers.IO) {
         val images = mutableListOf<PlatformImage>()
 
         val collection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -44,7 +46,7 @@ class AndroidGalleryImageSource(
             }
         }
 
-        return images
+        images
     }
 }
 

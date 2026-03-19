@@ -1,10 +1,12 @@
 package com.example.kmptraining.kmp_session5.utils
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import com.example.kmptraining.kmp_session5.data.PlatformImage
 import kotlinx.cinterop.CValue
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import platform.CoreGraphics.CGSize
@@ -17,7 +19,7 @@ import platform.Photos.PHFetchResult
 import platform.Photos.PHImageContentModeAspectFill
 import platform.Photos.PHImageManager
 import platform.Photos.PHImageRequestOptions
-import platform.Photos.PHImageRequestOptionsDeliveryModeOpportunistic
+import platform.Photos.PHImageRequestOptionsDeliveryModeHighQualityFormat
 import platform.Photos.PHImageRequestOptionsResizeModeFast
 import platform.UIKit.UIImage
 import kotlin.coroutines.resume
@@ -25,7 +27,7 @@ import kotlin.coroutines.resume
 class IosGalleryImageSource : GalleryImageSource {
 
     override suspend fun loadImages(limit: Int): List<PlatformImage> {
-        return withContext(Dispatchers.Default) {
+        return withContext(Dispatchers.Main) {
 
             val result = mutableListOf<PlatformImage>()
             val options = PHFetchOptions().apply {
@@ -57,7 +59,7 @@ class IosGalleryImageSource : GalleryImageSource {
 
 @Composable
 actual fun rememberGalleryImageSource(): GalleryImageSource {
-    TODO("Not yet implemented")
+    return remember { IosGalleryImageSource() }
 }
 
 @OptIn(ExperimentalForeignApi::class)
@@ -66,7 +68,7 @@ suspend fun PHAsset.loadUIImage(
 ): UIImage? = suspendCancellableCoroutine { cont ->
 
     val options = PHImageRequestOptions().apply {
-        deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic
+        deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat
         resizeMode = PHImageRequestOptionsResizeModeFast
     }
 

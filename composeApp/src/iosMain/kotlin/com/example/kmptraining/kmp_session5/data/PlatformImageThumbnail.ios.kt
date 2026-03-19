@@ -8,11 +8,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import com.example.kmptraining.kmp_session5.utils.loadUIImage
 import com.example.kmptraining.kmp_session5.utils.toImageBitmap
 import kotlinx.cinterop.ExperimentalForeignApi
-import platform.UIKit.UIImage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
@@ -21,15 +24,20 @@ actual fun PlatformImageThumbnail(
     modifier: Modifier,
     contentScale: ContentScale
 ) {
-    var uiImage by remember { mutableStateOf<UIImage?>(null) }
+    var bitmap by remember { mutableStateOf<ImageBitmap?>(null) }
 
     LaunchedEffect(image) {
-        uiImage = image.asset.loadUIImage()
+        val uiImage = image.asset.loadUIImage()
+        bitmap = uiImage?.let {
+            withContext(Dispatchers.IO) {
+                it.toImageBitmap()
+            }
+        }
     }
 
-    uiImage?.let {
+    bitmap?.let {
         Image(
-            bitmap = it.toImageBitmap(),
+            bitmap = it,
             contentDescription = null,
             modifier = modifier,
             contentScale = contentScale
