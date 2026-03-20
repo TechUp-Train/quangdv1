@@ -69,17 +69,18 @@ fun UserRepoDto.toEntity(): UserRepoEntity {
         permissions = permissionsDto?.toEntity()
     )
 }
-
-fun UserRepoDto.toDomain(): UserRepoModel {
+fun UserRepoEntity.toModel(): UserRepoModel {
     return UserRepoModel(
-        id = id ?: 0,
+        id = id,
         name = name.orEmpty(),
         fullName = fullName.orEmpty(),
         description = description,
-        isPrivate = private ?: false,
+        isPrivate = isPrivate ?: false,
 
         htmlUrl = htmlUrl,
-        owner = owner?.toDomain() ?: OwnerModel(0, "", null, null),
+
+        owner = owner?.toModel()
+            ?: OwnerModel(0, "", null, null),
 
         isFork = fork ?: false,
         language = language,
@@ -99,6 +100,38 @@ fun UserRepoDto.toDomain(): UserRepoModel {
         updatedAt = updatedAt,
         pushedAt = pushedAt,
 
-        permissions = permissionsDto?.toDomain()
+        permissions = permissions?.toModel()
+    )
+}
+
+fun UserRepoModel.toEntity(existing: UserRepoEntity): UserRepoEntity {
+    return existing.copy(
+        name = name,
+        fullName = fullName,
+        description = description,
+        isPrivate = isPrivate,
+
+        htmlUrl = htmlUrl,
+
+        fork = isFork,
+        language = language,
+
+        stargazersCount = stars,
+        forksCount = forksCount,
+        watchers = watchers,
+
+        openIssuesCount = openIssuesCount,
+
+        topics = topics,
+
+        visibility = visibility,
+        defaultBranch = defaultBranch,
+
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+        pushedAt = pushedAt,
+
+        owner = owner.toEntity(existing.owner),
+        permissions = permissions?.toEntity(existing.permissions)
     )
 }

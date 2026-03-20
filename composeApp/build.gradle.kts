@@ -59,6 +59,8 @@ kotlin {
             implementation(libs.multiplatform.settings)
 
             implementation(libs.kermit)
+
+            implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

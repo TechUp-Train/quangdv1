@@ -4,6 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.example.kmptraining.kmp_session4.core.theme.AppTypography
 
 private val DarkColorScheme = darkColorScheme(
     primary = DarkPrimary,
@@ -40,8 +41,7 @@ fun GitHubClientTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = AppTypography,
-        shapes = Shapes,
+        typography = AppTypography(),
         content = content
     )
 }

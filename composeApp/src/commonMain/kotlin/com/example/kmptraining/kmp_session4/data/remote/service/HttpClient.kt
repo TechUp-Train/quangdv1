@@ -32,7 +32,7 @@ fun createHttpClient(
         defaultRequest {
             url("https://api.github.com/")
             header("Accept", "application/vnd.github+json")
-            tokenProvider()?.let {
+            tokenProvider()?.takeIf { it.isNotBlank() }?.let {
                 header("Authorization", "Bearer $it")
             }
         }

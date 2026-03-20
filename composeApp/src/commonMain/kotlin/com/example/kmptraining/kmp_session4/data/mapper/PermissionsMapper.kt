@@ -14,12 +14,22 @@ fun PermissionsDto.toEntity(): PermissionsEntity {
     )
 }
 
-fun PermissionsDto.toDomain(): PermissionsModel {
+fun PermissionsEntity.toModel(): PermissionsModel {
     return PermissionsModel(
         canAdmin = admin ?: false,
         canMaintain = maintain ?: false,
         canPush = push ?: false,
         canTriage = triage ?: false,
         canPull = pull ?: false
+    )
+}
+
+fun PermissionsModel.toEntity(existing: PermissionsEntity?): PermissionsEntity {
+    return (existing ?: PermissionsEntity()).copy(
+        admin = canAdmin,
+        push = canPush,
+        pull = canPull,
+        maintain = canMaintain,
+        triage = canTriage,
     )
 }

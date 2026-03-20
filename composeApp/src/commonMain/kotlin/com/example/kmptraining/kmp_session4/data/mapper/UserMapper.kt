@@ -2,7 +2,6 @@ package com.example.kmptraining.kmp_session4.data.mapper
 
 import com.example.kmptraining.kmp_session4.data.local.entity.UserEntity
 import com.example.kmptraining.kmp_session4.data.remote.dto.UserDto
-import com.example.kmptraining.kmp_session4.data.remote.dto.OwnerDto
 import com.example.kmptraining.kmp_session4.domain.model.UserModel
 
 fun UserDto.toEntity(): UserEntity {
@@ -44,9 +43,9 @@ fun UserDto.toEntity(): UserEntity {
     )
 }
 
-fun UserDto.toDomain(): UserModel {
+fun UserEntity.toModel(): UserModel {
     return UserModel(
-        id = id ?: 0,
+        id = id,
         login = login.orEmpty(),
         name = name ?: login.orEmpty(),
         avatarUrl = avatarUrl,
@@ -56,6 +55,21 @@ fun UserDto.toDomain(): UserModel {
         followers = followers ?: 0,
         following = following ?: 0,
         publicRepos = publicRepos ?: 0,
+        htmlUrl = htmlUrl
+    )
+}
+
+fun UserModel.toEntity(existing: UserEntity): UserEntity {
+    return existing.copy(
+        login = login,
+        name = name,
+        avatarUrl = avatarUrl,
+        bio = bio,
+        location = location,
+        blog = blog,
+        followers = followers,
+        following = following,
+        publicRepos = publicRepos,
         htmlUrl = htmlUrl
     )
 }

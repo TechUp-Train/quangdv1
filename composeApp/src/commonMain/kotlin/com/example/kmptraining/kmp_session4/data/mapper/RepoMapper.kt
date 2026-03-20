@@ -56,7 +56,7 @@ fun PublicRepoDto.toEntity(): PublicRepoEntity {
     )
 }
 
-fun PublicRepoDto.toDomain(): PublicRepoModel {
+fun PublicRepoDto.toModel(): PublicRepoModel {
     return PublicRepoModel(
         id = id ?: 0,
         name = name.orEmpty(),
@@ -64,7 +64,20 @@ fun PublicRepoDto.toDomain(): PublicRepoModel {
         description = description,
         isPrivate = private ?: false,
         htmlUrl = htmlUrl,
-        owner = owner?.toDomain() ?: OwnerModel(0, "", null, null),
+        owner = owner?.toModel() ?: OwnerModel(0, "", null, null),
+        isFork = fork ?: false,
+    )
+}
+
+fun PublicRepoEntity.toModel(): PublicRepoModel {
+    return PublicRepoModel(
+        id = id,
+        name = name.orEmpty(),
+        fullName = fullName.orEmpty(),
+        description = description,
+        isPrivate = isPrivate ?: false,
+        htmlUrl = htmlUrl,
+        owner = owner?.let { it.toModel() } ?: OwnerModel(0, "", null, null),
         isFork = fork ?: false,
     )
 }

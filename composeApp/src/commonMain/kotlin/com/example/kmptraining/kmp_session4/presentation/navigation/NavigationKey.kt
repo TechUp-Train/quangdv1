@@ -4,24 +4,20 @@ import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class HomeNavigationKey : NavKey {
-    @Serializable
-    object Home : HomeNavigationKey()
+sealed class AppNavigationKey : NavKey {
 
     @Serializable
-    class RepoDetail(val owner: String, val repo: String) : HomeNavigationKey()
-}
+    object Home : AppNavigationKey()
 
-sealed class SearchNavigationKey : NavKey {
     @Serializable
-    object Search : SearchNavigationKey()
-    @Serializable
-    class RepoDetail(val owner: String, val repo: String) : SearchNavigationKey()
-}
+    object Explore : AppNavigationKey()
 
-sealed class ProfileNavigationKey : NavKey {
     @Serializable
-    object Profile : ProfileNavigationKey()
+    object Profile : AppNavigationKey()
+
     @Serializable
-    class RepoDetail(val owner: String, val repo: String) : ProfileNavigationKey()
+    data class RepoDetail(
+        val owner: String,
+        val repo: String
+    ) : AppNavigationKey()
 }

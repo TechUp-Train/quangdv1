@@ -28,10 +28,28 @@ fun OwnerDto.toEntity(): OwnerEntity {
     )
 }
 
-fun OwnerDto.toDomain(): OwnerModel {
+fun OwnerDto.toModel(): OwnerModel {
     return OwnerModel(
         id = id ?: 0,
         login = login.orEmpty(),
+        avatarUrl = avatarUrl,
+        htmlUrl = htmlUrl
+    )
+}
+
+fun OwnerEntity.toModel(): OwnerModel {
+    return OwnerModel(
+        id = id ?: 0,
+        login = login.orEmpty(),
+        avatarUrl = avatarUrl,
+        htmlUrl = htmlUrl
+    )
+}
+
+fun OwnerModel.toEntity(existing: OwnerEntity?): OwnerEntity {
+    return (existing ?: OwnerEntity()).copy(
+        id = id,
+        login = login,
         avatarUrl = avatarUrl,
         htmlUrl = htmlUrl
     )

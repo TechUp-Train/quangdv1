@@ -1,45 +1,50 @@
 package com.example.kmptraining.kmp_session4.data.repository
 
 import com.example.kmptraining.kmp_session4.core.utils.ResponseStatus
-import com.example.kmptraining.kmp_session4.data.local.dao.UserDao
-import com.example.kmptraining.kmp_session4.data.local.dao.UserRepoDao
-import com.example.kmptraining.kmp_session4.data.remote.dto.UserRepoDto
-import com.example.kmptraining.kmp_session4.data.remote.dto.UserDto
-import com.example.kmptraining.kmp_session4.data.remote.service.github.GithubService
-import com.example.kmptraining.kmp_session4.domain.dataSource.LocalDataSource
-import com.example.kmptraining.kmp_session4.domain.dataSource.RemoteDataSource
+import com.example.kmptraining.kmp_session4.data.mapper.toEntity
+import com.example.kmptraining.kmp_session4.data.mapper.toModel
+import com.example.kmptraining.kmp_session4.data.dataSource.user.UserLocalDataSource
+import com.example.kmptraining.kmp_session4.data.dataSource.user.UserRemoteDataSource
+import com.example.kmptraining.kmp_session4.domain.model.UserModel
 import com.example.kmptraining.kmp_session4.domain.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
+import kotlinx.io.IOException
 
 class UserRepositoryImpl(
-    private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource,
+    private val userLocalDataSource: UserLocalDataSource,
+    private val userRemoteDataSource: UserRemoteDataSource,
 ) : UserRepository {
-    override suspend fun getUser(): Flow<ResponseStatus<UserDto>> {
-        return flow<ResponseStatus<UserDto>> {
-            emit(
-//                ResponseStatus.Success(githubService.getUser())
-                ResponseStatus.Loading
-            )
-        }.flowOn(Dispatchers.IO)
-            .onStart { emit(ResponseStatus.Loading) }
-            .catch { e -> emit(ResponseStatus.Error(e.message ?: "Unknown Error")) }
-    }
+    override fun getUser(id: Int): Flow<ResponseStatus<UserModel>> {
+        return channelFlow {
+            userLocalDataSource.observeUser(id).collect { entity ->
+                entity?.let { localData ->
+                    send(ResponseStatus.Success(localData.toModel()))
+                } ?: run {
+                    send(ResponseStatus.Loading)
+                }
+            }
 
-    override suspend fun getUserRepos(): Flow<ResponseStatus<List<UserRepoDto>>> {
-        return flow<ResponseStatus<List<UserRepoDto>>> {
-            emit(
-//                ResponseStatus.Success(githubService.getUserRepos())
-                ResponseStatus.Loading
-            )
-        }.flowOn(Dispatchers.IO)
-            .onStart { emit(ResponseStatus.Loading) }
-            .catch { e -> emit(ResponseStatus.Error(e.message ?: "Unknown Error")) }
+            launch {
+                try {
+                    val dto = userRemoteDataSource.fetchUser()
+                    userLocalDataSource.saveUser(dto.toEntity())
+                } catch (e: IOException) {
+                    send(ResponseStatus.Error(e.message ?: "Failed to fetch user"))
+                }
+            }
+        }.onStart { emit(ResponseStatus.Loading) }
+            .flowOn(Dispatchers.IO)
+            .catch { error ->
+                emit(ResponseStatus.Error(message = error.message ?: "Unknown error"))
+            }
     }
 }
