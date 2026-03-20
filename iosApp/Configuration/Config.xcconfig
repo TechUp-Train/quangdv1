@@ -1,0 +1,7 @@
+TEAM_ID=
+
+PRODUCT_NAME=TechUp_MiniProject_QuangDV1
+PRODUCT_BUNDLE_IDENTIFIER=com.example.techup_miniproject_quangdv1.TechUp_MiniProject_QuangDV1$(TEAM_ID)
+
+CURRENT_PROJECT_VERSION=1
+MARKETING_VERSION=1.0
