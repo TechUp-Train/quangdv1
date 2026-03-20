@@ -1,6 +1,6 @@
 package com.example.kmptraining.kmp_session4.domain.model
 
-data class UserRepoModel(
+data class RepoModel(
     val id: Int,
     val name: String,
     val fullName: String,

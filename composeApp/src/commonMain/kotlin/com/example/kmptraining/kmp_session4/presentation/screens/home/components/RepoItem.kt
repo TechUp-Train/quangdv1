@@ -28,11 +28,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.kmptraining.kmp_session4.domain.model.PublicRepoModel
+import com.example.kmptraining.kmp_session4.domain.model.RepoModel
 
 @Composable
 fun RepoItem(
-    repo: PublicRepoModel,
+    repo: RepoModel,
     onClick: () -> Unit
 ) {
     Card(
@@ -48,10 +48,11 @@ fun RepoItem(
 
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "${repo.owner} / ${repo.name}",
+                    text = "${repo.owner.login} / ${repo.name}",
                     color = Color(0xFF4DA3FF),
                     fontWeight = FontWeight.Bold
                 )
@@ -59,18 +60,20 @@ fun RepoItem(
                 OutlinedButton(
                     onClick = {},
                     border = BorderStroke(1.dp, Color.Gray),
-                    shape = RoundedCornerShape(50)
+                    shape = RoundedCornerShape(50),
+                    modifier = Modifier.height(32.dp)
                 ) {
-                    Text("Star", color = Color.White)
+                    Text("Star", color = Color.White, fontSize = 12.sp)
                 }
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = repo.description ?: "",
+                text = repo.description ?: "No description provided",
                 color = Color.LightGray,
-                style = MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.bodySmall,
+                maxLines = 2
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -79,12 +82,12 @@ fun RepoItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                LanguageDot(repo.description)
+                LanguageDot(repo.language)
 
                 Spacer(modifier = Modifier.width(8.dp))
 
                 Text(
-                    text = repo.description ?: "",
+                    text = repo.language ?: "Unknown",
                     color = Color.LightGray,
                     fontSize = 12.sp
                 )
@@ -92,7 +95,7 @@ fun RepoItem(
                 Spacer(modifier = Modifier.width(12.dp))
 
                 Text(
-                    text = "★ ${repo.description}",
+                    text = "★ ${repo.stars}",
                     color = Color.LightGray,
                     fontSize = 12.sp
                 )
@@ -100,7 +103,7 @@ fun RepoItem(
                 Spacer(modifier = Modifier.width(12.dp))
 
                 Text(
-                    text = "⑂ ${repo.description}",
+                    text = "⑂ ${repo.forksCount}",
                     color = Color.LightGray,
                     fontSize = 12.sp
                 )

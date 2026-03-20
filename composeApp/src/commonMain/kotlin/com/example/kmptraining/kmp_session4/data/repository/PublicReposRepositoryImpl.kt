@@ -6,7 +6,7 @@ import com.example.kmptraining.kmp_session4.data.dataSource.publicRepos.PublicRe
 import com.example.kmptraining.kmp_session4.data.mapper.toEntity
 import com.example.kmptraining.kmp_session4.data.mapper.toModel
 import com.example.kmptraining.kmp_session4.data.remote.dto.SearchResultDto
-import com.example.kmptraining.kmp_session4.domain.model.PublicRepoModel
+import com.example.kmptraining.kmp_session4.domain.model.RepoModel
 import com.example.kmptraining.kmp_session4.domain.repository.PublicReposRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -22,20 +22,22 @@ class PublicReposRepositoryImpl(
     private val publicReposLocalDataSource: PublicReposLocalDataSource,
     private val publicReposRemoteDataSource: PublicReposRemoteDataSource,
 ) : PublicReposRepository {
-    override fun getPublicRepos(): Flow<ResponseStatus<List<PublicRepoModel>>> {
+    override fun getPublicRepos(): Flow<ResponseStatus<List<RepoModel>>> {
         return channelFlow {
             launch {
                 try {
                     val dtos = publicReposRemoteDataSource.fetchPublicRepos()
-                    publicReposLocalDataSource.saveRepos(dtos.map { it.toEntity() })
+                    publicReposLocalDataSource.saveRepos(dtos.map { it.toEntity("PUBLIC") })
                 } catch (e: Exception) {
                     send(ResponseStatus.Error(e.message ?: "Failed to fetch public repos"))
                 }
             }
 
             publicReposLocalDataSource.observeRepos().collect { entityList ->
-                entityList?.let { localDataList ->
-                    send(ResponseStatus.Success(localDataList.map { it.toModel() }))
+                if (!entityList.isNullOrEmpty()) {
+                    send(ResponseStatus.Success(entityList.map { it.toModel() }))
+                } else {
+                    send(ResponseStatus.Loading)
                 }
             }
         }.onStart {
@@ -44,6 +46,8 @@ class PublicReposRepositoryImpl(
             emit(ResponseStatus.Error(message = error.message ?: "Unknown error"))
         }.flowOn(Dispatchers.IO)
     }
+
+
 
     override suspend fun searchRepos(
         query: String,

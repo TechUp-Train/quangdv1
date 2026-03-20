@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.kmptraining.kmp_session4.core.utils.ResponseStatus
-import com.example.kmptraining.kmp_session4.domain.model.PublicRepoModel
+import com.example.kmptraining.kmp_session4.domain.model.RepoModel
 import com.example.kmptraining.kmp_session4.presentation.components.ErrorState
 import com.example.kmptraining.kmp_session4.presentation.components.LoadingState
 import com.example.kmptraining.kmp_session4.presentation.screens.home.components.HomeSearchBar
@@ -34,7 +34,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun HomeScreen(
     homeViewModel: HomeViewModel = koinViewModel(),
     onSearchRepos: () -> Unit,
-    onRepoClick: (PublicRepoModel) -> Unit
+    onRepoClick: (RepoModel) -> Unit
 ) {
     val publicReposState = homeViewModel.publicRepos.collectAsStateWithLifecycle().value
 

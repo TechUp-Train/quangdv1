@@ -1,10 +1,10 @@
 package com.example.kmptraining.kmp_session4.data.dataSource.publicRepos
 
-import com.example.kmptraining.kmp_session4.data.remote.dto.PublicRepoDto
+import com.example.kmptraining.kmp_session4.data.remote.dto.RepoDto
 import com.example.kmptraining.kmp_session4.data.remote.dto.SearchResultDto
 
 interface PublicReposRemoteDataSource {
-    suspend fun fetchPublicRepos(): List<PublicRepoDto>
+    suspend fun fetchPublicRepos(): List<RepoDto>
     suspend fun searchRepos(
         query: String,
         sort: String? = null,

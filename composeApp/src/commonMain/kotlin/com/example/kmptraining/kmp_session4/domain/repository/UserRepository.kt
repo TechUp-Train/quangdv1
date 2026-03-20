@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     fun getUser(id: Int): Flow<ResponseStatus<UserModel>>
+    fun getAuthenticatedUser(): Flow<ResponseStatus<UserModel>>
 }

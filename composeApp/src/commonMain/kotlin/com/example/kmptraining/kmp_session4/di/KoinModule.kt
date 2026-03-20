@@ -53,8 +53,7 @@ val sharedModule = module {
 
     // DAOs
     single { get<AppDatabase>().userDao() }
-    single { get<AppDatabase>().userRepoDao() }
-    single { get<AppDatabase>().publicRepoDao() }
+    single { get<AppDatabase>().repoDao() }
 }
 
 val viewModelModule = module {

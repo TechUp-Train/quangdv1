@@ -1,12 +1,14 @@
 package com.example.kmptraining.kmp_session4.data.local.entity
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Entity(tableName = "user_repos")
-data class UserRepoEntity(
+@Entity(tableName = "repos")
+data class RepoEntity(
     @PrimaryKey
     val id: Int,
-
     val nodeId: String? = null,
     val name: String? = null,
     val fullName: String? = null,
@@ -68,5 +70,8 @@ data class UserRepoEntity(
     val owner: OwnerEntity? = null,
 
     @Embedded(prefix = "permissions_")
-    val permissions: PermissionsEntity? = null
+    val permissions: PermissionsEntity? = null,
+
+    @ColumnInfo(defaultValue = "PUBLIC")
+    val repoType: String = "PUBLIC"
 )

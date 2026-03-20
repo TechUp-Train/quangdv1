@@ -11,7 +11,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
-import com.example.kmptraining.kmp_session4.GitHubClientTheme
+import com.example.kmptraining.kmp_session4.core.theme.GitHubClientTheme
 import com.example.kmptraining.kmp_session4.presentation.navigation.AppNavigationBar
 import com.example.kmptraining.kmp_session4.presentation.navigation.AppNavigationKey
 import com.example.kmptraining.kmp_session4.presentation.screens.explore.ExploreScreen

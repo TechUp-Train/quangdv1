@@ -1,7 +1,6 @@
 package com.example.kmptraining.kmp_session4.data.remote.service.github
 
-import com.example.kmptraining.kmp_session4.data.remote.dto.PublicRepoDto
-import com.example.kmptraining.kmp_session4.data.remote.dto.UserRepoDto
+import com.example.kmptraining.kmp_session4.data.remote.dto.RepoDto
 import com.example.kmptraining.kmp_session4.data.remote.dto.SearchResultDto
 import com.example.kmptraining.kmp_session4.data.remote.dto.UserDto
 import io.ktor.client.HttpClient
@@ -15,11 +14,11 @@ class GithubServiceImpl(
         return client.get("user").body()
     }
 
-    override suspend fun getPublicRepos(): List<PublicRepoDto> {
+    override suspend fun getPublicRepos(): List<RepoDto> {
         return client.get("repositories").body()
     }
 
-    override suspend fun getUserRepos(): List<UserRepoDto> {
+    override suspend fun getUserRepos(): List<RepoDto> {
         return client.get("user/repos").body()
     }
 

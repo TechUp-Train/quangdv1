@@ -13,4 +13,6 @@ class UserLocalDataSourceImpl(
     }
 
     override fun observeUser(id: Int): Flow<UserEntity?> = userDao.getUserById(id)
+
+    override fun observeUsers(): Flow<List<UserEntity>> = userDao.getUsers()
 }

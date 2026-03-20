@@ -25,6 +25,17 @@ class UserRepositoryImpl(
 ) : UserRepository {
     override fun getUser(id: Int): Flow<ResponseStatus<UserModel>> {
         return channelFlow {
+            launch {
+                try {
+                    val dto = userRemoteDataSource.fetchUser()
+                    userLocalDataSource.saveUser(dto.toEntity())
+                } catch (e: IOException) {
+                    send(ResponseStatus.Error(e.message ?: "Failed to fetch user"))
+                } catch (e: Exception) {
+                    send(ResponseStatus.Error(e.message ?: "Failed to fetch user"))
+                }
+            }
+            
             userLocalDataSource.observeUser(id).collect { entity ->
                 entity?.let { localData ->
                     send(ResponseStatus.Success(localData.toModel()))
@@ -33,12 +44,31 @@ class UserRepositoryImpl(
                 }
             }
 
+        }.onStart { emit(ResponseStatus.Loading) }
+            .flowOn(Dispatchers.IO)
+            .catch { error ->
+                emit(ResponseStatus.Error(message = error.message ?: "Unknown error"))
+            }
+    }
+
+    override fun getAuthenticatedUser(): Flow<ResponseStatus<UserModel>> {
+        return channelFlow {
             launch {
                 try {
                     val dto = userRemoteDataSource.fetchUser()
                     userLocalDataSource.saveUser(dto.toEntity())
                 } catch (e: IOException) {
                     send(ResponseStatus.Error(e.message ?: "Failed to fetch user"))
+                } catch (e: Exception) {
+                    send(ResponseStatus.Error(e.message ?: "Failed to fetch user"))
+                }
+            }
+
+            userLocalDataSource.observeUsers().map { it.firstOrNull() }.collect { entity ->
+                entity?.let { localData ->
+                    send(ResponseStatus.Success(localData.toModel()))
+                } ?: run {
+                    send(ResponseStatus.Loading)
                 }
             }
         }.onStart { emit(ResponseStatus.Loading) }

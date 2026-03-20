@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -61,6 +62,9 @@ kotlin {
             implementation(libs.kermit)
 
             implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
+
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -71,7 +75,15 @@ kotlin {
     }
 }
 
-val githubToken = (project.findProperty("GITHUB_TOKEN") as String? ?: "").replace("\"", "")
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        file.inputStream().use { load(it) }
+    }
+}
+
+val githubToken = localProperties.getProperty("GITHUB_TOKEN", "")
+
 android {
     namespace = "com.example.kmptraining"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
