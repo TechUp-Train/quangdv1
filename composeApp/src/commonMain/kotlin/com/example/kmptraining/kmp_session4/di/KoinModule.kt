@@ -21,6 +21,8 @@ import com.example.kmptraining.kmp_session4.data.dataSource.userRepos.UserReposR
 import com.example.kmptraining.kmp_session4.domain.repository.PublicReposRepository
 import com.example.kmptraining.kmp_session4.domain.repository.UserReposRepository
 import com.example.kmptraining.kmp_session4.domain.repository.UserRepository
+import com.example.kmptraining.kmp_session4.domain.useCase.GetPublicReposUseCase
+import com.example.kmptraining.kmp_session4.domain.usecase.SearchReposUseCase
 import com.example.kmptraining.kmp_session4.presentation.screens.explore.ExploreViewModel
 import com.example.kmptraining.kmp_session4.presentation.screens.home.HomeViewModel
 import com.example.kmptraining.kmp_session4.presentation.screens.profile.ProfileViewModel
@@ -34,6 +36,8 @@ val sharedModule = module {
     }
 
     //Use case
+    factory { GetPublicReposUseCase(get(), get()) }
+    factory { SearchReposUseCase(get()) }
 
 
     // Repository

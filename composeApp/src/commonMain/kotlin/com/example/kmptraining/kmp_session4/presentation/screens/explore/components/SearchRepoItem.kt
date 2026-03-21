@@ -40,14 +40,13 @@ fun SearchRepoItem(
             .clickable { onClick() },
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.Transparent // Items are on dark gradient background
+            containerColor = Color.Transparent
         )
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.Top
         ) {
-            // Avatar/Icon
             AsyncImage(
                 model = repo.owner.avatarUrl,
                 contentDescription = "Owner Avatar",
@@ -74,7 +73,7 @@ fun SearchRepoItem(
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f)
                     )
-                    
+
                     Text(
                         text = "★ ${formatNumber(repo.stars)}",
                         color = Color(0xFF8B949E),
@@ -109,7 +108,7 @@ fun SearchRepoItem(
                     Spacer(modifier = Modifier.width(16.dp))
 
                     Text(
-                        text = "Updated Oct 24", // Static for now as repo model lacks specific last_updated string
+                        text = "Updated Oct 24",
                         color = Color(0xFF8B949E),
                         fontSize = 12.sp
                     )

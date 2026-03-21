@@ -38,7 +38,7 @@ fun createHttpClient(
         }
 
         install(Logging) {
-            level = LogLevel.ALL
+            level = LogLevel.HEADERS
         }
 
         install(ContentNegotiation) {

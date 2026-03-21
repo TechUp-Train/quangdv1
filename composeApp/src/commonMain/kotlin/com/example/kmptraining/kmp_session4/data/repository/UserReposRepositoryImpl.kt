@@ -8,6 +8,7 @@ import com.example.kmptraining.kmp_session4.data.mapper.toModel
 import com.example.kmptraining.kmp_session4.domain.model.RepoModel
 import com.example.kmptraining.kmp_session4.domain.repository.UserReposRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -47,6 +48,6 @@ class UserReposRepositoryImpl(
             emit(ResponseStatus.Loading)
         }.catch { error ->
             emit(ResponseStatus.Error(message = error.message ?: "Unknown error"))
-        }.flowOn(Dispatchers.IO) // This was already present
+        }.flowOn(Dispatchers.IO)
     }
 }

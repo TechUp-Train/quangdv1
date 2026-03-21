@@ -46,7 +46,7 @@ fun ProfileScreen(
             .background(
                 Brush.verticalGradient(
                     colors = listOf(
-                        Color(0xFF0D1117), // GitHub dark background
+                        Color(0xFF0D1117),
                         Color(0xFF161B22)
                     )
                 )
@@ -56,7 +56,6 @@ fun ProfileScreen(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Profile Header Section
             item {
                 when (userState) {
                     is ResponseStatus.Loading -> LoadingState()
@@ -68,7 +67,6 @@ fun ProfileScreen(
                 }
             }
 
-            // Popular Repositories Header
             item {
                 Row(
                     modifier = Modifier
@@ -85,7 +83,7 @@ fun ProfileScreen(
                             fontSize = 18.sp
                         )
                     )
-                    TextButton(onClick = { /* View all action */ }) {
+                    TextButton(onClick = {}) {
                         Text(
                             text = "View all",
                             color = Color(0xFF4DA3FF),
@@ -95,11 +93,8 @@ fun ProfileScreen(
                 }
             }
 
-            // Repositories List
             when (reposState) {
-                is ResponseStatus.Loading -> {
-                    item { LoadingState() }
-                }
+                is ResponseStatus.Loading -> { item { LoadingState() } }
 
                 is ResponseStatus.Error -> {
                     item {
@@ -119,14 +114,12 @@ fun ProfileScreen(
                 }
             }
 
-            // Bottom spacer
             item {
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

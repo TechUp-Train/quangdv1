@@ -1,5 +1,6 @@
 package com.example.kmptraining.kmp_session4.di
 
+import com.example.kmptraining.kmp_session4.core.utils.NetworkChecker
 import com.example.kmptraining.kmp_session4.core.utils.TokenProvider
 import com.example.kmptraining.kmp_session4.data.local.database.createDatabase
 import com.example.kmptraining.kmp_session4.data.local.database.getDatabaseBuilder
@@ -18,4 +19,6 @@ actual val platformModule = module {
         val builder = getDatabaseBuilder(get())
         createDatabase(builder)
     }
+
+    single { NetworkChecker(get()) }
 }
