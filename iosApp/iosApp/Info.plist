@@ -4,5 +4,25 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+
+	<!-- API Configuration — values read from Config.xcconfig -->
+	<key>API_KEY</key>
+	<string>$(API_KEY)</string>
+	<key>PUBLIC_KEY</key>
+	<string>$(PUBLIC_KEY)</string>
+	<key>APP_BUNDLE_ID</key>
+	<string>$(APP_BUNDLE_ID)</string>
+	<key>APP_NAME_VALUE</key>
+	<string>$(APP_NAME_VALUE)</string>
+	<key>API_TOKEN</key>
+	<string>$(API_TOKEN)</string>
+	<key>DEVICE_ID</key>
+	<string>$(DEVICE_ID)</string>
+	<key>APP_VERSION_VALUE</key>
+	<string>$(APP_VERSION_VALUE)</string>
+	<key>BASE_URL</key>
+	<string>$(BASE_URL)</string>
+	<key>TIMESTAMP_BASE_URL</key>
+	<string>$(TIMESTAMP_BASE_URL)</string>
 </dict>
 </plist>

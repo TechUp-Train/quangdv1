@@ -1,12 +1,34 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinSerialization)
 }
+
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        file.inputStream().use { load(it) }
+    }
+}
+
+// ── BuildConfig fields from local.properties ──────────────────
+// Each entry: BuildConfig field name → local.properties key
+val buildConfigFields = mapOf(
+    "API_KEY" to "API_KEY",
+    "PUBLIC_KEY" to "PUBLIC_KEY",
+    "BUNDLE_ID" to "BUNDLE_ID",
+    "APP_NAME_VALUE" to "APP_NAME",
+    "API_TOKEN" to "API_TOKEN",
+    "DEVICE_ID" to "DEVICE_ID",
+    "APP_VERSION_VALUE" to "APP_VERSION",
+    "BASE_URL" to "BASE_URL",
+    "TIMESTAMP_BASE_URL" to "TIMESTAMP_BASE_URL",
+)
 
 kotlin {
     androidTarget {
@@ -26,10 +48,6 @@ kotlin {
     }
     
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.compose.uiToolingPreview)
-            implementation(libs.androidx.activity.compose)
-        }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
@@ -39,6 +57,30 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+
+            implementation(libs.ktor.client.core)
+            implementation(libs.kotlinx.coroutines.core)
+
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
+
+            implementation(libs.bundles.ktor)
+            implementation(libs.bundles.navigation3)
+
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+        }
+        androidMain.dependencies {
+            implementation(libs.compose.uiToolingPreview)
+            implementation(libs.androidx.activity.compose)
+
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.koin.android)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -56,6 +98,11 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        for ((fieldName, propertyKey) in buildConfigFields) {
+            val value = localProperties.getProperty(propertyKey, "")
+            buildConfigField("String", fieldName, "\"$value\"")
+        }
     }
     packaging {
         resources {
@@ -67,6 +114,9 @@ android {
             isMinifyEnabled = false
         }
     }
+    buildFeatures {
+        buildConfig = true
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -76,4 +126,3 @@ android {
 dependencies {
     debugImplementation(libs.compose.uiTooling)
 }
-
