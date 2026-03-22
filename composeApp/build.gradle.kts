@@ -15,9 +15,6 @@ val localProperties = Properties().apply {
         file.inputStream().use { load(it) }
     }
 }
-
-// ── BuildConfig fields from local.properties ──────────────────
-// Each entry: BuildConfig field name → local.properties key
 val buildConfigFields = mapOf(
     "API_KEY" to "API_KEY",
     "PUBLIC_KEY" to "PUBLIC_KEY",
@@ -70,6 +67,11 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+
+            implementation(libs.filekit.dialogs.compose)
+
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.atomicfu)
         }
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)

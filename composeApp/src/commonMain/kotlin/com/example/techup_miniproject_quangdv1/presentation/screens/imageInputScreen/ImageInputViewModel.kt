@@ -2,5 +2,7 @@ package com.example.techup_miniproject_quangdv1.presentation.screens.imageInputS
 
 import androidx.lifecycle.ViewModel
 
-class ImageInputViewModel : ViewModel() {
+class ImageInputViewModel(
+
+) : ViewModel() {
 }

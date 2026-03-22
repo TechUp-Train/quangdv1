@@ -6,31 +6,18 @@ import com.example.techup_miniproject_quangdv1.domain.repository.GenerateReposit
 import com.example.techup_miniproject_quangdv1.domain.repository.PresignRepository
 import org.koin.dsl.module
 
-/**
- * Koin module providing repository-layer dependencies.
- *
- * Binds domain repository interfaces to their data-layer implementations.
- *
- * TODO: User will implement the actual repository method bodies later.
- *       The stubs are wired here so the DI graph is complete.
- */
 val repositoryModule = module {
 
-    // ── PresignRepository ──────────────────────────────────────
-    // TODO: User will implement PresignRepositoryImpl methods later
     single<PresignRepository> {
         PresignRepositoryImpl(
-            presignService = get(),
-            uploadService = get()
+            dataSource = get()
         )
     }
 
-    // ── GenerateRepository ─────────────────────────────────────
-    // TODO: User will implement GenerateRepositoryImpl methods later
     single<GenerateRepository> {
         GenerateRepositoryImpl(
-            timestampService = get(),
-            generateService = get()
+            dataSource = get(),
+            timestampProvider = get()
         )
     }
 }

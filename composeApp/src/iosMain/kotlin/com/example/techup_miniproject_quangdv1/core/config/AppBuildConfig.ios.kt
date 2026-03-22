@@ -2,13 +2,6 @@ package com.example.techup_miniproject_quangdv1.core.config
 
 import platform.Foundation.NSBundle
 
-/**
- * iOS actual implementation — reads from NSBundle.mainBundle.infoDictionary.
- *
- * Values flow: Config.xcconfig → Info.plist → NSBundle → this object.
- * This mirrors the Android pattern (local.properties → BuildConfig → AppBuildConfig)
- * and provides a single source of truth for each platform.
- */
 actual object AppBuildConfig {
 
     private val infoDict: Map<Any?, *>?

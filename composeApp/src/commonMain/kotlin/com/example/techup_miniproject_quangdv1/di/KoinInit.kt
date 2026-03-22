@@ -11,6 +11,7 @@ fun initKoin() {
         modules(
             networkModule,
             repositoryModule,
+            useCaseModule,
             viewModelModule,
         )
     }

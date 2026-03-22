@@ -1,44 +1,36 @@
 package com.example.techup_miniproject_quangdv1.data.repository
 
-import com.example.techup_miniproject_quangdv1.data.service.ApiService
+import com.example.techup_miniproject_quangdv1.core.utils.ResponseStatus
+import com.example.techup_miniproject_quangdv1.core.utils.TimestampProvider
+import com.example.techup_miniproject_quangdv1.data.dataSource.GenerateDataSource
+import com.example.techup_miniproject_quangdv1.data.mapper.toDomain
+import com.example.techup_miniproject_quangdv1.data.mapper.toDto
 import com.example.techup_miniproject_quangdv1.domain.model.GenerateImageModel
 import com.example.techup_miniproject_quangdv1.domain.model.GenerateImageRequest
 import com.example.techup_miniproject_quangdv1.domain.repository.GenerateRepository
 
-/**
- * Implementation of [GenerateRepository].
- *
- * Uses [ApiService.TimestampService] for fetching server time
- * and [ApiService.GenerateService] for generating AI-edited images.
- *
- * TODO: User will implement the method bodies later.
- *
- * @property timestampService Service for fetching the server timestamp.
- * @property generateService  Service for calling the Qwen Editing API.
- */
 class GenerateRepositoryImpl(
-    private val timestampService: ApiService.TimestampService,
-    private val generateService: ApiService.GenerateService
+    private val dataSource: GenerateDataSource,
+    private val timestampProvider: TimestampProvider
 ) : GenerateRepository {
 
-    /**
-     * Fetches the current server timestamp.
-     *
-     * TODO: Implement — call timestampService.getTimestamp() and extract the timestamp value.
-     */
-    override suspend fun getTimestamp(): Result<Long> {
-        // TODO: implement — user will implement later
-        throw NotImplementedError("getTimestamp() is not yet implemented")
+    override suspend fun getTimestamp(): ResponseStatus<Long> {
+        return when (val response = dataSource.getTimestamp()) {
+            is ResponseStatus.Success -> {
+                val serverTimestamp = response.data.timestamp
+                timestampProvider.updateOffset(serverTimestamp)
+                ResponseStatus.Success(serverTimestamp)
+            }
+            is ResponseStatus.Error -> response
+            is ResponseStatus.Loading -> ResponseStatus.Loading
+        }
     }
 
-    /**
-     * Generates an AI-edited image via the Qwen Editing API.
-     *
-     * TODO: Implement — map [GenerateImageRequest] to DTO, compute signature,
-     *       call generateService.generateImage(), then map response to [GenerateImageModel].
-     */
-    override suspend fun generateImage(request: GenerateImageRequest): Result<GenerateImageModel> {
-        // TODO: implement — user will implement later
-        throw NotImplementedError("generateImage() is not yet implemented")
+    override suspend fun generateImage(request: GenerateImageRequest): ResponseStatus<GenerateImageModel> {
+        return when (val response = dataSource.generateImage(request.toDto())) {
+            is ResponseStatus.Success -> ResponseStatus.Success(response.data.toDomain())
+            is ResponseStatus.Error -> response
+            is ResponseStatus.Loading -> ResponseStatus.Loading
+        }
     }
 }

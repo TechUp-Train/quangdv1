@@ -2,10 +2,6 @@ package com.example.techup_miniproject_quangdv1.core.config
 
 import com.example.techup_miniproject_quangdv1.BuildConfig
 
-/**
- * Android actual implementation reading from the generated BuildConfig.
- * Values are injected at build time from local.properties via build.gradle.kts.
- */
 actual object AppBuildConfig {
     actual val API_KEY: String = BuildConfig.API_KEY
     actual val PUBLIC_KEY: String = BuildConfig.PUBLIC_KEY

@@ -1,4 +1,4 @@
-package com.example.techup_miniproject_quangdv1.data.model
+package com.example.techup_miniproject_quangdv1.data.dto
 
 import kotlinx.serialization.Serializable
 
