@@ -12,6 +12,7 @@ import com.example.techup_miniproject_quangdv1.presentation.navigation.ImageResu
 import com.example.techup_miniproject_quangdv1.presentation.navigation.InputImageScreenKey
 import com.example.techup_miniproject_quangdv1.presentation.navigation.SelectImageScreenKey
 import com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.ImageInputScreen
+import com.example.techup_miniproject_quangdv1.presentation.screens.imageSelectScreen.GalleryScreen
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -36,10 +37,17 @@ fun App() {
             onBack = { if (backStack.size > 1) backStack.removeLastOrNull() },
             entryProvider = entryProvider {
                 entry<InputImageScreenKey> {
-                    ImageInputScreen()
+                    ImageInputScreen(
+                        onSelectImages = { mode ->
+                            backStack.add(SelectImageScreenKey(mode))
+                        }
+                    )
                 }
                 entry<SelectImageScreenKey> {
-
+                    GalleryScreen(
+                        imageMode = it.mode,
+                        onSelectImages = {}
+                    )
                 }
                 entry<ImageResultScreenKey> {
 

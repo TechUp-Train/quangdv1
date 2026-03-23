@@ -1,6 +1,6 @@
 package com.example.techup_miniproject_quangdv1.core.sinatureSdk.signature
 
-import com.example.techup_miniproject_quangdv1.data.service.ApiConstants
+import com.example.techup_miniproject_quangdv1.data.remote.service.ApiConstants
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.HttpRequestPipeline
 import io.ktor.client.request.headers

@@ -1,19 +1,8 @@
-package com.example.techup_miniproject_quangdv1.data.service
+package com.example.techup_miniproject_quangdv1.data.remote.service
 
 import com.example.techup_miniproject_quangdv1.core.config.AppBuildConfig
 import com.example.techup_miniproject_quangdv1.core.utils.DeviceCountryCodeProvider
 
-/**
- * Central place for all API-related constants.
- *
- * Sensitive values (API keys, URLs, etc.) are read from [AppBuildConfig],
- * which sources them from local.properties → BuildConfig on Android
- * and from bundled values on iOS.
- *
- * Country code is fetched at runtime from the device's native locale via [DeviceCountryCodeProvider].
- *
- * Only non-sensitive structural constants (header key names, endpoint paths) are hardcoded here.
- */
 object ApiConstants {
 
     val BASE_URL: String get() = AppBuildConfig.BASE_URL

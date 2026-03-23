@@ -8,18 +8,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.techup_miniproject_quangdv1.core.config.AppBuildConfig
+import com.example.techup_miniproject_quangdv1.core.utils.ImageMode
 import com.example.techup_miniproject_quangdv1.core.utils.ResponseStatus
 import com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.components.PromptInputView
 import com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.components.StylesListView
@@ -27,8 +23,9 @@ import com.example.techup_miniproject_quangdv1.presentation.sharedComponents.Rou
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun ImageInputScreen(viewModel: ImageInputViewModel = koinViewModel()) {
+fun ImageInputScreen(onSelectImages: (ImageMode) -> Unit, viewModel: ImageInputViewModel = koinViewModel()) {
     val promptText = remember { mutableStateOf("") }
+    val imageMode = remember { mutableStateOf(ImageMode.FIGURE_MAKER) }
 
     Scaffold { contentPadding ->
         val stylesState = viewModel.stylesState.collectAsStateWithLifecycle().value
@@ -52,7 +49,7 @@ fun ImageInputScreen(viewModel: ImageInputViewModel = koinViewModel()) {
                 Spacer(modifier = Modifier.height(10.dp))
                 RoundedImageFrame(
                     modifier = Modifier.height(screenHeight * 0.5f),
-                    onChangeImage = {}
+                    onChangeImage = { onSelectImages(imageMode.value) }
                 )
 
                 if (stylesState is ResponseStatus.Success) {
@@ -75,5 +72,5 @@ fun ImageInputScreen(viewModel: ImageInputViewModel = koinViewModel()) {
 @Preview(showBackground = true)
 @Composable
 fun ImageInputScreenPreview() {
-    ImageInputScreen()
+    ImageInputScreen({})
 }

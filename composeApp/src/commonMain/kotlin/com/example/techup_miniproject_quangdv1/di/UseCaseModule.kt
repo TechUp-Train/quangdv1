@@ -4,6 +4,8 @@ import com.example.techup_miniproject_quangdv1.domain.useCase.generateImage.Gene
 import com.example.techup_miniproject_quangdv1.domain.useCase.generateImage.GenerateImageUseCaseImpl
 import com.example.techup_miniproject_quangdv1.domain.useCase.getStyles.GetStyleUseCase
 import com.example.techup_miniproject_quangdv1.domain.useCase.getStyles.GetStyleUseCaseImpl
+import com.example.techup_miniproject_quangdv1.domain.useCase.pickImages.PickImagesUseCase
+import com.example.techup_miniproject_quangdv1.domain.useCase.pickImages.PickImagesUseCaseImpl
 import com.example.techup_miniproject_quangdv1.domain.useCase.processImage.ProcessImageUseCase
 import com.example.techup_miniproject_quangdv1.domain.useCase.processImage.ProcessImageUseCaseImpl
 import org.koin.dsl.module
@@ -25,6 +27,12 @@ val useCaseModule = module {
     factory<GetStyleUseCase> {
         GetStyleUseCaseImpl(
             styleRepository = get(),
+        )
+    }
+
+    factory<PickImagesUseCase> {
+        PickImagesUseCaseImpl(
+            pickImageRepository = get(),
         )
     }
 }

@@ -5,7 +5,7 @@ import com.example.techup_miniproject_quangdv1.data.dataSource.GenerateDataSourc
 import com.example.techup_miniproject_quangdv1.data.remote.dataSource.GenerateDataSourceImpl
 import com.example.techup_miniproject_quangdv1.data.dataSource.PresignDataSource
 import com.example.techup_miniproject_quangdv1.data.remote.dataSource.PresignDataSourceImpl
-import com.example.techup_miniproject_quangdv1.data.service.ApiConstants
+import com.example.techup_miniproject_quangdv1.data.remote.service.ApiConstants
 import com.example.techup_miniproject_quangdv1.data.remote.service.ApiService
 import com.example.techup_miniproject_quangdv1.data.remote.service.ApiServiceFactory
 import com.example.techup_miniproject_quangdv1.data.service.HttpClientProvider
