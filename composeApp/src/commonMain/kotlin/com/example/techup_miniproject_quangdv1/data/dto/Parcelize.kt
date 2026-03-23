@@ -1,7 +1,7 @@
 package com.example.techup_miniproject_quangdv1.data.dto
 
+expect interface Parcelable
+
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.BINARY)
-annotation class CommonParcelize
-
-expect interface CommonParcelable
+expect annotation class Parcelize()

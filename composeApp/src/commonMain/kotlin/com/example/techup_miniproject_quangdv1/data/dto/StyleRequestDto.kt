@@ -3,14 +3,12 @@ package com.example.techup_miniproject_quangdv1.data.dto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
-@CommonParcelize
+@Parcelize
 data class StyleRequestDto(
 	val categories: List<CategoriesItemDto?>? = null
-) : CommonParcelable
+) : Parcelable
 
 @Serializable
-@CommonParcelize
 data class CategoriesItemDto(
 	@SerialName("category_name")
 	val categoryName: String? = null,
@@ -22,10 +20,9 @@ data class CategoriesItemDto(
 
 	@SerialName("category_thumbnail")
 	val categoryThumbnail: String? = null
-) : CommonParcelable
+)
 
 @Serializable
-@CommonParcelize
 data class StylesItemDto(
 	@SerialName("image_prompt")
 	val imagePrompt: String? = null,
@@ -56,4 +53,4 @@ data class StylesItemDto(
 
 	@SerialName("style_event")
 	val styleEvent: String? = null
-) : CommonParcelable
+)
