@@ -3,10 +3,10 @@ package com.example.techup_miniproject_quangdv1.data.dto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Parcelize
+@Serializable
 data class StyleRequestDto(
 	val categories: List<CategoriesItemDto?>? = null
-) : Parcelable
+)
 
 @Serializable
 data class CategoriesItemDto(

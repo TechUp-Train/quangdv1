@@ -82,6 +82,8 @@ kotlin {
 
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.atomicfu)
+
+            implementation(libs.material.icons.extended)
         }
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
