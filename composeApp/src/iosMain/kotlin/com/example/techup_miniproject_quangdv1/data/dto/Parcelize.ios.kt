@@ -1,0 +1,3 @@
+package com.example.techup_miniproject_quangdv1.data.dto
+
+actual interface CommonParcelable

@@ -63,22 +63,38 @@ class SignatureInterceptor(
                     timestamp
                 )
 
-                signatureResult.onSuccess { signature ->
-                    context.headers {
-                        append(HttpHeaders.Accept, ContentType.Application.Json.toString())
-                        append(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                        append(ApiConstants.HEADER_SIGNATURE, signature.signature)
-                        append(ApiConstants.HEADER_TIMESTAMP, signature.timestamp.toString())
-                        append(ApiConstants.HEADER_BUNDLE_ID, bundleId)
-                        append(ApiConstants.HEADER_TOKEN, ApiConstants.TOKEN)
-                        append(ApiConstants.HEADER_APP_NAME, appName)
-                        countryCode?.let { code -> append(ApiConstants.HEADER_COUNTRY_CODE, code) }
-                        appVersion?.let { version -> append(ApiConstants.HEADER_APP_VERSION, version) }
-                        deviceId?.let { id -> append(ApiConstants.HEADER_DEVICE_ID, id) }
-                    }
-                }
+                signatureResult.fold(
+                    onSuccess = { signature ->
+                        context.headers {
+                            append(HttpHeaders.Accept, ContentType.Application.Json.toString())
+                            append(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                            append(ApiConstants.HEADER_SIGNATURE, signature.signature)
+                            append(ApiConstants.HEADER_TIMESTAMP, signature.timestamp.toString())
+                            append(ApiConstants.HEADER_BUNDLE_ID, bundleId)
+                            append(ApiConstants.HEADER_TOKEN, ApiConstants.TOKEN)
+                            append(ApiConstants.HEADER_APP_NAME, appName)
+                            countryCode?.let { code ->
+                                append(
+                                    ApiConstants.HEADER_COUNTRY_CODE,
+                                    code
+                                )
+                            }
+                            appVersion?.let { version ->
+                                append(
+                                    ApiConstants.HEADER_APP_VERSION,
+                                    version
+                                )
+                            }
+                            deviceId?.let { id -> append(ApiConstants.HEADER_DEVICE_ID, id) }
+                        }
+                        proceed()
+                    },
 
-                proceed()
+                    onFailure = { error ->
+                        throw error
+                    }
+                )
+
             }
         }
     }

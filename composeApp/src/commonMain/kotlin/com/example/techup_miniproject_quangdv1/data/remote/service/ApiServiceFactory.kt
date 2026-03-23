@@ -6,7 +6,7 @@ enum class ServiceType {
     TIMESTAMP,
     PRESIGN,
     UPLOAD,
-    GENERATE
+    GENERATE,
 }
 
 class ApiServiceFactory(
@@ -15,7 +15,7 @@ class ApiServiceFactory(
 ) {
     fun create(type: ServiceType): ApiService {
         return when (type) {
-            ServiceType.TIMESTAMP -> ApiService.TimestampService(baseClient)
+            ServiceType.TIMESTAMP -> ApiService.TimestampService(signedClient)
             ServiceType.PRESIGN -> ApiService.PresignService(signedClient)
             ServiceType.UPLOAD -> ApiService.UploadService(baseClient)
             ServiceType.GENERATE -> ApiService.GenerateService(signedClient)

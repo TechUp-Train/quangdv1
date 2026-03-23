@@ -9,13 +9,14 @@ import org.koin.dsl.module
 val useCaseModule = module {
     factory<ProcessImageUseCase> {
         ProcessImageUseCaseImpl(
-            presignRepository = get()
+            presignRepository = get(),
         )
     }
 
     factory<GenerateImageUseCase> {
         GenerateImageUseCaseImpl(
-            generateRepository = get()
+            generateRepository = get(),
+            presignRepository = get(),
         )
     }
 }

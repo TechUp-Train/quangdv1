@@ -11,7 +11,7 @@ import com.example.techup_miniproject_quangdv1.core.theme.AppTheme
 import com.example.techup_miniproject_quangdv1.presentation.navigation.ImageResultScreenKey
 import com.example.techup_miniproject_quangdv1.presentation.navigation.InputImageScreenKey
 import com.example.techup_miniproject_quangdv1.presentation.navigation.SelectImageScreenKey
-import com.example.techup_miniproject_quangdv1.presentation.screens.imageInputScreen.ImageInputScreen
+import com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.ImageInputScreen
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 

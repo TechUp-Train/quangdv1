@@ -7,19 +7,16 @@ import com.example.techup_miniproject_quangdv1.data.dto.GenerateImageResponseDto
 import com.example.techup_miniproject_quangdv1.data.dto.TimestampDto
 import com.example.techup_miniproject_quangdv1.data.remote.service.ApiService
 
-/**
- * Implementation of [GenerateDataSource] using Ktor [ApiService].
- */
 class GenerateDataSourceImpl(
-    private val timestampService: ApiService.TimestampService,
+    private val uploadService: ApiService.UploadService,
     private val generateService: ApiService.GenerateService
 ) : GenerateDataSource {
-
-    override suspend fun getTimestamp(): ResponseStatus<TimestampDto> {
+    override suspend fun uploadImage(presignedUrl: String, imageBytes: ByteArray): Boolean {
         return try {
-            ResponseStatus.Success(timestampService.getTimestamp())
+            uploadService.uploadImage(presignedUrl, imageBytes)
+            true
         } catch (e: Exception) {
-            ResponseStatus.Error(e.message ?: "Unknown error fetching timestamp")
+            false
         }
     }
 

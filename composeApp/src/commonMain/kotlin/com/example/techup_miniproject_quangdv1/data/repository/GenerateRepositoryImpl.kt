@@ -11,19 +11,9 @@ import com.example.techup_miniproject_quangdv1.domain.repository.GenerateReposit
 
 class GenerateRepositoryImpl(
     private val dataSource: GenerateDataSource,
-    private val timestampProvider: TimestampProvider
 ) : GenerateRepository {
-
-    override suspend fun getTimestamp(): ResponseStatus<Long> {
-        return when (val response = dataSource.getTimestamp()) {
-            is ResponseStatus.Success -> {
-                val serverTimestamp = response.data.timestamp
-                timestampProvider.updateOffset(serverTimestamp)
-                ResponseStatus.Success(serverTimestamp)
-            }
-            is ResponseStatus.Error -> response
-            is ResponseStatus.Loading -> ResponseStatus.Loading
-        }
+    override suspend fun uploadImage(presignUrl: String, imageBytes: ByteArray): Boolean {
+        return dataSource.uploadImage(presignUrl, imageBytes)
     }
 
     override suspend fun generateImage(request: GenerateImageRequest): ResponseStatus<GenerateImageModel> {

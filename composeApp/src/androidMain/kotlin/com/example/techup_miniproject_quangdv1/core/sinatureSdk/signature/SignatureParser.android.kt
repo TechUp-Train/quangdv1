@@ -8,21 +8,6 @@ import javax.crypto.Cipher
 import kotlin.random.Random
 
 actual fun signatureParserImpl(): SignatureParser = SignatureParserAndroidImpl()
-
-/**
- * Android implementation of [SignatureParser].
- *
- * Uses Java Cryptography Architecture (JCA):
- * - `javax.crypto.Cipher` with `RSA/None/PKCS1Padding`
- * - `java.security.KeyFactory` to load X.509-encoded RSA public keys
- * - `android.util.Base64` for encoding
- *
- * ## Plaintext format
- * ```
- * <timestamp>@@@<keyId>@@@<nonce>
- * ```
- * where `nonce` is a random integer in [0, 1_000_000).
- */
 private class SignatureParserAndroidImpl : SignatureParser {
 
     override fun parse(

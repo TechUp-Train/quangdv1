@@ -1,13 +1,14 @@
 package com.example.techup_miniproject_quangdv1.data.remote.service
 
-import com.example.techup_miniproject_quangdv1.data.dto.PresignResponseDto
 import com.example.techup_miniproject_quangdv1.data.dto.GenerateImageRequestDto
 import com.example.techup_miniproject_quangdv1.data.dto.GenerateImageResponseDto
 import com.example.techup_miniproject_quangdv1.data.dto.PresignLinkDto
+import com.example.techup_miniproject_quangdv1.data.dto.PresignResponseDto
 import com.example.techup_miniproject_quangdv1.data.dto.TimestampDto
 import com.example.techup_miniproject_quangdv1.data.service.ApiConstants
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.plugins.expectSuccess
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.post
@@ -46,6 +47,7 @@ sealed interface ApiService {
             client.put(presignedUrl) {
                 contentType(ContentType.Image.JPEG)
                 setBody(imageBytes)
+                expectSuccess = true
             }
         }
     }

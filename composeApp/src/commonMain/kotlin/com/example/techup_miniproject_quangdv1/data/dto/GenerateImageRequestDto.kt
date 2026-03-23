@@ -10,9 +10,3 @@ data class GenerateImageRequestDto(
     val ratio: String? = null,
     val acceptNSFW: Boolean? = null
 )
-
-@Serializable
-data class GenerateImageResponseDto(
-    val url: String,
-    val path: String
-)

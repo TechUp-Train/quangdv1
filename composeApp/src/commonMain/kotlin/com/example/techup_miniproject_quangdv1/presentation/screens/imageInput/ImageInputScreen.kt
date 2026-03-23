@@ -1,4 +1,4 @@
-package com.example.techup_miniproject_quangdv1.presentation.screens.imageInputScreen
+package com.example.techup_miniproject_quangdv1.presentation.screens.imageInput
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

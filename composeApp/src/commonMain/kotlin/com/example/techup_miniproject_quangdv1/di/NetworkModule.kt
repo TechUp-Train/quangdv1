@@ -37,11 +37,11 @@ val networkModule = module {
         }
     }
 
-    single { 
+    single {
         ApiServiceFactory(
             baseClient = get(named("base")),
             signedClient = get(named("signed"))
-        ) 
+        )
     }
 
     single {
@@ -62,15 +62,15 @@ val networkModule = module {
 
     single<GenerateDataSource> {
         GenerateDataSourceImpl(
-            timestampService = get(),
+            uploadService = get(),
             generateService = get()
         )
     }
 
     single<PresignDataSource> {
         PresignDataSourceImpl(
-            presignService = get(),
-            uploadService = get()
+            timestampService = get(),
+            presignService = get()
         )
     }
 }

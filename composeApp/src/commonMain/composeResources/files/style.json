@@ -1,0 +1,198 @@
+{
+  "categories": [
+    {
+      "category_id": "1001",
+      "category_name": "Sunset Wedding",
+      "category_thumbnail": "https://static.apero.vn/content/uploads/Silhouette_Lovers_a1857733a2.webp",
+      "styles": [
+        {
+          "style_id": "100110",
+          "style_name": "Silhouette Lovers",
+          "image_url": "https://static.apero.vn/content/uploads/Silhouette_Lovers_a1857733a2.webp",
+          "image_prompt": "sunset wedding, bride and groom silhouette holding hands, glowing horizon, dramatic sky, emotional and timeless mood, cinematic realism",
+          "image_limit": 1,
+          "style_premium": false,
+          "style_event": "img_gen_t2i10010",
+          "style_mode": "IMAGE_EDITING",
+          "style_tag": "wedding",
+          "style_status": true
+        },
+        {
+          "style_id": "10009",
+          "style_name": "Beach Sunset Walk",
+          "image_url": "https://static.apero.vn/content/uploads/Beach_Sunset_Walk_5f448b6073.webp",
+          "image_prompt": "beach sunset wedding, bride and groom holding hands walking by the shore, soft waves, warm sunset glow, airy and romantic feeling",
+          "image_limit": 1,
+          "style_premium": false,
+          "style_event": "img_gen_t2i10011",
+          "style_mode": "IMAGE_EDITING",
+          "style_tag": "wedding",
+          "style_status": true
+        },
+        {
+          "style_id": "10008",
+          "style_name": "Mountain View Sunset",
+          "image_url": "https://static.apero.vn/content/uploads/Mountain_View_Sunset_aea08e9838.webp",
+          "image_prompt": "sunset wedding in the mountains, bride and groom holding hands, panoramic view, warm fading sunlight, epic and emotional scene",
+          "image_limit": 1,
+          "style_premium": false,
+          "style_event": "img_gen_t2i10012",
+          "style_mode": "IMAGE_EDITING",
+          "style_tag": "wedding",
+          "style_status": true
+        },
+        {
+          "style_id": "10007",
+          "style_name": "Garden Sunset Romance",
+          "image_url": "https://static.apero.vn/content/uploads/Garden_Sunset_Romance_68e6930df7.webp",
+          "image_prompt": "outdoor garden sunset wedding, bride and groom holding hands, soft sunset light through trees, intimate and dreamy atmosphere",
+          "image_limit": 1,
+          "style_premium": false,
+          "style_event": "img_gen_t2i10013",
+          "style_mode": "IMAGE_EDITING",
+          "style_tag": "wedding",
+          "style_status": true
+        },
+        {
+          "style_id": "10006",
+          "style_name": "City Rooftop Sunset",
+          "image_url": "https://static.apero.vn/content/uploads/City_Rooftop_Sunset_40563c90a3.webp",
+          "image_prompt": "rooftop sunset wedding, bride and groom holding hands, city skyline at dusk, warm cinematic lighting, modern and elegant style",
+          "image_limit": 1,
+          "style_premium": false,
+          "style_event": "img_gen_t2i10014",
+          "style_mode": "IMAGE_EDITING",
+          "style_tag": "wedding",
+          "style_status": true
+        },
+        {
+          "style_id": "10005",
+          "style_name": "Countryside Sunset",
+          "image_url": "https://static.apero.vn/content/uploads/Countryside_Sunset_114abbded0.webp",
+          "image_prompt": "countryside sunset wedding, bride and groom holding hands in open field, golden sunset light, peaceful and heartfelt mood",
+          "image_limit": 1,
+          "style_premium": false,
+          "style_event": "img_gen_t2i10015",
+          "style_mode": "IMAGE_EDITING",
+          "style_tag": "wedding",
+          "style_status": true
+        }
+      ]
+    },
+    {
+      "category_id": "1100",
+      "category_name": "Caricature Trend",
+      "category_thumbnail": "https://static.apero.vn/content/uploads/cartoon_network_thumbnail_632e7722d3.jpg",
+      "styles": [
+        {
+          "style_id": "11000",
+          "style_name": "3D Digital Caricature",
+          "image_url": "https://static.apero.vn/content/uploads/3_D_Digital_Caricature_36c6407f28.jpg",
+          "image_prompt": "Create a 3D digital caricature of me and my job. Pixar-style animation render, glossy texture, exaggerated facial features, big expressive eyes, soft studio lighting, high detail, vibrant colors.",
+          "image_limit": 1,
+          "style_premium": false,
+          "style_event": "img_gen_t2i11000",
+          "style_mode": "IMAGE_EDITING",
+          "style_tag": "caricature",
+          "style_status": true
+        },
+        {
+          "style_id": "11001",
+          "style_name": "Street Charcoal Sketch",
+          "image_url": "https://static.apero.vn/content/uploads/Street_Charcoal_Sketch_7a90fbc940.jpg",
+          "image_prompt": "Create a hand-drawn pencil sketch caricature of me and my job. Street artist style, black and white charcoal texture, rough shading, bold pencil strokes, exaggerated head size, white paper background.",
+          "image_limit": 1,
+          "style_premium": false,
+          "style_event": "img_gen_t2i11001",
+          "style_mode": "IMAGE_EDITING",
+          "style_tag": "caricature",
+          "style_status": true
+        },
+        {
+          "style_id": "11002",
+          "style_name": "Pop Art Comic",
+          "image_url": "https://static.apero.vn/content/uploads/Pop_Art_Comic_85b50d16eb.jpg",
+          "image_prompt": "Create a Pop Art style caricature of me and my job. Retro comic book look, bold black outlines, halftone dot pattern background, vibrant primary colors, dramatic expression, speech bubble text element.",
+          "image_limit": 1,
+          "style_premium": false,
+          "style_event": "img_gen_t2i11002",
+          "style_mode": "IMAGE_EDITING",
+          "style_tag": "caricature",
+          "style_status": true
+        },
+        {
+          "style_id": "11003",
+          "style_name": "Editorial Ink Illustration",
+          "image_url": "https://static.apero.vn/content/uploads/Editorial_Ink_Illustration_225af7299a.jpg",
+          "image_prompt": "Create a political editorial cartoon style caricature of me and my job. Ink line art, cross-hatching shading techniques, satirical vibe, newspaper illustration texture, sharp features.",
+          "image_limit": 1,
+          "style_premium": false,
+          "style_event": "img_gen_t2i11003",
+          "style_mode": "IMAGE_EDITING",
+          "style_tag": "caricature",
+          "style_status": true
+        },
+        {
+          "style_id": "11004",
+          "style_name": "Plastic Bobblehead",
+          "image_url": "https://static.apero.vn/content/uploads/Plastic_Bobblehead_065c356c79.jpg",
+          "image_prompt": "Create a realistic caricature of me as a Bobblehead figurine. Plastic toy texture, shiny finish, giant oversized head, tiny body standing on a base, holding props related to my job, studio photography look.",
+          "image_limit": 1,
+          "style_premium": false,
+          "style_event": "img_gen_t2i11004",
+          "style_mode": "IMAGE_EDITING",
+          "style_tag": "caricature",
+          "style_status": true
+        },
+        {
+          "style_id": "11005",
+          "style_name": "Claymation Model",
+          "image_url": "https://static.apero.vn/content/uploads/Claymation_Model_86b8c0267f.jpg",
+          "image_prompt": "Create a claymation style caricature of me and my job. Plasticine clay texture, handmade look, fingerprint details, soft focus background, stop-motion animation aesthetic, cute and chunky.",
+          "image_limit": 1,
+          "style_premium": false,
+          "style_event": "img_gen_t2i11005",
+          "style_mode": "IMAGE_EDITING",
+          "style_tag": "caricature",
+          "style_status": true
+        },
+        {
+          "style_id": "11006",
+          "style_name": "Urban Graffiti",
+          "image_url": "https://static.apero.vn/content/uploads/Urban_Graffiti_96f2174c8d.jpg",
+          "image_prompt": "Create a graffiti mascot style caricature of me and my job. Street art spray paint texture, thick drips, vibrant urban colors, cartoonish and exaggerated, hip-hop vibe, painted on a brick wall background.",
+          "image_limit": 1,
+          "style_premium": false,
+          "style_event": "img_gen_t2i11006",
+          "style_mode": "IMAGE_EDITING",
+          "style_tag": "caricature",
+          "style_status": true
+        },
+        {
+          "style_id": "11007",
+          "style_name": "Cinematic Sticker Hybrid",
+          "image_url": "https://static.apero.vn/content/uploads/Cinematic_Sticker_Hybrid_8941dedf4b.jpg",
+          "image_prompt": "A 3D realistic Caricature (Massive Oversized eyes, Massive Oversized nose, Massive Oversized mouth, Massive Oversized head) illustration of me and my job, exaggerated facial features, bold thick black outline, very heavy black stroke around character and objects, integrated cinematic background, soft global lighting, natural shadows, depth of field, high-contrast colors, sharp edges.",
+          "image_limit": 1,
+          "style_premium": false,
+          "style_event": "img_gen_t2i11007",
+          "style_mode": "IMAGE_EDITING",
+          "style_tag": "caricature",
+          "style_status": true
+        },
+        {
+          "style_id": "11008",
+          "style_name": "Neon Cyber-Trend",
+          "image_url": "https://static.apero.vn/content/uploads/Neon_Cyber_Trend_bce4ea9fe5.jpg",
+          "image_prompt": "A 3D realistic Caricature (Massive Oversized eyes, Massive Oversized nose, Massive Oversized mouth, Massive Oversized head) of me and my job. Glowing neon outlines, cyberpunk aesthetic, high-contrast magenta and blue lighting, exaggerated expressions, digital workspace background, sharp cinematic detail.",
+          "image_limit": 1,
+          "style_premium": false,
+          "style_event": "img_gen_t2i11008",
+          "style_mode": "IMAGE_EDITING",
+          "style_tag": "caricature",
+          "style_status": true
+        }
+      ]
+    }
+  ]
+}
