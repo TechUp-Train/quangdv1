@@ -12,17 +12,22 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.techup_miniproject_quangdv1.core.theme.surfaceLightVariant
+import com.example.techup_miniproject_quangdv1.core.utils.ConnectivityStatus
 import com.example.techup_miniproject_quangdv1.core.utils.ImageMode
 import com.example.techup_miniproject_quangdv1.core.utils.ResponseStatus
 import com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.components.DualImageSingleBorderFrame
@@ -53,12 +58,36 @@ fun ImageInputScreen(
     val generatedResult = viewModel.generateProcessStatus.collectAsStateWithLifecycle().value
 
     val connectivity = viewModel.connectivity.collectAsStateWithLifecycle().value
+    var lastConnectivity by remember { mutableStateOf(ConnectivityStatus.Unavailable) }
     val snackBarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(generatedResult) {
         if (generatedResult is ResponseStatus.Success) {
             onGeneratedResult(generatedResult.data)
         }
+    }
+
+    LaunchedEffect(connectivity) {
+        if (lastConnectivity != ConnectivityStatus.Unavailable &&
+            connectivity != lastConnectivity
+        ) {
+            snackBarHostState.currentSnackbarData?.dismiss()
+
+            when (connectivity) {
+                ConnectivityStatus.Offline -> {
+                    snackBarHostState.showSnackbar("You're offline")
+                }
+                ConnectivityStatus.Online -> {
+                    snackBarHostState.showSnackbar(
+                        "Back online",
+                        duration = SnackbarDuration.Short
+                    )
+                }
+                else -> {}
+            }
+        }
+
+        lastConnectivity = connectivity
     }
 
     Scaffold(
@@ -136,7 +165,7 @@ fun ImageInputScreen(
                     onClick = {
                         viewModel.processImage()
                     },
-                    enabled = selectedImages.size >= imageMode.requiredImageCount
+                    enabled = selectedImages.size >= imageMode.requiredImageCount && connectivity == ConnectivityStatus.Online
                 )
             }
 
