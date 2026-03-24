@@ -38,7 +38,7 @@ actual fun PlatformImageThumbnail(
             bitmap = it,
             contentDescription = null,
             modifier = modifier,
-            contentScale = contentScale
+            contentScale = contentScale,
         )
     }
 }

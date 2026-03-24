@@ -1,5 +1,9 @@
 package com.example.techup_miniproject_quangdv1.di
 
+import com.example.techup_miniproject_quangdv1.domain.useCase.convertImage.ConvertImageUseCase
+import com.example.techup_miniproject_quangdv1.domain.useCase.convertImage.ConvertImageUseCaseImpl
+import com.example.techup_miniproject_quangdv1.domain.useCase.downloadImage.DownloadUseCase
+import com.example.techup_miniproject_quangdv1.domain.useCase.downloadImage.DownloadUseCaseImpl
 import com.example.techup_miniproject_quangdv1.domain.useCase.generateImage.GenerateImageUseCase
 import com.example.techup_miniproject_quangdv1.domain.useCase.generateImage.GenerateImageUseCaseImpl
 import com.example.techup_miniproject_quangdv1.domain.useCase.getStyles.GetStyleUseCase
@@ -33,6 +37,19 @@ val useCaseModule = module {
     factory<PickImagesUseCase> {
         PickImagesUseCaseImpl(
             pickImageRepository = get(),
+        )
+    }
+
+    factory<ConvertImageUseCase> {
+        ConvertImageUseCaseImpl(
+            imageByteArrayConverter = get(),
+        )
+    }
+
+    factory<DownloadUseCase> {
+        DownloadUseCaseImpl(
+            downloader = get(),
+            fileSaver = get(),
         )
     }
 }

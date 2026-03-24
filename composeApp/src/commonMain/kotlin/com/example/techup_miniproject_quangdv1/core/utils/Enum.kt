@@ -21,3 +21,10 @@ enum class ImageMode(val requiredImageCount: Int) {
     REMOVE_BACKGROUND(1),
     OUTPAINTING(1)
 }
+
+fun ImageMode.displayName(): String {
+    return this.name
+        .lowercase()
+        .replace("_", " ")
+        .replaceFirstChar { it.uppercase() }
+}

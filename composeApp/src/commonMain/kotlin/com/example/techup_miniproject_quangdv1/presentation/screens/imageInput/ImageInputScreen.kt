@@ -7,70 +7,157 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.techup_miniproject_quangdv1.core.theme.surfaceLightVariant
 import com.example.techup_miniproject_quangdv1.core.utils.ImageMode
 import com.example.techup_miniproject_quangdv1.core.utils.ResponseStatus
+import com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.components.DualImageSingleBorderFrame
+import com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.components.ModeSwitcher
+import com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.components.ModeView
 import com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.components.PromptInputView
 import com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.components.StylesListView
+import com.example.techup_miniproject_quangdv1.presentation.sharedComponents.DialogContent
+import com.example.techup_miniproject_quangdv1.presentation.sharedComponents.InteracButton
 import com.example.techup_miniproject_quangdv1.presentation.sharedComponents.RoundedImageFrame
 import org.koin.compose.viewmodel.koinViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ImageInputScreen(onSelectImages: (ImageMode) -> Unit, viewModel: ImageInputViewModel = koinViewModel()) {
-    val promptText = remember { mutableStateOf("") }
-    val imageMode = remember { mutableStateOf(ImageMode.FIGURE_MAKER) }
+fun ImageInputScreen(
+    onSelectImages: (ImageMode) -> Unit,
+    onGeneratedResult: (String) -> Unit,
+    viewModel: ImageInputViewModel = koinViewModel()
+) {
+    val promptText = viewModel.promptText.collectAsStateWithLifecycle().value
+    val imageMode = viewModel.imageMode.collectAsStateWithLifecycle().value
 
-    Scaffold { contentPadding ->
-        val stylesState = viewModel.stylesState.collectAsStateWithLifecycle().value
+    val selectedImages = viewModel.selectedImages.collectAsStateWithLifecycle().value
+    val stylesState = viewModel.stylesState.collectAsStateWithLifecycle().value
+    val selectedCategoryIndex = viewModel.selectedCategoryIndex.collectAsStateWithLifecycle().value
+    val selectedStyleId = viewModel.selectedStyleId.collectAsStateWithLifecycle().value
 
+    val generatedResult = viewModel.generateProcessStatus.collectAsStateWithLifecycle().value
+
+    LaunchedEffect(generatedResult) {
+        if (generatedResult is ResponseStatus.Success) {
+            onGeneratedResult(generatedResult.data)
+        }
+    }
+
+    Scaffold(
+        containerColor = surfaceLightVariant
+    ) { contentPadding ->
         BoxWithConstraints(
             modifier = Modifier.fillMaxSize()
                 .padding(contentPadding)
         ) {
             val screenHeight = maxHeight
+            val scrollState = rememberScrollState()
+
             Column(
-                modifier = Modifier.padding(horizontal = 5.dp),
+                modifier = Modifier.padding(horizontal = 10.dp)
+                    .verticalScroll(scrollState),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
+                ModeSwitcher(
+                    selectedMode = imageMode,
+                    onModeSelected = { mode ->
+                        viewModel.setImageMode(ImageMode.entries.first { it.requiredImageCount == mode })
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(2.dp))
+
                 PromptInputView(
-                    modifier = Modifier.height(screenHeight * 0.15f),
-                    prompt = promptText.value,
+                    modifier = Modifier.height(screenHeight * 0.1f),
+                    prompt = promptText,
                     onPromptChange = { newPrompt ->
-                        promptText.value = newPrompt
+                        viewModel.setPromptText(newPrompt)
                     },
                 )
-                Spacer(modifier = Modifier.height(10.dp))
-                RoundedImageFrame(
-                    modifier = Modifier.height(screenHeight * 0.5f),
-                    onChangeImage = { onSelectImages(imageMode.value) }
+
+                if (imageMode.requiredImageCount == 1) {
+                    RoundedImageFrame(
+                        image = selectedImages.firstOrNull(),
+                        modifier = Modifier.height(screenHeight * 0.5f),
+                        onChangeImage = { onSelectImages(imageMode) }
+                    )
+                } else {
+                    DualImageSingleBorderFrame(
+                        image1 = selectedImages.getOrNull(0),
+                        image2 = selectedImages.getOrNull(1),
+                        onChangeImage1 = { onSelectImages(imageMode) },
+                        onChangeImage2 = { onSelectImages(imageMode) },
+                        modifier = Modifier.height(screenHeight * 0.5f)
+                    )
+                }
+
+                ModeView(
+                    selectedMode = imageMode,
+                    requiredImageCount = imageMode.requiredImageCount,
+                    onModeSelected = { mode ->
+                        viewModel.setImageMode(mode)
+                    }
                 )
+
 
                 if (stylesState is ResponseStatus.Success) {
                     StylesListView(
                         categories = stylesState.data,
-                        selectedCategoryIndex = 0,
-                        selectedStyleId = null,
-                        onCategorySelected = {},
-                        onStyleSelected = {},
+                        selectedCategoryIndex = selectedCategoryIndex,
+                        selectedStyleId = selectedStyleId,
+                        onCategorySelected = { index -> viewModel.selectCategory(index) },
+                        onStyleSelected = { styleId -> viewModel.selectStyle(styleId) },
                     )
                 }
 
+                Spacer(modifier = Modifier.weight(1f))
+
+                InteracButton(
+                    "Generate AI",
+                    onClick = {
+                        viewModel.processImage()
+                    },
+                    enabled = selectedImages.size >= imageMode.requiredImageCount
+                )
+            }
+
+            when(generatedResult) {
+                is ResponseStatus.Loading -> {
+                    BasicAlertDialog(
+                        onDismissRequest = {},
+                        content = {
+                            DialogContent("Generating...")
+                        }
+                    )
+                }
+                is ResponseStatus.Error -> {
+                    BasicAlertDialog(
+                        onDismissRequest = { viewModel.resetGenerateStatus() },
+                        content = {
+                            DialogContent("Error generating: ${generatedResult.message}")
+                        }
+                    )
+                }
+                is ResponseStatus.Success -> {}
+                is ResponseStatus.Idle -> {}
             }
         }
     }
-
-
 }
 
 @Preview(showBackground = true)
 @Composable
 fun ImageInputScreenPreview() {
-    ImageInputScreen({})
+    ImageInputScreen({}, {})
 }

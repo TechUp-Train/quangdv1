@@ -8,6 +8,8 @@ sealed class ResponseStatus<out T> {
     data class Error(val message: String = "", val errorCode: Int = 500) : ResponseStatus<Nothing>()
 
     data object Loading : ResponseStatus<Nothing>()
+
+    data object Idle : ResponseStatus<Nothing>()
 }
 
 fun <T> ResponseStatus<T>.observer(response: MutableStateFlow<ResponseStatus<T>>) {
@@ -23,5 +25,6 @@ fun <T> ResponseStatus<T>.observer(response: MutableStateFlow<ResponseStatus<T>>
         is ResponseStatus.Error -> {
             response.value = ResponseStatus.Error(message = this.message)
         }
+        else -> {}
     }
 }

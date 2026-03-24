@@ -1,4 +1,4 @@
-package com.example.techup_miniproject_quangdv1.presentation.sharedComponents
+package com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -7,7 +7,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -36,9 +38,11 @@ import techup_miniproject_quangdv1.composeapp.generated.resources.ic_change_imag
 import techup_miniproject_quangdv1.composeapp.generated.resources.img_placeholder
 
 @Composable
-fun RoundedImageFrame(
-    image: PlatformImage? = null,
-    onChangeImage: () -> Unit = {},
+fun DualImageSingleBorderFrame(
+    image1: PlatformImage? = null,
+    image2: PlatformImage? = null,
+    onChangeImage1: () -> Unit = {},
+    onChangeImage2: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -52,25 +56,59 @@ fun RoundedImageFrame(
                 shape = RoundedCornerShape(16.dp)
             )
     ) {
+        Row(
+            modifier = Modifier
+                .matchParentSize()
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+
+            SingleImageContent(
+                image = image1,
+                onChangeImage = onChangeImage1,
+                modifier = Modifier.weight(1f)
+            )
+
+            SingleImageContent(
+                image = image2,
+                onChangeImage = onChangeImage2,
+                modifier = Modifier.weight(1f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun SingleImageContent(
+    image: PlatformImage?,
+    onChangeImage: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxHeight()
+            .clip(RoundedCornerShape(12.dp))
+    ) {
 
         if (image == null) {
             Column(
-                modifier = Modifier.matchParentSize()
+                modifier = Modifier
+                    .matchParentSize()
                     .clickable { onChangeImage() },
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 Image(
                     painter = painterResource(Res.drawable.img_placeholder),
-                    contentDescription = "Placeholder",
-                    modifier = Modifier.size(60.dp)
+                    contentDescription = null,
+                    modifier = Modifier.size(50.dp)
                 )
 
                 Text(
-                    "Add your photo",
+                    "Add photo",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = Color.Black.copy(alpha = 0.4f),
-                        fontSize = 18.sp
+                        fontSize = 14.sp
                     )
                 )
             }
@@ -78,22 +116,21 @@ fun RoundedImageFrame(
             PlatformImageThumbnail(
                 image = image,
                 modifier = Modifier.matchParentSize(),
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.Crop
             )
 
             IconButton(
                 onClick = onChangeImage,
                 modifier = Modifier
-                    .padding(15.dp)
                     .align(Alignment.TopStart)
                     .padding(8.dp)
-                    .size(32.dp)
+                    .size(30.dp)
                     .clip(CircleShape)
                     .background(BrandMagenta.copy(alpha = 0.7f))
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.ic_change_image),
-                    contentDescription = "Change image",
+                    contentDescription = null,
                     tint = Color.White
                 )
             }

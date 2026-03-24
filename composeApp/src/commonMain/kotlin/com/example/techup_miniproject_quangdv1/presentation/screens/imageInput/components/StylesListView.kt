@@ -17,7 +17,8 @@ fun StylesListView(
     selectedCategoryIndex: Int,
     selectedStyleId: String?,
     onCategorySelected: (Int) -> Unit,
-    onStyleSelected: (String) -> Unit
+    onStyleSelected: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column {
 
@@ -28,7 +29,7 @@ fun StylesListView(
             )
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = modifier.height(8.dp))
 
         CategoriesTabsView(
             categories = categories,
@@ -36,7 +37,7 @@ fun StylesListView(
             onSelected = onCategorySelected
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = modifier.height(12.dp))
 
         StylesRowView(
             styles = categories

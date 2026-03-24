@@ -39,8 +39,7 @@ actual fun PlatformImageThumbnail(
         model = request,
         contentDescription = null,
         modifier = modifier
-            .background(Color.LightGray)
-            .clip(RoundedCornerShape(4.dp)),
+            .clip(RoundedCornerShape(15.dp)),
         contentScale = contentScale,
         error = errorPainter,
     )

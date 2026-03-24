@@ -1,7 +1,9 @@
-package com.example.techup_miniproject_quangdv1.presentation.screens.imageSelectScreen
+package com.example.techup_miniproject_quangdv1.presentation.screens.imageGallery
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.techup_miniproject_quangdv1.core.utils.GalleryImageSource
+import com.example.techup_miniproject_quangdv1.core.utils.MediaPermissionManager
 import com.example.techup_miniproject_quangdv1.core.utils.PlatformImage
 import com.example.techup_miniproject_quangdv1.core.utils.ResponseStatus
 import com.example.techup_miniproject_quangdv1.domain.useCase.pickImages.PickImagesUseCase
@@ -15,13 +17,12 @@ class GalleryViewModel(
     private val _imagesState = MutableStateFlow<ResponseStatus<List<PlatformImage>>>(ResponseStatus.Loading)
     val imagesState: StateFlow<ResponseStatus<List<PlatformImage>>> = _imagesState
 
-    init {
-        loadImages()
-    }
-
-    fun loadImages() {
+    fun loadImages(
+        permissionManager: MediaPermissionManager,
+        galleryImageSource: GalleryImageSource
+    ) {
         viewModelScope.launch {
-            pickImagesUseCase().collect { response ->
+            pickImagesUseCase(permissionManager, galleryImageSource).collect { response ->
                 _imagesState.value = response
             }
         }

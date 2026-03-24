@@ -20,16 +20,7 @@ class GenerateDataSourceImpl(
         }
     }
 
-    override suspend fun generateImage(request: GenerateImageRequestDto): ResponseStatus<GenerateImageResponseDto> {
-        return try {
-            val response = generateService.generateImage(request)
-            if (response.statusCode == 200 && response.data != null) {
-                ResponseStatus.Success(response.data)
-            } else {
-                ResponseStatus.Error(response.message, response.statusCode)
-            }
-        } catch (e: Exception) {
-            ResponseStatus.Error(e.message ?: "Unknown error generating image")
-        }
+    override suspend fun generateImage(request: GenerateImageRequestDto): GenerateImageResponseDto? {
+        return  generateService.generateImage(request).data
     }
 }

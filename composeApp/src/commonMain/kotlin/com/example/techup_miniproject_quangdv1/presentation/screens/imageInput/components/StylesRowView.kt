@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
 import com.example.techup_miniproject_quangdv1.core.theme.BrandMagenta
@@ -31,16 +33,17 @@ fun StylesRowView(
     selectedStyleId: String?,
     onStyleSelected: (String) -> Unit
 ) {
-    LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         items(styles) { style ->
 
             val isSelected = style?.styleId == selectedStyleId
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.clickable {
-                    style?.styleId?.let(onStyleSelected)
-                }
+                modifier = Modifier
+                    .clickable {
+                        style?.styleId?.let(onStyleSelected)
+                    }
             ) {
 
                 Box(
@@ -48,25 +51,30 @@ fun StylesRowView(
                         .size(72.dp)
                         .clip(RoundedCornerShape(16.dp))
                         .border(
-                            width = if (isSelected) 2.dp else 0.dp,
-                            color = BrandMagenta,
+                            width = if (isSelected) 3.dp else 1.dp,
+                            color = if (isSelected) BrandMagenta else Color.LightGray,
                             shape = RoundedCornerShape(16.dp)
                         )
                 ) {
                     Image(
                         painter = rememberAsyncImagePainter(style?.imageUrl),
-                        contentDescription = null,
+                        contentDescription = style?.styleName ?: "Style image",
                         modifier = Modifier.matchParentSize(),
                         contentScale = ContentScale.Crop
                     )
                 }
 
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
                     text = style?.styleName ?: "",
                     color = if (isSelected) BrandMagenta else Color.Gray,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.labelSmall,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .width(72.dp)
                 )
             }
         }

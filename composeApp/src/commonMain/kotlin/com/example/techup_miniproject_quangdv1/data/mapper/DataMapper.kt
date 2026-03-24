@@ -13,7 +13,7 @@ import com.example.techup_miniproject_quangdv1.domain.model.StyleItemModel
 import com.example.techup_miniproject_quangdv1.domain.model.CategoriesItemModel
 
 fun GenerateImageRequest.toDto(): GenerateImageRequestDto = GenerateImageRequestDto(
-    files = listOf(filePath),
+    files = filePaths,
     mode = mode ?: "IMAGE_EDITING",
     positivePrompt = positivePrompt
 )

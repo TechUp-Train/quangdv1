@@ -33,17 +33,15 @@ fun PromptInputView(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier
-            .fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
 
         TextField(
             value = prompt,
             onValueChange = onPromptChange,
             shape = RoundedCornerShape(16.dp),
-
             modifier = Modifier
-                .fillMaxWidth()
+                .matchParentSize()
                 .border(
                     width = 1.5.dp,
                     color = BrandMagenta,

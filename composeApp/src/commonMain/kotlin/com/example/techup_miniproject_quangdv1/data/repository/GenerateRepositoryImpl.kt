@@ -16,11 +16,7 @@ class GenerateRepositoryImpl(
         return dataSource.uploadImage(presignUrl, imageBytes)
     }
 
-    override suspend fun generateImage(request: GenerateImageRequest): ResponseStatus<GenerateImageModel> {
-        return when (val response = dataSource.generateImage(request.toDto())) {
-            is ResponseStatus.Success -> ResponseStatus.Success(response.data.toDomain())
-            is ResponseStatus.Error -> response
-            is ResponseStatus.Loading -> ResponseStatus.Loading
-        }
+    override suspend fun generateImage(request: GenerateImageRequest): GenerateImageModel? {
+        return dataSource.generateImage(request.toDto())?.toDomain()
     }
 }

@@ -1,4 +1,4 @@
-package com.example.techup_miniproject_quangdv1.presentation.screens.imageSelectScreen.components
+package com.example.techup_miniproject_quangdv1.presentation.screens.imageGallery.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

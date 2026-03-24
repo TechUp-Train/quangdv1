@@ -11,7 +11,6 @@ import com.example.techup_miniproject_quangdv1.domain.repository.StyleRepository
 import org.koin.dsl.module
 
 val repositoryModule = module {
-
     single<PresignRepository> {
         PresignRepositoryImpl(
             dataSource = get(),
@@ -30,9 +29,6 @@ val repositoryModule = module {
     }
 
     single<PickImageRepository> {
-        PickImageRepositoryImpl(
-            mediaPermissionManager = get(),
-            galleryImageSource = get(),
-        )
+        PickImageRepositoryImpl()
     }
 }

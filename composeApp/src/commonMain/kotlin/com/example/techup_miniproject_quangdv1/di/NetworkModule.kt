@@ -1,6 +1,8 @@
 package com.example.techup_miniproject_quangdv1.di
 
 import com.example.techup_miniproject_quangdv1.core.sinatureSdk.signature.installSignatureInterceptor
+import com.example.techup_miniproject_quangdv1.core.utils.ImageDownloader
+import com.example.techup_miniproject_quangdv1.core.utils.KtorImageDownloader
 import com.example.techup_miniproject_quangdv1.data.dataSource.GenerateDataSource
 import com.example.techup_miniproject_quangdv1.data.remote.dataSource.GenerateDataSourceImpl
 import com.example.techup_miniproject_quangdv1.data.dataSource.PresignDataSource
@@ -8,7 +10,7 @@ import com.example.techup_miniproject_quangdv1.data.remote.dataSource.PresignDat
 import com.example.techup_miniproject_quangdv1.data.remote.service.ApiConstants
 import com.example.techup_miniproject_quangdv1.data.remote.service.ApiService
 import com.example.techup_miniproject_quangdv1.data.remote.service.ApiServiceFactory
-import com.example.techup_miniproject_quangdv1.data.service.HttpClientProvider
+import com.example.techup_miniproject_quangdv1.data.remote.service.HttpClientProvider
 import com.example.techup_miniproject_quangdv1.data.remote.service.ServiceType
 import com.example.techup_miniproject_quangdv1.core.utils.TimestampProvider
 import org.koin.core.qualifier.named
@@ -72,5 +74,9 @@ val networkModule = module {
             timestampService = get(),
             presignService = get()
         )
+    }
+
+    single<ImageDownloader> {
+        KtorImageDownloader(get(named("base")))
     }
 }

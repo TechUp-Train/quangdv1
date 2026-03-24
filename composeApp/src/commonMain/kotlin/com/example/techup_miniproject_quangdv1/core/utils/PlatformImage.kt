@@ -6,3 +6,11 @@ import androidx.compose.runtime.Immutable
 expect class PlatformImage {
     val id: String
 }
+
+expect class ImageByteArrayConverterFactory {
+    fun create(): ImageByteArrayConverter
+}
+
+interface ImageByteArrayConverter {
+    suspend fun convert(image: PlatformImage): ByteArray
+}

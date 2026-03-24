@@ -5,5 +5,5 @@ import com.example.techup_miniproject_quangdv1.domain.model.PresignLinkModel
 import kotlinx.coroutines.flow.Flow
 
 interface ProcessImageUseCase {
-    suspend operator fun invoke(): Flow<ResponseStatus<PresignLinkModel>>
+    suspend operator fun invoke(imageCount: Int = 1): Flow<ResponseStatus<List<PresignLinkModel>>>
 }
