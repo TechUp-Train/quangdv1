@@ -2,6 +2,7 @@ package com.example.techup_miniproject_quangdv1.presentation.screens.imageInput
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.techup_miniproject_quangdv1.core.utils.ConnectivityStatus
 import com.example.techup_miniproject_quangdv1.core.utils.ImageMode
 import com.example.techup_miniproject_quangdv1.core.utils.PlatformImage
 import com.example.techup_miniproject_quangdv1.core.utils.ResponseStatus
@@ -10,9 +11,12 @@ import com.example.techup_miniproject_quangdv1.domain.model.GenerateImageRequest
 import com.example.techup_miniproject_quangdv1.domain.useCase.convertImage.ConvertImageUseCase
 import com.example.techup_miniproject_quangdv1.domain.useCase.generateImage.GenerateImageUseCase
 import com.example.techup_miniproject_quangdv1.domain.useCase.getStyles.GetStyleUseCase
+import com.example.techup_miniproject_quangdv1.domain.useCase.observeConnectivity.ObserveConnectivityUseCase
 import com.example.techup_miniproject_quangdv1.domain.useCase.processImage.ProcessImageUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ImageInputViewModel(
@@ -20,13 +24,14 @@ class ImageInputViewModel(
     private val processImageUseCase: ProcessImageUseCase,
     private val getStyleUseCase: GetStyleUseCase,
     private val convertImageUseCase: ConvertImageUseCase,
+    private val observeConnectivityUseCase: ObserveConnectivityUseCase,
 ) : ViewModel() {
 
     // Data to be displayed in the UI
     private val _imageMode = MutableStateFlow(ImageMode.IMAGE_EDITING)
     val imageMode: StateFlow<ImageMode> = _imageMode
 
-    private val _stylesState = MutableStateFlow<ResponseStatus<List<CategoriesItemModel>>>(ResponseStatus.Loading)
+    private val _stylesState = MutableStateFlow<ResponseStatus<List<CategoriesItemModel>>>(ResponseStatus.Loading())
     val stylesState: StateFlow<ResponseStatus<List<CategoriesItemModel>>> = _stylesState
 
     private val _selectedCategoryIndex = MutableStateFlow(0)
@@ -44,6 +49,13 @@ class ImageInputViewModel(
 
     private val _generateProcessStatus = MutableStateFlow<ResponseStatus<String>>(ResponseStatus.Idle)
     val generateProcessStatus: StateFlow<ResponseStatus<String>> = _generateProcessStatus
+
+    val connectivity = observeConnectivityUseCase()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = ConnectivityStatus.Unavailable
+        )
 
     init {
         fetchStyles()
@@ -99,7 +111,7 @@ class ImageInputViewModel(
             processImageUseCase.invoke(selectedImages.size).collect { processResponse ->
                 when (processResponse) {
                     is ResponseStatus.Loading -> {
-                        _generateProcessStatus.value = ResponseStatus.Loading
+                        _generateProcessStatus.value = ResponseStatus.Loading(message = "Processing image...")
                     }
 
                     is ResponseStatus.Error -> {
@@ -130,7 +142,7 @@ class ImageInputViewModel(
             generateImageUseCase.invoke(imageRequest).collect { generateResponse ->
                 when(generateResponse) {
                     is ResponseStatus.Loading -> {
-                        _generateProcessStatus.value = ResponseStatus.Loading
+                        _generateProcessStatus.value = ResponseStatus.Loading(message = "Generating image...")
                     }
                     is ResponseStatus.Error -> {
                         _generateProcessStatus.value = ResponseStatus.Error(generateResponse.message)

@@ -51,7 +51,7 @@ class GenerateImageUseCaseImpl(
                 emit(ResponseStatus.Success(generateResponse))
             }
         }.onStart {
-            emit(ResponseStatus.Loading)
+            emit(ResponseStatus.Loading())
         }.catch { e ->
             emit(ResponseStatus.Error(e.message ?: "Unknown error"))
         }.flowOn(Dispatchers.IO)

@@ -100,6 +100,12 @@ kotlin {
             implementation(libs.kotlin.test)
         }
     }
+
+    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>().configureEach {
+        binaries.all {
+            linkerOpts("-framework", "SystemConfiguration")
+        }
+    }
 }
 
 android {

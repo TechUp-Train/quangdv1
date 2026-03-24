@@ -12,11 +12,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.techup_miniproject_quangdv1.core.theme.surfaceLightVariant
 import com.example.techup_miniproject_quangdv1.core.utils.ImageMode
@@ -48,14 +52,18 @@ fun ImageInputScreen(
 
     val generatedResult = viewModel.generateProcessStatus.collectAsStateWithLifecycle().value
 
-    LaunchedEffect(generatedResult) {
+    val connectivity = viewModel.connectivity.collectAsStateWithLifecycle().value
+    val snackBarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(Unit) {
         if (generatedResult is ResponseStatus.Success) {
             onGeneratedResult(generatedResult.data)
         }
     }
 
     Scaffold(
-        containerColor = surfaceLightVariant
+        containerColor = surfaceLightVariant,
+        snackbarHost = { SnackbarHost(snackBarHostState) }
     ) { contentPadding ->
         BoxWithConstraints(
             modifier = Modifier.fillMaxSize()
@@ -137,8 +145,12 @@ fun ImageInputScreen(
                     BasicAlertDialog(
                         onDismissRequest = {},
                         content = {
-                            DialogContent("Generating...")
-                        }
+                            DialogContent(generatedResult.message ?: "Generating...")
+                        },
+                        properties = DialogProperties(
+                            dismissOnClickOutside = true,
+                            dismissOnBackPress = true,
+                        )
                     )
                 }
                 is ResponseStatus.Error -> {

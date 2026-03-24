@@ -28,7 +28,7 @@ class DownloadUseCaseImpl(
         }.catch { error ->
             emit(ResponseStatus.Error(error.message ?: "Unknown error"))
         }.onStart {
-            emit(ResponseStatus.Loading)
+            emit(ResponseStatus.Loading())
         }.flowOn(Dispatchers.IO)
     }
 }

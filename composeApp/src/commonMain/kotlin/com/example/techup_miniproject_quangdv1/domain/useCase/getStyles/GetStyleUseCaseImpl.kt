@@ -26,7 +26,7 @@ class GetStyleUseCaseImpl(
         }.catch { error ->
             emit(ResponseStatus.Error(message = "Error getting styles: ${error.message}"))
         }.onStart {
-            emit(ResponseStatus.Loading)
+            emit(ResponseStatus.Loading())
         }.flowOn(Dispatchers.IO)
     }
 }

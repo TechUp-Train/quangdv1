@@ -7,7 +7,7 @@ sealed class ResponseStatus<out T> {
 
     data class Error(val message: String = "", val errorCode: Int = 500) : ResponseStatus<Nothing>()
 
-    data object Loading : ResponseStatus<Nothing>()
+    data class Loading(val message: String? = "") : ResponseStatus<Nothing>()
 
     data object Idle : ResponseStatus<Nothing>()
 }
@@ -15,7 +15,7 @@ sealed class ResponseStatus<out T> {
 fun <T> ResponseStatus<T>.observer(response: MutableStateFlow<ResponseStatus<T>>) {
     when (this) {
         is ResponseStatus.Loading -> {
-            response.value = ResponseStatus.Loading
+            response.value = ResponseStatus.Loading()
         }
 
         is ResponseStatus.Success -> {

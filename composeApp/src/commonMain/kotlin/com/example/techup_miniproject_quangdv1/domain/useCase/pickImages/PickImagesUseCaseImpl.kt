@@ -32,7 +32,7 @@ class PickImagesUseCaseImpl(
         }.catch { error ->
             emit(ResponseStatus.Error("Error loading images: ${error.message}"))
         }.onStart {
-            emit(ResponseStatus.Loading)
+            emit(ResponseStatus.Loading())
         }.flowOn(Dispatchers.IO)
     }
 }

@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class GalleryViewModel(
     private val pickImagesUseCase: PickImagesUseCase
 ) : ViewModel() {
-    private val _imagesState = MutableStateFlow<ResponseStatus<List<PlatformImage>>>(ResponseStatus.Loading)
+    private val _imagesState = MutableStateFlow<ResponseStatus<List<PlatformImage>>>(ResponseStatus.Loading())
     val imagesState: StateFlow<ResponseStatus<List<PlatformImage>>> = _imagesState
 
     fun loadImages(

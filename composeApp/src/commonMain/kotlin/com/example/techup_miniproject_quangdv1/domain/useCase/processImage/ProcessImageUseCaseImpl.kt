@@ -40,7 +40,7 @@ class ProcessImageUseCaseImpl(
         }.catch { error ->
             emit(ResponseStatus.Error("Error processing image: ${error.message}"))
         }.onStart {
-            emit(ResponseStatus.Loading)
+            emit(ResponseStatus.Loading())
         }.flowOn(Dispatchers.IO)
     }
 }

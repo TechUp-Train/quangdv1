@@ -83,10 +83,7 @@ fun GeneratedImageScreen(
                 }
 
                 is ResponseStatus.Success -> {
-                    BasicAlertDialog(
-                        onDismissRequest = {},
-                        content = { DialogContent("Downloaded to: ${downloadState.data}") }
-                    )
+
                 }
             }
         }

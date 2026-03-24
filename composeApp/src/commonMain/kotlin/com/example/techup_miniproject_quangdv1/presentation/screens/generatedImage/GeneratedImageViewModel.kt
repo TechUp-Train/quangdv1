@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class GeneratedImageViewModel(
     private val downloadImageUseCase: DownloadUseCase
 ) : ViewModel() {
-    private val _downloadState = MutableStateFlow<ResponseStatus<String>>(ResponseStatus.Loading)
+    private val _downloadState = MutableStateFlow<ResponseStatus<String>>(ResponseStatus.Loading())
     val downloadState: StateFlow<ResponseStatus<String>> = _downloadState
 
     fun downloadImage(url: String) {
