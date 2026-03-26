@@ -21,9 +21,11 @@ import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.mutableStateMapOf
+import com.example.techup_miniproject_quangdv1.core.utils.Log
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 /**
@@ -63,23 +65,35 @@ class ResultEventBus {
     /**
      * Provides a flow for the given resultKey.
      */
-    inline fun <reified T> getResultFlow(resultKey: String = T::class.toString()) =
-        channelMap[resultKey]?.receiveAsFlow()
+    inline fun <reified T> getResultFlow(resultKey: String = T::class.toString()) = flow {
+        Log.d(Log.EVENT_BUS, "Getting result flow for key: $resultKey")
+        channelMap[resultKey]?.receiveAsFlow()?.collect {
+            emit(it)
+        }
+    }
 
     /**
      * Sends a result into the channel associated with the given resultKey.
      */
     inline fun <reified T> sendResult(resultKey: String = T::class.toString(), result: T) {
+        Log.d(Log.EVENT_BUS, "Sending result for key: $resultKey")
         if (!channelMap.contains(resultKey)) {
+            Log.d(Log.EVENT_BUS, "Creating new channel for key: $resultKey")
             channelMap[resultKey] = Channel(capacity = BUFFERED, onBufferOverflow = BufferOverflow.SUSPEND)
         }
-        channelMap[resultKey]?.trySend(result)
+        val sent = channelMap[resultKey]?.trySend(result)
+        if (sent?.isSuccess == true) {
+            Log.d(Log.EVENT_BUS, "Result sent successfully for key: $resultKey")
+        } else {
+            Log.e(Log.EVENT_BUS, "Failed to send result for key: $resultKey")
+        }
     }
 
     /**
      * Removes all results associated with the given key from the store.
      */
     inline fun <reified T> removeResult(resultKey: String = T::class.toString()) {
+        Log.d(Log.EVENT_BUS, "Removing result channel for key: $resultKey")
         channelMap.remove(resultKey)
     }
 }

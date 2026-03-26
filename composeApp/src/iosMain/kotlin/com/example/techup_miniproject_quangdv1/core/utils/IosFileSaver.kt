@@ -3,6 +3,9 @@ package com.example.techup_miniproject_quangdv1.core.utils
 import io.github.vinceglb.filekit.utils.toNSData
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.*
+import platform.Photos.PHAssetChangeRequest
+import platform.Photos.PHPhotoLibrary
+import platform.UIKit.UIImage
 
 class IOSFileSaver : FileSaver {
 
@@ -12,37 +15,15 @@ class IOSFileSaver : FileSaver {
         fileName: String
     ): String {
 
-        val fileManager = NSFileManager.defaultManager
+        val nsData = bytes.toNSData()
 
-        val documentsDir = fileManager.URLsForDirectory(
-            directory = NSDocumentDirectory,
-            inDomains = NSUserDomainMask
-        ).firstOrNull() as? NSURL
-            ?: throw IllegalStateException("Cannot access documents directory")
+        val image = UIImage.imageWithData(nsData)
+            ?: throw IllegalStateException("Failed to create UIImage")
 
-        val imagesDir = documentsDir
-            .URLByAppendingPathComponent("apero/generateImages")
-            ?: throw IllegalStateException("Cannot create images directory URL")
+        PHPhotoLibrary.sharedPhotoLibrary().performChanges({
+            PHAssetChangeRequest.creationRequestForAssetFromImage(image)
+        }, null)
 
-        fileManager.createDirectoryAtURL(
-            url = imagesDir,
-            withIntermediateDirectories = true,
-            attributes = null,
-            error = null
-        )
-
-        val fileURL = imagesDir
-            .URLByAppendingPathComponent(fileName)
-            ?: throw IllegalStateException("Cannot create file URL")
-
-        val data = bytes.toNSData()
-
-        val success = data.writeToURL(fileURL, atomically = true)
-
-        if (!success) {
-            throw IllegalStateException("Failed to write file")
-        }
-
-        return fileURL.path ?: throw IllegalStateException("Invalid file path")
+        return "Saved to Photos"
     }
 }

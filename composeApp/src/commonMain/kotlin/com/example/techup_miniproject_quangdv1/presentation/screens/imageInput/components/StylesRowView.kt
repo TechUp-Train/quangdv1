@@ -30,19 +30,19 @@ import com.example.techup_miniproject_quangdv1.domain.model.StyleItemModel
 @Composable
 fun StylesRowView(
     styles: List<StyleItemModel?>,
-    selectedStyleId: String?,
-    onStyleSelected: (String) -> Unit
+    selectedStyle: StyleItemModel?,
+    onStyleSelected: (StyleItemModel) -> Unit
 ) {
     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         items(styles) { style ->
 
-            val isSelected = style?.styleId == selectedStyleId
+            val isSelected = style == selectedStyle
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .clickable {
-                        style?.styleId?.let(onStyleSelected)
+                        style?.let(onStyleSelected)
                     }
             ) {
 

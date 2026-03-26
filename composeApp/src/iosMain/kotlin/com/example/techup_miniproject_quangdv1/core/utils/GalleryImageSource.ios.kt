@@ -24,7 +24,7 @@ import kotlin.coroutines.resume
 
 class IosGalleryImageSource : GalleryImageSource {
 
-    override suspend fun loadImages(limit: Int): List<PlatformImage> {
+    override suspend fun loadImages(limit: Int, offset: Int): List<PlatformImage> {
         return withContext(Dispatchers.Main) {
 
             val result = mutableListOf<PlatformImage>()
@@ -43,9 +43,11 @@ class IosGalleryImageSource : GalleryImageSource {
                     options = options
                 )
 
-            val count = minOf(fetchResult.count.toInt(), limit)
+            val totalCount = fetchResult.count.toInt()
+            val start = minOf(totalCount, offset)
+            val end = minOf(totalCount, offset + limit)
 
-            for (i in 0 until count) {
+            for (i in start until end) {
                 val asset = fetchResult.objectAtIndex(i.toULong()) as? PHAsset ?: continue
                 result.add(PlatformImage(asset))
             }

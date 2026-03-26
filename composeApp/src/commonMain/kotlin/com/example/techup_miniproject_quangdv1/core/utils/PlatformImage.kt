@@ -13,4 +13,11 @@ expect class ImageByteArrayConverterFactory {
 
 interface ImageByteArrayConverter {
     suspend fun convert(image: PlatformImage): ByteArray
+
+    suspend fun convert(
+        image: PlatformImage,
+        maxWidth: Int = 1024,
+        maxHeight: Int = 1024,
+        quality: Int = 80
+    ): ByteArray
 }

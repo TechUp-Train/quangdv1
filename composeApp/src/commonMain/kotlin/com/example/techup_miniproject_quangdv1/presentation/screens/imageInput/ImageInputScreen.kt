@@ -9,25 +9,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.techup_miniproject_quangdv1.core.theme.surfaceLightVariant
-import com.example.techup_miniproject_quangdv1.core.utils.ConnectivityStatus
 import com.example.techup_miniproject_quangdv1.core.utils.ImageMode
 import com.example.techup_miniproject_quangdv1.core.utils.ResponseStatus
 import com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.components.DualImageSingleBorderFrame
@@ -35,9 +29,11 @@ import com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.c
 import com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.components.ModeView
 import com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.components.PromptInputView
 import com.example.techup_miniproject_quangdv1.presentation.screens.imageInput.components.StylesListView
-import com.example.techup_miniproject_quangdv1.presentation.sharedComponents.DialogContent
 import com.example.techup_miniproject_quangdv1.presentation.sharedComponents.InteracButton
 import com.example.techup_miniproject_quangdv1.presentation.sharedComponents.RoundedImageFrame
+import com.example.techup_miniproject_quangdv1.presentation.sharedComponents.StateDialog
+import com.plusmobileapps.konnectivity.Konnectivity
+import com.plusmobileapps.konnectivity.NetworkConnection
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,42 +48,28 @@ fun ImageInputScreen(
 
     val selectedImages = viewModel.selectedImages.collectAsStateWithLifecycle().value
     val stylesState = viewModel.stylesState.collectAsStateWithLifecycle().value
-    val selectedCategoryIndex = viewModel.selectedCategoryIndex.collectAsStateWithLifecycle().value
-    val selectedStyleId = viewModel.selectedStyleId.collectAsStateWithLifecycle().value
+    val selectedCategory = viewModel.selectedCategory.collectAsStateWithLifecycle().value
+    val selectedStyle = viewModel.selectedStyleId.collectAsStateWithLifecycle().value
 
     val generatedResult = viewModel.generateProcessStatus.collectAsStateWithLifecycle().value
 
-    val connectivity = viewModel.connectivity.collectAsStateWithLifecycle().value
-    var lastConnectivity by remember { mutableStateOf(ConnectivityStatus.Unavailable) }
+    val konnectivity = remember { Konnectivity() }
+    val networkConnection by konnectivity.currentNetworkConnectionState.collectAsStateWithLifecycle()
+    val isOnline = networkConnection != NetworkConnection.NONE
+
     val snackBarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(generatedResult) {
         if (generatedResult is ResponseStatus.Success) {
             onGeneratedResult(generatedResult.data)
+            viewModel.resetGenerateStatus()
         }
     }
 
-    LaunchedEffect(connectivity) {
-        if (lastConnectivity != ConnectivityStatus.Unavailable &&
-            connectivity != lastConnectivity
-        ) {
-            snackBarHostState.currentSnackbarData?.dismiss()
-
-            when (connectivity) {
-                ConnectivityStatus.Offline -> {
-                    snackBarHostState.showSnackbar("You're offline")
-                }
-                ConnectivityStatus.Online -> {
-                    snackBarHostState.showSnackbar(
-                        "Back online",
-                        duration = SnackbarDuration.Short
-                    )
-                }
-                else -> {}
-            }
+    LaunchedEffect(networkConnection) {
+        if (networkConnection == NetworkConnection.NONE) {
+            snackBarHostState.showSnackbar("You're offline")
         }
-
-        lastConnectivity = connectivity
     }
 
     Scaffold(
@@ -107,7 +89,7 @@ fun ImageInputScreen(
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 ModeSwitcher(
-                    selectedMode = imageMode,
+                    selectedMode = imageMode ?: ImageMode.IMAGE_EDITING,
                     onModeSelected = { mode ->
                         viewModel.setImageMode(ImageMode.entries.first { it.requiredImageCount == mode })
                     }
@@ -123,25 +105,25 @@ fun ImageInputScreen(
                     },
                 )
 
-                if (imageMode.requiredImageCount == 1) {
-                    RoundedImageFrame(
-                        image = selectedImages.firstOrNull(),
-                        modifier = Modifier.height(screenHeight * 0.5f),
-                        onChangeImage = { onSelectImages(imageMode) }
-                    )
-                } else {
+                if (imageMode?.requiredImageCount == 2) {
                     DualImageSingleBorderFrame(
-                        image1 = selectedImages.getOrNull(0),
-                        image2 = selectedImages.getOrNull(1),
+                        image1 = selectedImages.firstOrNull(),
+                        image2 = selectedImages.lastOrNull(),
                         onChangeImage1 = { onSelectImages(imageMode) },
                         onChangeImage2 = { onSelectImages(imageMode) },
                         modifier = Modifier.height(screenHeight * 0.5f)
+                    )
+                } else {
+                    RoundedImageFrame(
+                        image = selectedImages.firstOrNull(),
+                        modifier = Modifier.height(screenHeight * 0.5f),
+                        onChangeImage = { onSelectImages(imageMode ?: ImageMode.IMAGE_EDITING) }
                     )
                 }
 
                 ModeView(
                     selectedMode = imageMode,
-                    requiredImageCount = imageMode.requiredImageCount,
+                    requiredImageCount = imageMode?.requiredImageCount ?: 1,
                     onModeSelected = { mode ->
                         viewModel.setImageMode(mode)
                     }
@@ -151,8 +133,8 @@ fun ImageInputScreen(
                 if (stylesState is ResponseStatus.Success) {
                     StylesListView(
                         categories = stylesState.data,
-                        selectedCategoryIndex = selectedCategoryIndex,
-                        selectedStyleId = selectedStyleId,
+                        selectedCategory = selectedCategory ?: stylesState.data.first(),
+                        selectedStyle = selectedStyle,
                         onCategorySelected = { index -> viewModel.selectCategory(index) },
                         onStyleSelected = { styleId -> viewModel.selectStyle(styleId) },
                     )
@@ -165,33 +147,36 @@ fun ImageInputScreen(
                     onClick = {
                         viewModel.processImage()
                     },
-                    enabled = selectedImages.size >= imageMode.requiredImageCount && connectivity == ConnectivityStatus.Online
+                    enabled = selectedImages.size >= (imageMode?.requiredImageCount
+                        ?: 1) && isOnline
                 )
             }
 
-            when(generatedResult) {
+            when (generatedResult) {
                 is ResponseStatus.Loading -> {
-                    BasicAlertDialog(
-                        onDismissRequest = {},
-                        content = {
-                            DialogContent(generatedResult.message ?: "Generating...")
-                        },
-                        properties = DialogProperties(
-                            dismissOnClickOutside = true,
-                            dismissOnBackPress = true,
-                        )
+                    StateDialog(
+                        title = "Generating",
+                        message = generatedResult.message ?: "Processing your images...",
+                        showButton = false,
+                        isLoading = true,
+                        onButtonClick = {},
+                        onDismissRequest = {}
                     )
                 }
+
                 is ResponseStatus.Error -> {
-                    BasicAlertDialog(
-                        onDismissRequest = { viewModel.resetGenerateStatus() },
-                        content = {
-                            DialogContent("Error generating: ${generatedResult.message}")
-                        }
+                    StateDialog(
+                        title = "Error",
+                        message = generatedResult.message,
+                        buttonText = "Close",
+                        showButton = true,
+                        isLoading = false,
+                        onButtonClick = { viewModel.resetGenerateStatus() },
+                        onDismissRequest = { viewModel.resetGenerateStatus() }
                     )
                 }
-                is ResponseStatus.Success -> {}
-                is ResponseStatus.Idle -> {}
+
+                else -> {}
             }
         }
     }

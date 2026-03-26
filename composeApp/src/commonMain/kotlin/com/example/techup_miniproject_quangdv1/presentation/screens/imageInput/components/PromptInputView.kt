@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
@@ -22,6 +24,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.techup_miniproject_quangdv1.core.theme.BrandMagenta
@@ -32,6 +36,8 @@ fun PromptInputView(
     onPromptChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val focusManager = LocalFocusManager.current
+
     Box(
         modifier = modifier.fillMaxWidth()
     ) {
@@ -66,12 +72,23 @@ fun PromptInputView(
             ),
 
             singleLine = false,
-            maxLines = 4
+            maxLines = 4,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                }
+            )
         )
 
         if (prompt.isNotEmpty()) {
             IconButton(
-                onClick = { onPromptChange("") },
+                onClick = {
+                    onPromptChange("")
+                    focusManager.clearFocus()
+                },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(6.dp)
@@ -94,9 +111,10 @@ fun PromptInputView(
 @Preview(showBackground = true)
 @Composable
 fun PromptInputViewPreview() {
-    PromptInputView(prompt = "Test" +
-            "asudhblaiusdns" +
-            "als;kdnmoaislk;fd" +
-            "\nauisdhiasdjas" +
-            "\naisudhalskjdjasoil", onPromptChange = {})
+    PromptInputView(
+        prompt = "Test" +
+                "asudhblaiusdns" +
+                "als;kdnmoaislk;fd" +
+                "\nauisdhiasdjas" +
+                "\naisudhalskjdjasoil", onPromptChange = {})
 }

@@ -11,12 +11,6 @@ plugins {
     id("kotlin-parcelize")
 }
 
-val localProperties = Properties().apply {
-    val file = rootProject.file("local.properties")
-    if (file.exists()) {
-        file.inputStream().use { load(it) }
-    }
-}
 val buildConfigFields = mapOf(
     "API_KEY" to "API_KEY",
     "PUBLIC_KEY" to "PUBLIC_KEY",
@@ -30,6 +24,7 @@ val buildConfigFields = mapOf(
 )
 
 kotlin {
+    jvmToolchain(17)
     androidTarget {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
@@ -84,6 +79,12 @@ kotlin {
             implementation(libs.kotlinx.atomicfu)
 
             implementation(libs.material.icons.extended)
+
+            implementation(libs.konnectivity)
+
+            implementation(libs.kmp.shimmer.compose)
+
+            implementation(libs.kermit)
         }
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
@@ -119,8 +120,12 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        fun String.escape(): String =
+            replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+
         for ((fieldName, propertyKey) in buildConfigFields) {
-            val value = localProperties.getProperty(propertyKey, "")
+            val value = project.findProperty(propertyKey)?.toString()?.escape() ?: ""
             buildConfigField("String", fieldName, "\"$value\"")
         }
     }

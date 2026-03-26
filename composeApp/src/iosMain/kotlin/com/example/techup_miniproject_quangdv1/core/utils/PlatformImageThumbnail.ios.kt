@@ -13,7 +13,16 @@ import androidx.compose.ui.layout.ContentScale
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import platform.Photos.PHAsset
+import platform.Photos.PHImageContentModeAspectFill
+import platform.Photos.PHImageManager
+import platform.Photos.PHImageRequestOptions
+import platform.Photos.PHImageRequestOptionsDeliveryModeFastFormat
+import platform.Photos.PHImageRequestOptionsResizeModeFast
+import platform.UIKit.UIImage
+import kotlin.coroutines.resume
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
@@ -24,11 +33,12 @@ actual fun PlatformImageThumbnail(
 ) {
     var bitmap by remember { mutableStateOf<ImageBitmap?>(null) }
 
-    LaunchedEffect(image) {
-        val uiImage = image.asset.loadUIImage()
+    LaunchedEffect(image.id) {
+        val uiImage = image.asset.loadThumbnail(200.0)
+
         bitmap = uiImage?.let {
-            withContext(Dispatchers.IO) {
-                it.toImageBitmap()
+            withContext(Dispatchers.Default) {
+                it.toImageBitmapSafe()
             }
         }
     }
@@ -38,7 +48,33 @@ actual fun PlatformImageThumbnail(
             bitmap = it,
             contentDescription = null,
             modifier = modifier,
-            contentScale = contentScale,
+            contentScale = contentScale
         )
     }
+}
+
+@OptIn(ExperimentalForeignApi::class)
+suspend fun PHAsset.loadThumbnail(targetSize: Double = 200.0): UIImage? {
+    return suspendCancellableCoroutine { continuation ->
+
+        val options = PHImageRequestOptions().apply {
+            deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat
+            resizeMode = PHImageRequestOptionsResizeModeFast
+            synchronous = false
+            networkAccessAllowed = true
+        }
+
+        PHImageManager.defaultManager().requestImageForAsset(
+            asset = this,
+            targetSize = platform.CoreGraphics.CGSizeMake(targetSize, targetSize),
+            contentMode = PHImageContentModeAspectFill,
+            options = options
+        ) { image, _ ->
+            continuation.resume(image)
+        }
+    }
+}
+
+fun UIImage.toImageBitmapSafe(): ImageBitmap {
+    return this.toImageBitmap()
 }

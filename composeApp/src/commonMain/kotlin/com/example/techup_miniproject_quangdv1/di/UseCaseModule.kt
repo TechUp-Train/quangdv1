@@ -8,8 +8,6 @@ import com.example.techup_miniproject_quangdv1.domain.useCase.generateImage.Gene
 import com.example.techup_miniproject_quangdv1.domain.useCase.generateImage.GenerateImageUseCaseImpl
 import com.example.techup_miniproject_quangdv1.domain.useCase.getStyles.GetStyleUseCase
 import com.example.techup_miniproject_quangdv1.domain.useCase.getStyles.GetStyleUseCaseImpl
-import com.example.techup_miniproject_quangdv1.domain.useCase.observeConnectivity.ObserveConnectivityUseCase
-import com.example.techup_miniproject_quangdv1.domain.useCase.observeConnectivity.ObserveConnectivityUseCaseImpl
 import com.example.techup_miniproject_quangdv1.domain.useCase.pickImages.PickImagesUseCase
 import com.example.techup_miniproject_quangdv1.domain.useCase.pickImages.PickImagesUseCaseImpl
 import com.example.techup_miniproject_quangdv1.domain.useCase.processImage.ProcessImageUseCase
@@ -52,12 +50,6 @@ val useCaseModule = module {
         DownloadUseCaseImpl(
             downloader = get(),
             fileSaver = get(),
-        )
-    }
-
-    factory<ObserveConnectivityUseCase> {
-        ObserveConnectivityUseCaseImpl(
-            connectivityMonitor = get(),
         )
     }
 }

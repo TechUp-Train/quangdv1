@@ -23,17 +23,17 @@ import com.example.techup_miniproject_quangdv1.domain.model.CategoriesItemModel
 @Composable
 fun CategoriesTabsView(
     categories: List<CategoriesItemModel>,
-    selectedIndex: Int,
-    onSelected: (Int) -> Unit
+    selectedCategory: CategoriesItemModel,
+    onSelected: (CategoriesItemModel) -> Unit
 ) {
 
     LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        itemsIndexed(categories) { index, item ->
-            val isSelected = index == selectedIndex
+        itemsIndexed(categories) { _, item ->
+            val isSelected = item.categoryName == selectedCategory.categoryName
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.clickable { onSelected(index) }
+                modifier = Modifier.clickable { onSelected(item) }
             ) {
                 Text(
                     text = item.categoryName ?: "",

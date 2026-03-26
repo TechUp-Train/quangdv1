@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import io.github.suwasto.kmmcomposeshimmer.ShimmerContainer
 
 @Composable
 fun GalleryLoadingUI(
@@ -24,24 +25,15 @@ fun GalleryLoadingUI(
         verticalArrangement = Arrangement.spacedBy(1.dp)
     ) {
         items(30) {
-            ShimmerItem()
+            ShimmerContainer(
+                modifier = Modifier.aspectRatio(1f)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Gray.copy(alpha = 0.3f))
+                )
+            }
         }
     }
-}
-
-@Composable
-fun ShimmerItem() {
-    val shimmerBrush = linearGradient(
-        colors = listOf(
-            Color.LightGray.copy(alpha = 0.6f),
-            Color.LightGray.copy(alpha = 0.2f),
-            Color.LightGray.copy(alpha = 0.6f),
-        )
-    )
-
-    Box(
-        modifier = Modifier
-            .aspectRatio(1f)
-            .background(shimmerBrush)
-    )
 }

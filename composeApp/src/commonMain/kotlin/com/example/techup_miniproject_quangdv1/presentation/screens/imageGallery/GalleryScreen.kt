@@ -85,7 +85,7 @@ fun GalleryScreen(
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     itemsIndexed(
-                        images,
+                        items = images,
                         key = { _, image -> image.id },
                         contentType = { _, _ -> "gallery_image" }
                     ) { _, image ->

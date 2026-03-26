@@ -10,14 +10,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.techup_miniproject_quangdv1.core.theme.BrandMagenta
 import com.example.techup_miniproject_quangdv1.domain.model.CategoriesItemModel
+import com.example.techup_miniproject_quangdv1.domain.model.StyleItemModel
 
 @Composable
 fun StylesListView(
     categories: List<CategoriesItemModel>,
-    selectedCategoryIndex: Int,
-    selectedStyleId: String?,
-    onCategorySelected: (Int) -> Unit,
-    onStyleSelected: (String) -> Unit,
+    selectedCategory: CategoriesItemModel,
+    selectedStyle: StyleItemModel?,
+    onCategorySelected: (CategoriesItemModel) -> Unit,
+    onStyleSelected: (StyleItemModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column {
@@ -33,7 +34,7 @@ fun StylesListView(
 
         CategoriesTabsView(
             categories = categories,
-            selectedIndex = selectedCategoryIndex,
+            selectedCategory = selectedCategory,
             onSelected = onCategorySelected
         )
 
@@ -41,10 +42,10 @@ fun StylesListView(
 
         StylesRowView(
             styles = categories
-                .getOrNull(selectedCategoryIndex)
+                .firstOrNull { cate -> cate.categoryName == selectedCategory.categoryName }
                 ?.styles
                 .orEmpty(),
-            selectedStyleId = selectedStyleId,
+            selectedStyle = selectedStyle,
             onStyleSelected = onStyleSelected
         )
     }

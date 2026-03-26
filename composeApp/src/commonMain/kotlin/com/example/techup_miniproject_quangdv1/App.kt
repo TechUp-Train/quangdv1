@@ -43,9 +43,15 @@ fun App() {
 
             val backStack = rememberNavBackStack(navConfig, InputImageScreenKey)
 
+            val onBack: () -> Unit = {
+                if (backStack.size > 1) {
+                    backStack.removeLastOrNull()
+                }
+            }
+
             NavDisplay(
                 backStack = backStack,
-                onBack = { if (backStack.size > 1) backStack.removeLastOrNull() },
+                onBack = onBack,
                 entryProvider = entryProvider {
                     entry<InputImageScreenKey> {
                         val viewModel: ImageInputViewModel = koinViewModel()
@@ -76,18 +82,13 @@ fun App() {
                                 )
                                 backStack.removeLastOrNull()
                             },
-                            onBack = {
-                                backStack.removeLastOrNull()
-                            }
+                            onBack = onBack
                         )
                     }
                     entry<ImageResultScreenKey> { key ->
                         GeneratedImageScreen(
                             url = key.result,
-                            onBack = {
-                                backStack.removeLastOrNull()
-                            },
-
+                            onBack = onBack,
                         )
                     }
                 }

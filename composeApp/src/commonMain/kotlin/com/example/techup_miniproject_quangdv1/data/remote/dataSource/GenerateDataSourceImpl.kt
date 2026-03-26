@@ -1,10 +1,9 @@
 package com.example.techup_miniproject_quangdv1.data.remote.dataSource
 
-import com.example.techup_miniproject_quangdv1.core.utils.ResponseStatus
+import com.example.techup_miniproject_quangdv1.core.utils.Log
 import com.example.techup_miniproject_quangdv1.data.dataSource.GenerateDataSource
 import com.example.techup_miniproject_quangdv1.data.dto.GenerateImageRequestDto
 import com.example.techup_miniproject_quangdv1.data.dto.GenerateImageResponseDto
-import com.example.techup_miniproject_quangdv1.data.dto.TimestampDto
 import com.example.techup_miniproject_quangdv1.data.remote.service.ApiService
 
 class GenerateDataSourceImpl(
@@ -16,6 +15,7 @@ class GenerateDataSourceImpl(
             uploadService.uploadImage(presignedUrl, imageBytes)
             true
         } catch (e: Exception) {
+            Log.e(Log.DATA_SOURCE, "Error uploading image: ${e.message}")
             false
         }
     }

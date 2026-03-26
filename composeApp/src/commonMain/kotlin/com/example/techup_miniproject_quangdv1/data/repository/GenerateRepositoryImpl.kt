@@ -1,5 +1,6 @@
 package com.example.techup_miniproject_quangdv1.data.repository
 
+import com.example.techup_miniproject_quangdv1.core.utils.Log
 import com.example.techup_miniproject_quangdv1.core.utils.ResponseStatus
 import com.example.techup_miniproject_quangdv1.core.utils.TimestampProvider
 import com.example.techup_miniproject_quangdv1.data.dataSource.GenerateDataSource
@@ -13,10 +14,20 @@ class GenerateRepositoryImpl(
     private val dataSource: GenerateDataSource,
 ) : GenerateRepository {
     override suspend fun uploadImage(presignUrl: String, imageBytes: ByteArray): Boolean {
-        return dataSource.uploadImage(presignUrl, imageBytes)
+        return try {
+            dataSource.uploadImage(presignUrl, imageBytes)
+        } catch (e: Exception) {
+            Log.e(Log.REPOSITORY, "Error uploading image: ${e.message}")
+            false
+        }
     }
 
     override suspend fun generateImage(request: GenerateImageRequest): GenerateImageModel? {
-        return dataSource.generateImage(request.toDto())?.toDomain()
+        return try {
+            dataSource.generateImage(request.toDto())?.toDomain()
+        } catch (e: Exception) {
+            Log.e(Log.REPOSITORY, "Error generating image: ${e.message}")
+            null
+        }
     }
 }
