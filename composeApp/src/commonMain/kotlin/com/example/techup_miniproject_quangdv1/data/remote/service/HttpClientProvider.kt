@@ -13,30 +13,32 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 object HttpClientProvider {
+    fun provide(block: (HttpClientConfig<*>.() -> Unit)? = null): HttpClient =
+        HttpClient {
+            install(ContentNegotiation) {
+                json(
+                    Json {
+                        prettyPrint = true
+                        isLenient = true
+                        ignoreUnknownKeys = true
+                    },
+                )
+            }
 
-    fun provide(block: (HttpClientConfig<*>.() -> Unit)? = null): HttpClient = HttpClient {
-        install(ContentNegotiation) {
-            json(Json {
-                prettyPrint = true
-                isLenient = true
-                ignoreUnknownKeys = true
-            })
+            install(Logging) {
+                level = LogLevel.ALL
+            }
+
+            install(HttpTimeout) {
+                requestTimeoutMillis = 60_000
+                connectTimeoutMillis = 60_000
+                socketTimeoutMillis = 60_000
+            }
+
+            defaultRequest {
+                contentType(ContentType.Application.Json)
+            }
+
+            block?.invoke(this)
         }
-
-        install(Logging) {
-            level = LogLevel.ALL
-        }
-
-        install(HttpTimeout) {
-            requestTimeoutMillis = 60_000
-            connectTimeoutMillis = 60_000
-            socketTimeoutMillis = 60_000
-        }
-
-        defaultRequest {
-            contentType(ContentType.Application.Json)
-        }
-
-        block?.invoke(this)
-    }
 }

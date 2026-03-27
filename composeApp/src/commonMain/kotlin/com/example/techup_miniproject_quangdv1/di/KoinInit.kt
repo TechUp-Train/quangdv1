@@ -6,7 +6,7 @@ import org.koin.core.module.Module
 
 fun initKoin(
     appDeclaration: (KoinApplication.() -> Unit)? = null,
-    vararg extraModules: Module
+    vararg extraModules: Module,
 ) {
     startKoin {
         appDeclaration?.invoke(this)
@@ -17,7 +17,7 @@ fun initKoin(
             repositoryModule,
             useCaseModule,
             viewModelModule,
-            *extraModules
+            *extraModules,
         )
     }
 }

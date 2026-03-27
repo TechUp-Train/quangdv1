@@ -9,8 +9,11 @@ import kotlinx.serialization.Serializable
 data object InputImageScreenKey : NavKey
 
 @Serializable
-data class SelectImageScreenKey(val mode: ImageMode) : NavKey
-
+data class SelectImageScreenKey(
+    val mode: ImageMode,
+) : NavKey
 
 @Serializable
-data class ImageResultScreenKey(val result: String) : NavKey
+data class ImageResultScreenKey(
+    val result: String,
+) : NavKey

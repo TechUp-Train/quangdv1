@@ -45,12 +45,9 @@ object LocalResultEventBus {
     /**
      * Provides a [ResultEventBus] to the composition
      */
-    infix fun provides(
-        bus: ResultEventBus
-    ): ProvidedValue<ResultEventBus?> {
-        return LocalResultEventBus.provides(bus)
-    }
+    infix fun provides(bus: ResultEventBus): ProvidedValue<ResultEventBus?> = LocalResultEventBus.provides(bus)
 }
+
 /**
  * An EventBus for passing results between multiple sets of screens.
  *
@@ -65,17 +62,21 @@ class ResultEventBus {
     /**
      * Provides a flow for the given resultKey.
      */
-    inline fun <reified T> getResultFlow(resultKey: String = T::class.toString()) = flow {
-        Log.d(Log.EVENT_BUS, "Getting result flow for key: $resultKey")
-        channelMap[resultKey]?.receiveAsFlow()?.collect {
-            emit(it)
+    inline fun <reified T> getResultFlow(resultKey: String = T::class.toString()) =
+        flow {
+            Log.d(Log.EVENT_BUS, "Getting result flow for key: $resultKey")
+            channelMap[resultKey]?.receiveAsFlow()?.collect {
+                emit(it)
+            }
         }
-    }
 
     /**
      * Sends a result into the channel associated with the given resultKey.
      */
-    inline fun <reified T> sendResult(resultKey: String = T::class.toString(), result: T) {
+    inline fun <reified T> sendResult(
+        resultKey: String = T::class.toString(),
+        result: T,
+    ) {
         Log.d(Log.EVENT_BUS, "Sending result for key: $resultKey")
         if (!channelMap.contains(resultKey)) {
             Log.d(Log.EVENT_BUS, "Creating new channel for key: $resultKey")

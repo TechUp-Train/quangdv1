@@ -34,7 +34,7 @@ interface SignatureParser {
     fun parse(
         keyId: String,
         publicKeyPem: String,
-        timestamp: Long
+        timestamp: Long,
     ): Result<SignatureData>
 
     companion object {
@@ -44,9 +44,10 @@ interface SignatureParser {
         fun parseData(
             keyId: String,
             publicKeyPem: String,
-            timestamp: Long
-        ): Result<SignatureData> = signatureParserImpl()
-            .parse(keyId, publicKeyPem, timestamp)
+            timestamp: Long,
+        ): Result<SignatureData> =
+            signatureParserImpl()
+                .parse(keyId, publicKeyPem, timestamp)
     }
 }
 

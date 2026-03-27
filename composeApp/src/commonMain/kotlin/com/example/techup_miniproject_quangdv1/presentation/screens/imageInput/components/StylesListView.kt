@@ -19,15 +19,15 @@ fun StylesListView(
     selectedStyle: StyleItemModel?,
     onCategorySelected: (CategoriesItemModel) -> Unit,
     onStyleSelected: (StyleItemModel) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column {
-
         Text(
             "Choose your style",
-            style = MaterialTheme.typography.titleLarge.copy(
-                color = BrandMagenta
-            )
+            style =
+                MaterialTheme.typography.titleLarge.copy(
+                    color = BrandMagenta,
+                ),
         )
 
         Spacer(modifier = modifier.height(8.dp))
@@ -35,18 +35,19 @@ fun StylesListView(
         CategoriesTabsView(
             categories = categories,
             selectedCategory = selectedCategory,
-            onSelected = onCategorySelected
+            onSelected = onCategorySelected,
         )
 
         Spacer(modifier = modifier.height(12.dp))
 
         StylesRowView(
-            styles = categories
-                .firstOrNull { cate -> cate.categoryName == selectedCategory.categoryName }
-                ?.styles
-                .orEmpty(),
+            styles =
+                categories
+                    .firstOrNull { cate -> cate.categoryName == selectedCategory.categoryName }
+                    ?.styles
+                    .orEmpty(),
             selectedStyle = selectedStyle,
-            onStyleSelected = onStyleSelected
+            onStyleSelected = onStyleSelected,
         )
     }
 }

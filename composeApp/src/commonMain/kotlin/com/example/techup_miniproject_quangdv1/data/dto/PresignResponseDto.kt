@@ -7,5 +7,5 @@ data class PresignResponseDto<T>(
     val statusCode: Int,
     val message: String,
     val data: T? = null,
-    val timestamp: Long? = null
+    val timestamp: Long? = null,
 )

@@ -14,10 +14,10 @@ import kotlin.time.Clock
 
 class DownloadUseCaseImpl(
     private val downloader: ImageDownloader,
-    private val fileSaver: FileSaver
+    private val fileSaver: FileSaver,
 ) : DownloadUseCase {
-    override suspend fun invoke(url: String): Flow<ResponseStatus<String>> {
-        return flow<ResponseStatus<String>> {
+    override suspend fun invoke(url: String): Flow<ResponseStatus<String>> =
+        flow<ResponseStatus<String>> {
             val bytes = downloader.download(url)
 
             val fileName = "image_${Clock.System.now().epochSeconds}.jpg"
@@ -30,5 +30,4 @@ class DownloadUseCaseImpl(
         }.onStart {
             emit(ResponseStatus.Loading())
         }.flowOn(Dispatchers.IO)
-    }
 }

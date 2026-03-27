@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PresignLinkDto(
     val url: String,
-    val path: String
+    val path: String,
 )

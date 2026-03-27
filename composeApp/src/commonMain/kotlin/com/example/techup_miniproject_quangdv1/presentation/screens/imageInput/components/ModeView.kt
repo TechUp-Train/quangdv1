@@ -28,28 +28,30 @@ fun ModeView(
     requiredImageCount: Int,
     onModeSelected: (ImageMode) -> Unit,
 ) {
-    val modes = ImageMode.entries.filter {
-        it.requiredImageCount == requiredImageCount
-    }
+    val modes =
+        ImageMode.entries.filter {
+            it.requiredImageCount == requiredImageCount
+        }
 
     Column {
         Text(
             "Choose Mode",
-            style = MaterialTheme.typography.titleLarge.copy(
-                color = BrandMagenta
-            )
+            style =
+                MaterialTheme.typography.titleLarge.copy(
+                    color = BrandMagenta,
+                ),
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         FlowRow(
-            horizontalArrangement = Arrangement.Start
+            horizontalArrangement = Arrangement.Start,
         ) {
             modes.forEach { mode ->
                 ModeItem(
                     mode = mode,
                     isSelected = selectedMode == mode,
-                    onClick = { onModeSelected(mode) }
+                    onClick = { onModeSelected(mode) },
                 )
             }
         }
@@ -60,28 +62,30 @@ fun ModeView(
 fun ModeItem(
     mode: ImageMode,
     isSelected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .padding(6.dp)
-            .clip(RoundedCornerShape(20.dp))
-            .background(
-                if (isSelected) BrandMagenta
-                else Color.Transparent
-            )
-            .border(
-                width = 1.dp,
-                color = BrandMagenta,
-                shape = RoundedCornerShape(20.dp)
-            )
-            .clickable { onClick() }
-            .padding(horizontal = 14.dp, vertical = 8.dp)
+        modifier =
+            Modifier
+                .padding(6.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .background(
+                    if (isSelected) {
+                        BrandMagenta
+                    } else {
+                        Color.Transparent
+                    },
+                ).border(
+                    width = 1.dp,
+                    color = BrandMagenta,
+                    shape = RoundedCornerShape(20.dp),
+                ).clickable { onClick() }
+                .padding(horizontal = 14.dp, vertical = 8.dp),
     ) {
         Text(
             text = mode.displayName(),
             color = if (isSelected) Color.White else BrandMagenta,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
         )
     }
 }

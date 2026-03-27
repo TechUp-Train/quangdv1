@@ -7,8 +7,8 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import techup_miniproject_quangdv1.composeapp.generated.resources.Res
 
 @OptIn(ExperimentalResourceApi::class)
-suspend fun loadStyles(): StyleRequestDto? {
-    return try {
+suspend fun loadStyles(): StyleRequestDto? =
+    try {
         val bytes = Res.readBytes("files/style.json")
         val json = bytes.decodeToString()
 
@@ -18,4 +18,3 @@ suspend fun loadStyles(): StyleRequestDto? {
     } catch (e: Exception) {
         null
     }
-}

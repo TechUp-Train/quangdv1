@@ -22,7 +22,6 @@ class ImageInputViewModel(
     private val getStyleUseCase: GetStyleUseCase,
     private val convertImageUseCase: ConvertImageUseCase,
 ) : ViewModel() {
-
     // Data to be displayed in the UI
     private val _imageMode = MutableStateFlow<ImageMode?>(ImageMode.IMAGE_EDITING)
     val imageMode: StateFlow<ImageMode?> = _imageMode
@@ -120,13 +119,14 @@ class ImageInputViewModel(
 
                         if (convertResponse is ResponseStatus.Success) {
                             val imageBytes = convertResponse.data
-                            val generateImageRequest = GenerateImageRequest(
-                                uploadUrls = presignLinks.map { it.url },
-                                filePaths = presignLinks.map { it.path },
-                                imageBytes = imageBytes,
-                                mode = currentMode?.name,
-                                positivePrompt = _promptText.value + " " + _selectedStyle.value?.imagePrompt,
-                            )
+                            val generateImageRequest =
+                                GenerateImageRequest(
+                                    uploadUrls = presignLinks.map { it.url },
+                                    filePaths = presignLinks.map { it.path },
+                                    imageBytes = imageBytes,
+                                    mode = currentMode?.name,
+                                    positivePrompt = _promptText.value + " " + _selectedStyle.value?.imagePrompt,
+                                )
                             generateImage(generateImageRequest)
                         } else if (convertResponse is ResponseStatus.Error) {
                             _generateProcessStatus.value = ResponseStatus.Error(convertResponse.message)

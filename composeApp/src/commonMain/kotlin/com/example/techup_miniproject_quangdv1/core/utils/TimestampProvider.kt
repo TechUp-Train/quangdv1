@@ -4,7 +4,6 @@ import kotlinx.atomicfu.atomic
 import kotlin.time.Clock
 
 class TimestampProvider {
-
     private val offsetSeconds = atomic(0L)
 
     fun updateOffset(serverTimestampSeconds: Long) {
@@ -12,7 +11,5 @@ class TimestampProvider {
         offsetSeconds.value = serverTimestampSeconds - localSeconds
     }
 
-    fun getTimestamp(): Long {
-        return Clock.System.now().epochSeconds + offsetSeconds.value
-    }
+    fun getTimestamp(): Long = Clock.System.now().epochSeconds + offsetSeconds.value
 }

@@ -8,5 +8,5 @@ data class GenerateImageRequestDto(
     val mode: String? = null,
     val positivePrompt: String? = null,
     val ratio: String? = null,
-    val acceptNSFW: Boolean? = null
+    val acceptNSFW: Boolean? = null,
 )

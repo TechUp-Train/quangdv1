@@ -7,21 +7,19 @@ import com.example.techup_miniproject_quangdv1.core.utils.PlatformImage
 import com.example.techup_miniproject_quangdv1.domain.repository.PickImageRepository
 
 class PickImageRepositoryImpl : PickImageRepository {
-    override suspend fun requestGalleryPermission(permissionManager: MediaPermissionManager): Boolean {
-        return try {
+    override suspend fun requestGalleryPermission(permissionManager: MediaPermissionManager): Boolean =
+        try {
             permissionManager.requestGalleryPermission()
         } catch (e: Exception) {
             Log.e(Log.REPOSITORY, "Error requesting permission: ${e.message}")
             false
         }
-    }
 
-    override suspend fun loadImages(galleryImageSource: GalleryImageSource): List<PlatformImage> {
-        return try {
+    override suspend fun loadImages(galleryImageSource: GalleryImageSource): List<PlatformImage> =
+        try {
             galleryImageSource.loadImages()
         } catch (e: Exception) {
             Log.e(Log.REPOSITORY, "Error loading images from gallery: ${e.message}")
             emptyList()
         }
-    }
 }

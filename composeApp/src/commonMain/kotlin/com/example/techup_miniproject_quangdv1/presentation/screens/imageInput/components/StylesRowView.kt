@@ -31,7 +31,7 @@ import com.example.techup_miniproject_quangdv1.domain.model.StyleItemModel
 fun StylesRowView(
     styles: List<StyleItemModel?>,
     selectedStyle: StyleItemModel?,
-    onStyleSelected: (StyleItemModel) -> Unit
+    onStyleSelected: (StyleItemModel) -> Unit,
 ) {
     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         items(styles) { style ->
@@ -40,27 +40,28 @@ fun StylesRowView(
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .clickable {
-                        style?.let(onStyleSelected)
-                    }
+                modifier =
+                    Modifier
+                        .clickable {
+                            style?.let(onStyleSelected)
+                        },
             ) {
-
                 Box(
-                    modifier = Modifier
-                        .size(72.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .border(
-                            width = if (isSelected) 3.dp else 1.dp,
-                            color = if (isSelected) BrandMagenta else Color.LightGray,
-                            shape = RoundedCornerShape(16.dp)
-                        )
+                    modifier =
+                        Modifier
+                            .size(72.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .border(
+                                width = if (isSelected) 3.dp else 1.dp,
+                                color = if (isSelected) BrandMagenta else Color.LightGray,
+                                shape = RoundedCornerShape(16.dp),
+                            ),
                 ) {
                     Image(
                         painter = rememberAsyncImagePainter(style?.imageUrl),
                         contentDescription = style?.styleName ?: "Style image",
                         modifier = Modifier.matchParentSize(),
-                        contentScale = ContentScale.Crop
+                        contentScale = ContentScale.Crop,
                     )
                 }
 
@@ -72,9 +73,10 @@ fun StylesRowView(
                     style = MaterialTheme.typography.labelSmall,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .width(72.dp)
+                    modifier =
+                        Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .width(72.dp),
                 )
             }
         }

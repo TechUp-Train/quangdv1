@@ -8,19 +8,20 @@ import com.example.techup_miniproject_quangdv1.data.remote.service.ApiService
 
 class GenerateDataSourceImpl(
     private val uploadService: ApiService.UploadService,
-    private val generateService: ApiService.GenerateService
+    private val generateService: ApiService.GenerateService,
 ) : GenerateDataSource {
-    override suspend fun uploadImage(presignedUrl: String, imageBytes: ByteArray): Boolean {
-        return try {
+    override suspend fun uploadImage(
+        presignedUrl: String,
+        imageBytes: ByteArray,
+    ): Boolean =
+        try {
             uploadService.uploadImage(presignedUrl, imageBytes)
             true
         } catch (e: Exception) {
             Log.e(Log.DATA_SOURCE, "Error uploading image: ${e.message}")
             false
         }
-    }
 
-    override suspend fun generateImage(request: GenerateImageRequestDto): GenerateImageResponseDto? {
-        return  generateService.generateImage(request).data
-    }
+    override suspend fun generateImage(request: GenerateImageRequestDto): GenerateImageResponseDto? =
+        generateService.generateImage(request).data
 }

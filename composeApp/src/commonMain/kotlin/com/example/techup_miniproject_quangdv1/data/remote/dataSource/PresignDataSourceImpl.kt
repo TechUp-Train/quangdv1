@@ -10,16 +10,13 @@ class PresignDataSourceImpl(
     private val timestampService: ApiService.TimestampService,
     private val presignService: ApiService.PresignService,
 ) : PresignDataSource {
-    override suspend fun getTimestamp(): TimestampDto {
-        return timestampService.getTimestamp()
-    }
+    override suspend fun getTimestamp(): TimestampDto = timestampService.getTimestamp()
 
-    override suspend fun getPresignLink(): PresignLinkDto? {
-        return try {
+    override suspend fun getPresignLink(): PresignLinkDto? =
+        try {
             presignService.getPresignLink().data
         } catch (e: Exception) {
             Log.e(Log.DATA_SOURCE, "Error get presign link: ${e.message}")
             null
         }
-    }
 }

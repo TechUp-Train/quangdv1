@@ -41,7 +41,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun ImageInputScreen(
     onSelectImages: (ImageMode) -> Unit,
     onGeneratedResult: (String) -> Unit,
-    viewModel: ImageInputViewModel = koinViewModel()
+    viewModel: ImageInputViewModel = koinViewModel(),
 ) {
     val promptText = viewModel.promptText.collectAsStateWithLifecycle().value
     val imageMode = viewModel.imageMode.collectAsStateWithLifecycle().value
@@ -74,25 +74,29 @@ fun ImageInputScreen(
 
     Scaffold(
         containerColor = surfaceLightVariant,
-        snackbarHost = { SnackbarHost(snackBarHostState) }
+        snackbarHost = { SnackbarHost(snackBarHostState) },
     ) { contentPadding ->
         BoxWithConstraints(
-            modifier = Modifier.fillMaxSize()
-                .padding(contentPadding)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding),
         ) {
             val screenHeight = maxHeight
             val scrollState = rememberScrollState()
 
             Column(
-                modifier = Modifier.padding(horizontal = 10.dp)
-                    .verticalScroll(scrollState),
+                modifier =
+                    Modifier
+                        .padding(horizontal = 10.dp)
+                        .verticalScroll(scrollState),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 ModeSwitcher(
                     selectedMode = imageMode ?: ImageMode.IMAGE_EDITING,
                     onModeSelected = { mode ->
                         viewModel.setImageMode(ImageMode.entries.first { it.requiredImageCount == mode })
-                    }
+                    },
                 )
 
                 Spacer(modifier = Modifier.height(2.dp))
@@ -111,13 +115,13 @@ fun ImageInputScreen(
                         image2 = selectedImages.lastOrNull(),
                         onChangeImage1 = { onSelectImages(imageMode) },
                         onChangeImage2 = { onSelectImages(imageMode) },
-                        modifier = Modifier.height(screenHeight * 0.5f)
+                        modifier = Modifier.height(screenHeight * 0.5f),
                     )
                 } else {
                     RoundedImageFrame(
                         image = selectedImages.firstOrNull(),
                         modifier = Modifier.height(screenHeight * 0.5f),
-                        onChangeImage = { onSelectImages(imageMode ?: ImageMode.IMAGE_EDITING) }
+                        onChangeImage = { onSelectImages(imageMode ?: ImageMode.IMAGE_EDITING) },
                     )
                 }
 
@@ -126,9 +130,8 @@ fun ImageInputScreen(
                     requiredImageCount = imageMode?.requiredImageCount ?: 1,
                     onModeSelected = { mode ->
                         viewModel.setImageMode(mode)
-                    }
+                    },
                 )
-
 
                 if (stylesState is ResponseStatus.Success) {
                     StylesListView(
@@ -147,8 +150,11 @@ fun ImageInputScreen(
                     onClick = {
                         viewModel.processImage()
                     },
-                    enabled = selectedImages.size >= (imageMode?.requiredImageCount
-                        ?: 1) && isOnline
+                    enabled =
+                        selectedImages.size >= (
+                            imageMode?.requiredImageCount
+                                ?: 1
+                        ) && isOnline,
                 )
             }
 
@@ -160,7 +166,7 @@ fun ImageInputScreen(
                         showButton = false,
                         isLoading = true,
                         onButtonClick = {},
-                        onDismissRequest = {}
+                        onDismissRequest = {},
                     )
                 }
 
@@ -172,7 +178,7 @@ fun ImageInputScreen(
                         showButton = true,
                         isLoading = false,
                         onButtonClick = { viewModel.resetGenerateStatus() },
-                        onDismissRequest = { viewModel.resetGenerateStatus() }
+                        onDismissRequest = { viewModel.resetGenerateStatus() },
                     )
                 }
 

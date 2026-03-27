@@ -8,24 +8,26 @@ import javax.crypto.Cipher
 import kotlin.random.Random
 
 actual fun signatureParserImpl(): SignatureParser = SignatureParserAndroidImpl()
-private class SignatureParserAndroidImpl : SignatureParser {
 
+private class SignatureParserAndroidImpl : SignatureParser {
     override fun parse(
         keyId: String,
         publicKeyPem: String,
-        timestamp: Long
-    ): Result<SignatureData> = runCatching {
-        val sig = encrypt(timestamp, keyId, publicKeyPem)
-        SignatureData(sig, keyId, timestamp)
-    }
+        timestamp: Long,
+    ): Result<SignatureData> =
+        runCatching {
+            val sig = encrypt(timestamp, keyId, publicKeyPem)
+            SignatureData(sig, keyId, timestamp)
+        }
 
     private fun encrypt(
         timestamp: Long,
         keyId: String,
-        pem: String
+        pem: String,
     ): String {
-        val publicKey = loadKey(pem)
-            ?: throw IllegalArgumentException("Invalid RSA public key")
+        val publicKey =
+            loadKey(pem)
+                ?: throw IllegalArgumentException("Invalid RSA public key")
         val nonce = Random.nextInt(0, 1_000_000)
         val plain = "$timestamp@@@$keyId@@@$nonce"
         val cipher = Cipher.getInstance("RSA/None/PKCS1Padding")
@@ -35,10 +37,11 @@ private class SignatureParserAndroidImpl : SignatureParser {
     }
 
     private fun loadKey(pem: String): PublicKey? {
-        val clean = pem
-            .replace(PEM_HEADER, "")
-            .replace(PEM_FOOTER, "")
-            .replace("\\s".toRegex(), "")
+        val clean =
+            pem
+                .replace(PEM_HEADER, "")
+                .replace(PEM_FOOTER, "")
+                .replace("\\s".toRegex(), "")
         val bytes = Base64.decode(clean, Base64.NO_WRAP)
         return try {
             KeyFactory.getInstance("RSA").generatePublic(X509EncodedKeySpec(bytes))

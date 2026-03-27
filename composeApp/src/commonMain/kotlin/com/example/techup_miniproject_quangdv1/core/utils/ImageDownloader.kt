@@ -9,10 +9,7 @@ interface ImageDownloader {
 }
 
 class KtorImageDownloader(
-    private val client: HttpClient
+    private val client: HttpClient,
 ) : ImageDownloader {
-
-    override suspend fun download(url: String): ByteArray {
-        return client.get(url).readRawBytes()
-    }
+    override suspend fun download(url: String): ByteArray = client.get(url).readRawBytes()
 }

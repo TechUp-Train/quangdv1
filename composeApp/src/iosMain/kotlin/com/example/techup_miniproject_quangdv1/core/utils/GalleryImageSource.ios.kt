@@ -23,61 +23,56 @@ import platform.UIKit.UIImage
 import kotlin.coroutines.resume
 
 class IosGalleryImageSource : GalleryImageSource {
-
-    override suspend fun loadImages(limit: Int, offset: Int): List<PlatformImage> {
-        return withContext(Dispatchers.Main) {
-
+    override suspend fun loadImages(limit: Int): List<PlatformImage> =
+        withContext(Dispatchers.Main) {
             val result = mutableListOf<PlatformImage>()
-            val options = PHFetchOptions().apply {
-                sortDescriptors = listOf(
-                    NSSortDescriptor(
-                        key = "creationDate",
-                        ascending = false
-                    )
-                )
-            }
+            val options =
+                PHFetchOptions().apply {
+                    sortDescriptors =
+                        listOf(
+                            NSSortDescriptor(
+                                key = "creationDate",
+                                ascending = false,
+                            ),
+                        )
+                }
 
             val fetchResult: PHFetchResult =
                 PHAsset.fetchAssetsWithMediaType(
                     mediaType = PHAssetMediaTypeImage,
-                    options = options
+                    options = options,
                 )
 
-            val totalCount = fetchResult.count.toInt()
-            val start = minOf(totalCount, offset)
-            val end = minOf(totalCount, offset + limit)
+            val count = minOf(fetchResult.count.toInt(), limit)
 
-            for (i in start until end) {
+            for (i in 0 until count) {
                 val asset = fetchResult.objectAtIndex(i.toULong()) as? PHAsset ?: continue
                 result.add(PlatformImage(asset))
             }
 
             result
         }
-    }
 }
 
 @Composable
-actual fun rememberGalleryImageSource(): GalleryImageSource {
-    return remember { IosGalleryImageSource() }
-}
+actual fun rememberGalleryImageSource(): GalleryImageSource = remember { IosGalleryImageSource() }
 
 @OptIn(ExperimentalForeignApi::class)
-suspend fun PHAsset.loadUIImage(
-    targetSize: CValue<CGSize> = CGSizeMake(300.0, 300.0)
-): UIImage? = suspendCancellableCoroutine { cont ->
+suspend fun PHAsset.loadUIImage(targetSize: CValue<CGSize> = CGSizeMake(300.0, 300.0)): UIImage? =
+    suspendCancellableCoroutine { cont ->
 
-    val options = PHImageRequestOptions().apply {
-        deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat
-        resizeMode = PHImageRequestOptionsResizeModeFast
-    }
+        val options =
+            PHImageRequestOptions().apply {
+                deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat
+                resizeMode = PHImageRequestOptionsResizeModeFast
+            }
 
-    PHImageManager.defaultManager().requestImageForAsset(
-        asset = this,
-        targetSize = targetSize,
-        contentMode = PHImageContentModeAspectFill,
-        options = options
-    ) { image, _ ->
-        cont.resume(image)
+        PHImageManager.defaultManager().requestImageForAsset(
+            asset = this,
+            targetSize = targetSize,
+            contentMode = PHImageContentModeAspectFill,
+            options = options,
+        ) { image, _ ->
+            cont.resume(image)
+        }
     }
-}

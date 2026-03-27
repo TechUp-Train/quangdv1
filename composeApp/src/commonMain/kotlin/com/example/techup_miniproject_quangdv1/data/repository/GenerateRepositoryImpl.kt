@@ -13,21 +13,22 @@ import com.example.techup_miniproject_quangdv1.domain.repository.GenerateReposit
 class GenerateRepositoryImpl(
     private val dataSource: GenerateDataSource,
 ) : GenerateRepository {
-    override suspend fun uploadImage(presignUrl: String, imageBytes: ByteArray): Boolean {
-        return try {
+    override suspend fun uploadImage(
+        presignUrl: String,
+        imageBytes: ByteArray,
+    ): Boolean =
+        try {
             dataSource.uploadImage(presignUrl, imageBytes)
         } catch (e: Exception) {
             Log.e(Log.REPOSITORY, "Error uploading image: ${e.message}")
             false
         }
-    }
 
-    override suspend fun generateImage(request: GenerateImageRequest): GenerateImageModel? {
-        return try {
+    override suspend fun generateImage(request: GenerateImageRequest): GenerateImageModel? =
+        try {
             dataSource.generateImage(request.toDto())?.toDomain()
         } catch (e: Exception) {
             Log.e(Log.REPOSITORY, "Error generating image: ${e.message}")
             null
         }
-    }
 }

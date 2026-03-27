@@ -32,7 +32,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun GeneratedImageScreen(
     url: String,
     onBack: () -> Unit,
-    viewModel: GeneratedImageViewModel = koinViewModel()
+    viewModel: GeneratedImageViewModel = koinViewModel(),
 ) {
     val downloadState = viewModel.downloadState.collectAsStateWithLifecycle().value
 
@@ -43,7 +43,7 @@ fun GeneratedImageScreen(
             is ResponseStatus.Success -> {
                 snackBarHostState.showSnackbar(
                     message = "Image saved successfully to: ${downloadState.data}",
-                    duration = SnackbarDuration.Long
+                    duration = SnackbarDuration.Long,
                 )
                 viewModel.resetDownloadState()
             }
@@ -60,29 +60,33 @@ fun GeneratedImageScreen(
                 title = {},
                 navigationIcon = {
                     IconButton(
-                        onClick = onBack
+                        onClick = onBack,
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = null,
                         )
                     }
-                }
+                },
             )
-        }
+        },
     ) { innerPadding ->
         Box(
-            modifier = Modifier.fillMaxSize()
-                .padding(innerPadding)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
         ) {
             Column(
-                modifier = Modifier.matchParentSize()
-                    .padding(horizontal = 20.dp)
+                modifier =
+                    Modifier
+                        .matchParentSize()
+                        .padding(horizontal = 20.dp),
             ) {
                 AsyncImage(
                     model = url,
                     contentDescription = "generated image",
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
                 InteracButton(
                     text = "Download photo",
@@ -97,7 +101,7 @@ fun GeneratedImageScreen(
                         showButton = false,
                         isLoading = true,
                         onButtonClick = {},
-                        onDismissRequest = {}
+                        onDismissRequest = {},
                     )
                 }
 
@@ -109,7 +113,7 @@ fun GeneratedImageScreen(
                         showButton = true,
                         isLoading = false,
                         onButtonClick = { viewModel.resetDownloadState() },
-                        onDismissRequest = { viewModel.resetDownloadState() }
+                        onDismissRequest = { viewModel.resetDownloadState() },
                     )
                 }
 

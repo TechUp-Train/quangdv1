@@ -9,35 +9,36 @@ import androidx.compose.runtime.Immutable
 import java.io.ByteArrayOutputStream
 
 @Immutable
-actual class PlatformImage(val uri: Uri) {
+actual class PlatformImage(
+    val uri: Uri,
+) {
     actual val id: String get() = uri.toString()
 }
 
 class AndroidImageByteArrayConverter(
-    private val context: Context
+    private val context: Context,
 ) : ImageByteArrayConverter {
-
-    override suspend fun convert(image: PlatformImage): ByteArray {
-        return convert(
+    override suspend fun convert(image: PlatformImage): ByteArray =
+        convert(
             image = image,
             maxWidth = 1024,
             maxHeight = 1024,
             quality = 80,
         )
-    }
 
     override suspend fun convert(
         image: PlatformImage,
         maxWidth: Int,
         maxHeight: Int,
-        quality: Int
+        quality: Int,
     ): ByteArray {
         val uri = image.uri
         val contentResolver = context.contentResolver
 
-        val boundsOptions = BitmapFactory.Options().apply {
-            inJustDecodeBounds = true
-        }
+        val boundsOptions =
+            BitmapFactory.Options().apply {
+                inJustDecodeBounds = true
+            }
         contentResolver.openInputStream(uri)?.use {
             BitmapFactory.decodeStream(it, null, boundsOptions)
         }
@@ -62,26 +63,30 @@ class AndroidImageByteArrayConverter(
             }
         }
 
-        val decodeOptions = BitmapFactory.Options().apply {
-            inJustDecodeBounds = false
-            inSampleSize = sampleSize
-        }
-        val bitmap = tryDecode(contentResolver, image.uri, decodeOptions)
-            ?: throw IllegalStateException("Cannot decode image even after fallback: ${image.uri}")
+        val decodeOptions =
+            BitmapFactory.Options().apply {
+                inJustDecodeBounds = false
+                inSampleSize = sampleSize
+            }
+        val bitmap =
+            tryDecode(contentResolver, image.uri, decodeOptions)
+                ?: throw IllegalStateException("Cannot decode image even after fallback: ${image.uri}")
 
-        val toCompress = if (bitmap.width > maxWidth || bitmap.height > maxHeight) {
-            val scale = minOf(
-                maxWidth.toFloat() / bitmap.width,
-                maxHeight.toFloat() / bitmap.height
-            )
-            val newWidth = (bitmap.width * scale).toInt().coerceAtLeast(1)
-            val newHeight = (bitmap.height * scale).toInt().coerceAtLeast(1)
-            val scaled = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
-            bitmap.recycle()
-            scaled
-        } else {
-            bitmap
-        }
+        val toCompress =
+            if (bitmap.width > maxWidth || bitmap.height > maxHeight) {
+                val scale =
+                    minOf(
+                        maxWidth.toFloat() / bitmap.width,
+                        maxHeight.toFloat() / bitmap.height,
+                    )
+                val newWidth = (bitmap.width * scale).toInt().coerceAtLeast(1)
+                val newHeight = (bitmap.height * scale).toInt().coerceAtLeast(1)
+                val scaled = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
+                bitmap.recycle()
+                scaled
+            } else {
+                bitmap
+            }
 
         // 5. Compress to JPEG at requested quality
         val outputStream = ByteArrayOutputStream()
@@ -97,17 +102,14 @@ class AndroidImageByteArrayConverter(
 private fun tryDecode(
     resolver: ContentResolver,
     uri: Uri,
-    options: BitmapFactory.Options
-): Bitmap? {
-    return resolver.openInputStream(uri)?.use {
+    options: BitmapFactory.Options,
+): Bitmap? =
+    resolver.openInputStream(uri)?.use {
         BitmapFactory.decodeStream(it, null, options)
     }
-}
 
 actual class ImageByteArrayConverterFactory(
-    private val context: Context
+    private val context: Context,
 ) {
-    actual fun create(): ImageByteArrayConverter {
-        return AndroidImageByteArrayConverter(context)
-    }
+    actual fun create(): ImageByteArrayConverter = AndroidImageByteArrayConverter(context)
 }

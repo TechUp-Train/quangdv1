@@ -1,5 +1,6 @@
 package com.example.techup_miniproject_quangdv1.domain.useCase.processImage
 
+import com.example.techup_miniproject_quangdv1.core.utils.Log
 import com.example.techup_miniproject_quangdv1.core.utils.ResponseStatus
 import com.example.techup_miniproject_quangdv1.domain.model.PresignLinkModel
 import com.example.techup_miniproject_quangdv1.domain.repository.PresignRepository
@@ -17,20 +18,21 @@ import kotlinx.coroutines.flow.onStart
 class ProcessImageUseCaseImpl(
     private val presignRepository: PresignRepository,
 ) : ProcessImageUseCase {
-
-    override suspend fun invoke(imageCount: Int): Flow<ResponseStatus<List<PresignLinkModel>>> {
-        return flow {
+    override suspend fun invoke(imageCount: Int): Flow<ResponseStatus<List<PresignLinkModel>>> =
+        flow {
             try {
                 presignRepository.getTimestamp()
             } catch (e: Exception) {
-                // Ignore timestamp error for now if it's non-critical
+                Log.e(Log.REPOSITORY, "Error getting timestamp: ${e.message}")
             }
 
-            val presignLinks = coroutineScope {
-                (0 until imageCount).map {
-                    async { presignRepository.getPresignLink() }
-                }.awaitAll()
-            }
+            val presignLinks =
+                coroutineScope {
+                    (0 until imageCount)
+                        .map {
+                            async { presignRepository.getPresignLink() }
+                        }.awaitAll()
+                }
 
             if (presignLinks.all { it != null }) {
                 emit(ResponseStatus.Success(presignLinks.filterNotNull()))
@@ -42,5 +44,4 @@ class ProcessImageUseCaseImpl(
         }.onStart {
             emit(ResponseStatus.Loading())
         }.flowOn(Dispatchers.IO)
-    }
 }

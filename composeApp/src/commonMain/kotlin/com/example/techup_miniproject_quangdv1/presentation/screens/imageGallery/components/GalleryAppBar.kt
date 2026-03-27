@@ -34,7 +34,7 @@ fun GalleryAppBar(
         title = {
             Text(
                 "All Photos",
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
         },
         navigationIcon = {
@@ -49,23 +49,26 @@ fun GalleryAppBar(
             TextButton(
                 onClick = onConfirm,
                 enabled = maxSelections > 0,
-                modifier = Modifier.clip(RoundedCornerShape(15.dp))
-                    .background(
-                        brush = Brush.linearGradient(
-                            colors = listOf(
-                                GradientPrimaryStart,
-                                GradientPrimaryEnd,
-                            )
-                        )
-                    )
-                    .padding(horizontal = 10.dp, vertical = 2.dp)
+                modifier =
+                    Modifier
+                        .clip(RoundedCornerShape(15.dp))
+                        .background(
+                            brush =
+                                Brush.linearGradient(
+                                    colors =
+                                        listOf(
+                                            GradientPrimaryStart,
+                                            GradientPrimaryEnd,
+                                        ),
+                                ),
+                        ).padding(horizontal = 10.dp, vertical = 2.dp),
             ) {
                 Text(
                     "Confirm ($selectedCount/$maxSelections)",
                     style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onPrimary),
                 )
             }
-        }
+        },
     )
 }
 

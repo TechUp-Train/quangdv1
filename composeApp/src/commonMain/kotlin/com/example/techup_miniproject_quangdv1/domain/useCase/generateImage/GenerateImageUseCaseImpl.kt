@@ -21,7 +21,6 @@ class GenerateImageUseCaseImpl(
     private val presignRepository: PresignRepository,
     private val generateRepository: GenerateRepository,
 ) : GenerateImageUseCase {
-
     override suspend fun invoke(request: GenerateImageRequest): Flow<ResponseStatus<GenerateImageModel>> {
         return flow {
             if (request.imageBytes.isEmpty()) {
@@ -35,19 +34,21 @@ class GenerateImageUseCaseImpl(
 
             try {
                 coroutineScope {
-                    request.imageBytes.mapIndexed { index, byteArray ->
-                        async {
-                            val uploaded = generateRepository.uploadImage(
-                                presignUrl = request.uploadUrls[index],
-                                imageBytes = byteArray
-                            )
-                            if (!uploaded) {
-                                Log.e(Log.USE_CASE, "Image upload failed at index $index.")
-                                throw Exception("Image upload failed at index $index.")
+                    request.imageBytes
+                        .mapIndexed { index, byteArray ->
+                            async {
+                                val uploaded =
+                                    generateRepository.uploadImage(
+                                        presignUrl = request.uploadUrls[index],
+                                        imageBytes = byteArray,
+                                    )
+                                if (!uploaded) {
+                                    Log.e(Log.USE_CASE, "Image upload failed at index $index.")
+                                    throw Exception("Image upload failed at index $index.")
+                                }
+                                Log.d(Log.USE_CASE, "Image $index uploaded successfully.")
                             }
-                            Log.d(Log.USE_CASE, "Image $index uploaded successfully.")
-                        }
-                    }.awaitAll()
+                        }.awaitAll()
                 }
             } catch (e: Exception) {
                 Log.e(Log.USE_CASE, "Image upload failed: ${e.message}")

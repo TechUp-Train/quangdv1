@@ -47,9 +47,8 @@ class SignatureInterceptor(
     private val appVersion: String? = null,
     private val countryCode: String? = null,
     private val deviceId: String? = null,
-    private val timestampProvider: () -> Long = { Clock.System.now().epochSeconds }
+    private val timestampProvider: () -> Long = { Clock.System.now().epochSeconds },
 ) {
-
     /**
      * Installs this interceptor into the given Ktor [HttpClientConfig].
      */
@@ -57,11 +56,12 @@ class SignatureInterceptor(
         config.install("SignatureHeaders") {
             requestPipeline.intercept(HttpRequestPipeline.State) {
                 val timestamp = timestampProvider()
-                val signatureResult = SignatureParser.parseData(
-                    apiKey,
-                    publicKey,
-                    timestamp
-                )
+                val signatureResult =
+                    SignatureParser.parseData(
+                        apiKey,
+                        publicKey,
+                        timestamp,
+                    )
 
                 signatureResult.fold(
                     onSuccess = { signature ->
@@ -76,25 +76,23 @@ class SignatureInterceptor(
                             countryCode?.let { code ->
                                 append(
                                     ApiConstants.HEADER_COUNTRY_CODE,
-                                    code
+                                    code,
                                 )
                             }
                             appVersion?.let { version ->
                                 append(
                                     ApiConstants.HEADER_APP_VERSION,
-                                    version
+                                    version,
                                 )
                             }
                             deviceId?.let { id -> append(ApiConstants.HEADER_DEVICE_ID, id) }
                         }
                         proceed()
                     },
-
                     onFailure = { error ->
                         throw error
-                    }
+                    },
                 )
-
             }
         }
     }
@@ -111,10 +109,16 @@ fun HttpClientConfig<*>.installSignatureInterceptor(
     appVersion: String? = null,
     countryCode: String? = null,
     deviceId: String? = null,
-    timestampProvider: () -> Long = { Clock.System.now().epochSeconds }
+    timestampProvider: () -> Long = { Clock.System.now().epochSeconds },
 ) {
     SignatureInterceptor(
-        apiKey, publicKey, bundleId, appName,
-        appVersion, countryCode, deviceId, timestampProvider
+        apiKey,
+        publicKey,
+        bundleId,
+        appName,
+        appVersion,
+        countryCode,
+        deviceId,
+        timestampProvider,
     ).install(this)
 }

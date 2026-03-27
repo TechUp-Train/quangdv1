@@ -4,7 +4,6 @@ import com.example.techup_miniproject_quangdv1.core.config.AppBuildConfig
 import com.example.techup_miniproject_quangdv1.core.utils.DeviceCountryCodeProvider
 
 object ApiConstants {
-
     val BASE_URL: String get() = AppBuildConfig.BASE_URL
     val TIMESTAMP_BASE_URL: String get() = AppBuildConfig.TIMESTAMP_BASE_URL
 

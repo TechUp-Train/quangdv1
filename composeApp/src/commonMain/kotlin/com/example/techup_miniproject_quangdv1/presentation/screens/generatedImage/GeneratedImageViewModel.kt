@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class GeneratedImageViewModel(
-    private val downloadImageUseCase: DownloadUseCase
+    private val downloadImageUseCase: DownloadUseCase,
 ) : ViewModel() {
     private val _downloadState = MutableStateFlow<ResponseStatus<String>>(ResponseStatus.Idle)
     val downloadState: StateFlow<ResponseStatus<String>> = _downloadState

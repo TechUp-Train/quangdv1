@@ -5,5 +5,5 @@ data class GenerateImageRequest(
     val imageBytes: List<ByteArray>,
     val filePaths: List<String>,
     val mode: String? = null,
-    val positivePrompt: String? = null
+    val positivePrompt: String? = null,
 )

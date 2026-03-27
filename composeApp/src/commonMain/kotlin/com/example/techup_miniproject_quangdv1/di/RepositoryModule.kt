@@ -10,25 +10,26 @@ import com.example.techup_miniproject_quangdv1.domain.repository.PresignReposito
 import com.example.techup_miniproject_quangdv1.domain.repository.StyleRepository
 import org.koin.dsl.module
 
-val repositoryModule = module {
-    single<PresignRepository> {
-        PresignRepositoryImpl(
-            dataSource = get(),
-            timestampProvider = get(),
-        )
-    }
+val repositoryModule =
+    module {
+        single<PresignRepository> {
+            PresignRepositoryImpl(
+                dataSource = get(),
+                timestampProvider = get(),
+            )
+        }
 
-    single<GenerateRepository> {
-        GenerateRepositoryImpl(
-            dataSource = get(),
-        )
-    }
+        single<GenerateRepository> {
+            GenerateRepositoryImpl(
+                dataSource = get(),
+            )
+        }
 
-    single<StyleRepository> {
-        StyleRepositoryImpl()
-    }
+        single<StyleRepository> {
+            StyleRepositoryImpl()
+        }
 
-    single<PickImageRepository> {
-        PickImageRepositoryImpl()
+        single<PickImageRepository> {
+            PickImageRepositoryImpl()
+        }
     }
-}

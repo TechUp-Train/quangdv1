@@ -7,5 +7,5 @@ package com.example.techup_miniproject_quangdv1.domain.model
  * @property timestamp The server's current Unix timestamp in milliseconds.
  */
 data class TimestampModel(
-    val timestamp: Long
+    val timestamp: Long,
 )

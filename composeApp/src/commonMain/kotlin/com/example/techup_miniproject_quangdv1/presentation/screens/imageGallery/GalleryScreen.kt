@@ -32,7 +32,7 @@ fun GalleryScreen(
     imageMode: ImageMode,
     onSelectImages: (List<PlatformImage>) -> Unit,
     onBack: () -> Unit,
-    viewModel: GalleryViewModel = koinViewModel()
+    viewModel: GalleryViewModel = koinViewModel(),
 ) {
     val imagesState = viewModel.imagesState.collectAsStateWithLifecycle().value
     val maxSelection = imageMode.requiredImageCount
@@ -59,10 +59,11 @@ fun GalleryScreen(
                 selectedCount = selectedIds.size,
                 maxSelections = maxSelection,
             )
-        }
+        },
     ) { innerPadding ->
         when (imagesState) {
             is ResponseStatus.Idle -> {}
+
             is ResponseStatus.Loading -> {
                 GalleryLoadingUI(modifier = Modifier.padding(innerPadding))
             }
@@ -70,7 +71,7 @@ fun GalleryScreen(
             is ResponseStatus.Error -> {
                 GalleryErrorUI(
                     message = imagesState.message,
-                    modifier = Modifier.padding(innerPadding)
+                    modifier = Modifier.padding(innerPadding),
                 )
             }
 
@@ -82,12 +83,12 @@ fun GalleryScreen(
                     contentPadding = innerPadding,
                     modifier = Modifier.fillMaxSize(),
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     itemsIndexed(
                         items = images,
                         key = { _, image -> image.id },
-                        contentType = { _, _ -> "gallery_image" }
+                        contentType = { _, _ -> "gallery_image" },
                     ) { _, image ->
                         val isSelected = selectedIds.contains(image.id)
 
@@ -95,16 +96,17 @@ fun GalleryScreen(
                             image = image,
                             isSelected = isSelected,
                             onToggle = {
-                                selectedIds = if (isSelected) {
-                                    selectedIds - image.id
-                                } else {
-                                    if (selectedIds.size < maxSelection) {
-                                        selectedIds + image.id
+                                selectedIds =
+                                    if (isSelected) {
+                                        selectedIds - image.id
                                     } else {
-                                        selectedIds
+                                        if (selectedIds.size < maxSelection) {
+                                            selectedIds + image.id
+                                        } else {
+                                            selectedIds
+                                        }
                                     }
-                                }
-                            }
+                            },
                         )
                     }
                 }

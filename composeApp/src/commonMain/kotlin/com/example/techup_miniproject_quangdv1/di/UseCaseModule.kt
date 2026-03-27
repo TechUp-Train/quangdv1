@@ -14,42 +14,43 @@ import com.example.techup_miniproject_quangdv1.domain.useCase.processImage.Proce
 import com.example.techup_miniproject_quangdv1.domain.useCase.processImage.ProcessImageUseCaseImpl
 import org.koin.dsl.module
 
-val useCaseModule = module {
-    factory<ProcessImageUseCase> {
-        ProcessImageUseCaseImpl(
-            presignRepository = get(),
-        )
-    }
+val useCaseModule =
+    module {
+        factory<ProcessImageUseCase> {
+            ProcessImageUseCaseImpl(
+                presignRepository = get(),
+            )
+        }
 
-    factory<GenerateImageUseCase> {
-        GenerateImageUseCaseImpl(
-            generateRepository = get(),
-            presignRepository = get(),
-        )
-    }
+        factory<GenerateImageUseCase> {
+            GenerateImageUseCaseImpl(
+                generateRepository = get(),
+                presignRepository = get(),
+            )
+        }
 
-    factory<GetStyleUseCase> {
-        GetStyleUseCaseImpl(
-            styleRepository = get(),
-        )
-    }
+        factory<GetStyleUseCase> {
+            GetStyleUseCaseImpl(
+                styleRepository = get(),
+            )
+        }
 
-    factory<PickImagesUseCase> {
-        PickImagesUseCaseImpl(
-            pickImageRepository = get(),
-        )
-    }
+        factory<PickImagesUseCase> {
+            PickImagesUseCaseImpl(
+                pickImageRepository = get(),
+            )
+        }
 
-    factory<ConvertImageUseCase> {
-        ConvertImageUseCaseImpl(
-            imageByteArrayConverter = get(),
-        )
-    }
+        factory<ConvertImageUseCase> {
+            ConvertImageUseCaseImpl(
+                imageByteArrayConverter = get(),
+            )
+        }
 
-    factory<DownloadUseCase> {
-        DownloadUseCaseImpl(
-            downloader = get(),
-            fileSaver = get(),
-        )
+        factory<DownloadUseCase> {
+            DownloadUseCaseImpl(
+                downloader = get(),
+                fileSaver = get(),
+            )
+        }
     }
-}

@@ -37,39 +37,42 @@ import techup_miniproject_quangdv1.composeapp.generated.resources.img_placeholde
 fun RoundedImageFrame(
     image: PlatformImage? = null,
     onChangeImage: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .aspectRatio(1f)
-            .clip(RoundedCornerShape(16.dp))
-            .border(
-                width = 1.5.dp,
-                color = BrandMagenta,
-                shape = RoundedCornerShape(16.dp)
-            )
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .aspectRatio(1f)
+                .clip(RoundedCornerShape(16.dp))
+                .border(
+                    width = 1.5.dp,
+                    color = BrandMagenta,
+                    shape = RoundedCornerShape(16.dp),
+                ),
     ) {
-
         if (image == null) {
             Column(
-                modifier = Modifier.matchParentSize()
-                    .clickable { onChangeImage() },
+                modifier =
+                    Modifier
+                        .matchParentSize()
+                        .clickable { onChangeImage() },
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
             ) {
                 Image(
                     painter = painterResource(Res.drawable.img_placeholder),
                     contentDescription = "Placeholder",
-                    modifier = Modifier.size(60.dp)
+                    modifier = Modifier.size(60.dp),
                 )
 
                 Text(
                     "Add your photo",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = Color.Black.copy(alpha = 0.4f),
-                        fontSize = 18.sp
-                    )
+                    style =
+                        MaterialTheme.typography.bodyMedium.copy(
+                            color = Color.Black.copy(alpha = 0.4f),
+                            fontSize = 18.sp,
+                        ),
                 )
             }
         } else {
@@ -81,18 +84,19 @@ fun RoundedImageFrame(
 
             IconButton(
                 onClick = onChangeImage,
-                modifier = Modifier
-                    .padding(15.dp)
-                    .align(Alignment.TopStart)
-                    .padding(8.dp)
-                    .size(32.dp)
-                    .clip(CircleShape)
-                    .background(BrandMagenta.copy(alpha = 0.7f))
+                modifier =
+                    Modifier
+                        .padding(15.dp)
+                        .align(Alignment.TopStart)
+                        .padding(8.dp)
+                        .size(32.dp)
+                        .clip(CircleShape)
+                        .background(BrandMagenta.copy(alpha = 0.7f)),
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.ic_change_image),
                     contentDescription = "Change image",
-                    tint = Color.White
+                    tint = Color.White,
                 )
             }
         }

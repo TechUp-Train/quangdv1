@@ -23,52 +23,71 @@ import com.example.techup_miniproject_quangdv1.core.theme.GradientPrimaryStart
 import com.example.techup_miniproject_quangdv1.core.utils.ImageMode
 
 @Composable
-fun ModeSwitcher(selectedMode: ImageMode, onModeSelected: (Int) -> Unit) {
+fun ModeSwitcher(
+    selectedMode: ImageMode,
+    onModeSelected: (Int) -> Unit,
+) {
     Row(
-        modifier = Modifier.fillMaxWidth()
-            .background(Color.Transparent)
-            .clip(RoundedCornerShape(20.dp))
-            .border(
-                width = 1.dp,
-                color = Color.Black.copy(alpha = 0.1f)
-            )
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .background(Color.Transparent)
+                .clip(RoundedCornerShape(20.dp))
+                .border(
+                    width = 1.dp,
+                    color = Color.Black.copy(alpha = 0.1f),
+                ),
     ) {
         Text(
             "1 image",
             style = MaterialTheme.typography.titleMedium,
             color = if (selectedMode.requiredImageCount == 1) Color.White else Color.Black,
-            modifier = Modifier.weight(1f)
-                .background(
-                    brush = Brush.linearGradient(
-                        colors = if (selectedMode.requiredImageCount == 1) listOf(
-                            GradientPrimaryStart,
-                            GradientPrimaryEnd,
-                        ) else listOf(Color.Transparent, Color.Transparent)
-                    )
-                )
-                .padding(vertical = 10.dp)
-                .fillMaxWidth()
-                .align(Alignment.CenterVertically)
-                .clickable { onModeSelected(1) },
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .background(
+                        brush =
+                            Brush.linearGradient(
+                                colors =
+                                    if (selectedMode.requiredImageCount == 1) {
+                                        listOf(
+                                            GradientPrimaryStart,
+                                            GradientPrimaryEnd,
+                                        )
+                                    } else {
+                                        listOf(Color.Transparent, Color.Transparent)
+                                    },
+                            ),
+                    ).padding(vertical = 10.dp)
+                    .fillMaxWidth()
+                    .align(Alignment.CenterVertically)
+                    .clickable { onModeSelected(1) },
             textAlign = TextAlign.Center,
         )
         Text(
             "2 image",
             style = MaterialTheme.typography.titleMedium,
             color = if (selectedMode.requiredImageCount == 2) Color.White else Color.Black,
-            modifier = Modifier.weight(1f)
-                .background(
-                    brush = Brush.linearGradient(
-                        colors = if (selectedMode.requiredImageCount == 2) listOf(
-                            GradientPrimaryStart,
-                            GradientPrimaryEnd,
-                        ) else listOf(Color.Transparent, Color.Transparent)
-                    )
-                )
-                .padding(vertical = 10.dp)
-                .fillMaxWidth()
-                .align(Alignment.CenterVertically)
-                .clickable { onModeSelected(2) },
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .background(
+                        brush =
+                            Brush.linearGradient(
+                                colors =
+                                    if (selectedMode.requiredImageCount == 2) {
+                                        listOf(
+                                            GradientPrimaryStart,
+                                            GradientPrimaryEnd,
+                                        )
+                                    } else {
+                                        listOf(Color.Transparent, Color.Transparent)
+                                    },
+                            ),
+                    ).padding(vertical = 10.dp)
+                    .fillMaxWidth()
+                    .align(Alignment.CenterVertically)
+                    .clickable { onModeSelected(2) },
             textAlign = TextAlign.Center,
         )
     }
@@ -79,6 +98,6 @@ fun ModeSwitcher(selectedMode: ImageMode, onModeSelected: (Int) -> Unit) {
 private fun SwitcherPreview() {
     ModeSwitcher(
         selectedMode = ImageMode.IMAGE_EDITING,
-        onModeSelected = {}
+        onModeSelected = {},
     )
 }

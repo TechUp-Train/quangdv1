@@ -13,7 +13,7 @@ class MainApplication : Application() {
             appDeclaration = {
                 androidContext(this@MainApplication)
             },
-             androidModule,
+            androidModule,
         )
     }
 }

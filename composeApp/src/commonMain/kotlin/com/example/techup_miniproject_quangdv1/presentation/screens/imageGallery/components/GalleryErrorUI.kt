@@ -11,16 +11,16 @@ import androidx.compose.ui.Modifier
 @Composable
 fun GalleryErrorUI(
     message: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = message,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.error
+            color = MaterialTheme.colorScheme.error,
         )
     }
 }

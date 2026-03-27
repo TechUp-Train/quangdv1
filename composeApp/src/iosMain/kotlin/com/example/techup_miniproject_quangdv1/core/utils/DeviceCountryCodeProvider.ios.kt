@@ -5,7 +5,5 @@ import platform.Foundation.countryCode
 import platform.Foundation.currentLocale
 
 actual object DeviceCountryCodeProvider {
-    actual fun getCountryCode(): String {
-        return NSLocale.currentLocale.countryCode ?: "US"
-    }
+    actual fun getCountryCode(): String = NSLocale.currentLocale.countryCode ?: "US"
 }

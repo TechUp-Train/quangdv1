@@ -9,9 +9,8 @@ import com.example.techup_miniproject_quangdv1.domain.repository.PresignReposito
 
 class PresignRepositoryImpl(
     private val dataSource: PresignDataSource,
-    private val timestampProvider: TimestampProvider
+    private val timestampProvider: TimestampProvider,
 ) : PresignRepository {
-
     override suspend fun getTimestamp(): Long {
         val response = dataSource.getTimestamp()
         val serverTimestamp = response.timestamp
@@ -19,7 +18,5 @@ class PresignRepositoryImpl(
         return serverTimestamp
     }
 
-    override suspend fun getPresignLink(): PresignLinkModel? {
-        return dataSource.getPresignLink()?.toDomain()
-    }
+    override suspend fun getPresignLink(): PresignLinkModel? = dataSource.getPresignLink()?.toDomain()
 }

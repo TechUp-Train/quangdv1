@@ -4,6 +4,4 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 
 @Composable
-actual fun rememberMediaPermissionManager(): MediaPermissionManager {
-    return remember { IosMediaPermissionManager() }
-}
+actual fun rememberMediaPermissionManager(): MediaPermissionManager = remember { IosMediaPermissionManager() }

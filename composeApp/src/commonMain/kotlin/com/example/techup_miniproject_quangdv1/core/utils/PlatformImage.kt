@@ -18,6 +18,6 @@ interface ImageByteArrayConverter {
         image: PlatformImage,
         maxWidth: Int = 1024,
         maxHeight: Int = 1024,
-        quality: Int = 80
+        quality: Int = 80,
     ): ByteArray
 }

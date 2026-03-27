@@ -26,23 +26,26 @@ fun InteracButton(
     enabled: Boolean = true,
 ) {
     TextButton(
-        modifier = Modifier.fillMaxWidth()
-            .height(50.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        GradientAccentStart.copy(alpha = if (enabled) 1f else 0.3f),
-                        GradientAccentEnd.copy(alpha = if (enabled) 1f else 0.3f),
-                    ),
-
-                    ),
-            ),
-        onClick = { if (enabled) onClick() }
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(
+                    brush =
+                        Brush.linearGradient(
+                            colors =
+                                listOf(
+                                    GradientAccentStart.copy(alpha = if (enabled) 1f else 0.3f),
+                                    GradientAccentEnd.copy(alpha = if (enabled) 1f else 0.3f),
+                                ),
+                        ),
+                ),
+        onClick = { if (enabled) onClick() },
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.titleMedium.copy(color = Color.White)
+            style = MaterialTheme.typography.titleMedium.copy(color = Color.White),
         )
     }
 }

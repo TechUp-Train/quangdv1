@@ -3,13 +3,13 @@ package com.example.techup_miniproject_quangdv1.core.config
 import platform.Foundation.NSBundle
 
 actual object AppBuildConfig {
-
     private val infoDict: Map<Any?, *>?
         get() = NSBundle.mainBundle.infoDictionary
 
-    private fun getString(key: String, default: String = ""): String {
-        return infoDict?.get(key)?.toString() ?: default
-    }
+    private fun getString(
+        key: String,
+        default: String = "",
+    ): String = infoDict?.get(key)?.toString() ?: default
 
     actual val API_KEY: String get() = getString("API_KEY")
     actual val PUBLIC_KEY: String get() = getString("PUBLIC_KEY")

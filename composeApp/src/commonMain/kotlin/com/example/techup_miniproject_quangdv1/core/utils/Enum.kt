@@ -1,6 +1,8 @@
 package com.example.techup_miniproject_quangdv1.core.utils
 
-enum class ImageMode(val requiredImageCount: Int) {
+enum class ImageMode(
+    val requiredImageCount: Int,
+) {
     COMBINE_IMAGES(2),
     HUGGING(2),
     POLAROID(2),
@@ -19,12 +21,11 @@ enum class ImageMode(val requiredImageCount: Int) {
     ADAPTIVE_RESTORE(1),
     CLOTHES_EDITING(1),
     REMOVE_BACKGROUND(1),
-    OUTPAINTING(1)
+    OUTPAINTING(1),
 }
 
-fun ImageMode.displayName(): String {
-    return this.name
+fun ImageMode.displayName(): String =
+    this.name
         .lowercase()
         .replace("_", " ")
         .replaceFirstChar { it.uppercase() }
-}

@@ -34,53 +34,51 @@ import com.example.techup_miniproject_quangdv1.core.theme.BrandMagenta
 fun PromptInputView(
     prompt: String,
     onPromptChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
 
     Box(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
     ) {
-
         TextField(
             value = prompt,
             onValueChange = onPromptChange,
             shape = RoundedCornerShape(16.dp),
-            modifier = Modifier
-                .matchParentSize()
-                .border(
-                    width = 1.5.dp,
-                    color = BrandMagenta,
-                    shape = RoundedCornerShape(16.dp)
-                ),
-
+            modifier =
+                Modifier
+                    .matchParentSize()
+                    .border(
+                        width = 1.5.dp,
+                        color = BrandMagenta,
+                        shape = RoundedCornerShape(16.dp),
+                    ),
             placeholder = {
                 Text(
                     text = "Enter your prompt...",
-                    color = Color.Black.copy(alpha = 0.4f)
+                    color = Color.Black.copy(alpha = 0.4f),
                 )
             },
-
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFFF5F5F5),
-                unfocusedContainerColor = Color(0xFFF5F5F5),
-
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-
-                cursorColor = BrandMagenta
-            ),
-
+            colors =
+                TextFieldDefaults.colors(
+                    focusedContainerColor = Color(0xFFF5F5F5),
+                    unfocusedContainerColor = Color(0xFFF5F5F5),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    cursorColor = BrandMagenta,
+                ),
             singleLine = false,
             maxLines = 4,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Done
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    focusManager.clearFocus()
-                }
-            )
+            keyboardOptions =
+                KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done,
+                ),
+            keyboardActions =
+                KeyboardActions(
+                    onDone = {
+                        focusManager.clearFocus()
+                    },
+                ),
         )
 
         if (prompt.isNotEmpty()) {
@@ -89,19 +87,21 @@ fun PromptInputView(
                     onPromptChange("")
                     focusManager.clearFocus()
                 },
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(6.dp)
+                modifier =
+                    Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(6.dp),
             ) {
                 Icon(
                     imageVector = Icons.Default.Close,
                     contentDescription = "Clear",
                     tint = Color.Black.copy(alpha = 0.5f),
-                    modifier = Modifier
-                        .size(25.dp)
-                        .clip(RoundedCornerShape(15.dp))
-                        .background(Color.Black.copy(alpha = 0.1f))
-                        .padding(5.dp)
+                    modifier =
+                        Modifier
+                            .size(25.dp)
+                            .clip(RoundedCornerShape(15.dp))
+                            .background(Color.Black.copy(alpha = 0.1f))
+                            .padding(5.dp),
                 )
             }
         }
@@ -112,9 +112,12 @@ fun PromptInputView(
 @Composable
 fun PromptInputViewPreview() {
     PromptInputView(
-        prompt = "Test" +
+        prompt =
+            "Test" +
                 "asudhblaiusdns" +
                 "als;kdnmoaislk;fd" +
                 "\nauisdhiasdjas" +
-                "\naisudhalskjdjasoil", onPromptChange = {})
+                "\naisudhalskjdjasoil",
+        onPromptChange = {},
+    )
 }

@@ -8,16 +8,18 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 
 class ConvertImageUseCaseImpl(
-    private val imageByteArrayConverter: ImageByteArrayConverter
+    private val imageByteArrayConverter: ImageByteArrayConverter,
 ) : ConvertImageUseCase {
     override suspend fun invoke(imageList: List<PlatformImage>): ResponseStatus<List<ByteArray>> =
         try {
             coroutineScope {
-                val results = imageList.map { image ->
-                    async {
-                        imageByteArrayConverter.convert(image)
-                    }
-                }.awaitAll()
+                val results =
+                    imageList
+                        .map { image ->
+                            async {
+                                imageByteArrayConverter.convert(image)
+                            }
+                        }.awaitAll()
                 ResponseStatus.Success(results)
             }
         } catch (e: Exception) {

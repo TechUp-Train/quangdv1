@@ -6,5 +6,6 @@ import com.example.techup_miniproject_quangdv1.core.utils.PlatformImage
 
 interface PickImageRepository {
     suspend fun requestGalleryPermission(permissionManager: MediaPermissionManager): Boolean
+
     suspend fun loadImages(galleryImageSource: GalleryImageSource): List<PlatformImage>
 }

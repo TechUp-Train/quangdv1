@@ -8,17 +8,16 @@ import platform.Photos.PHPhotoLibrary
 import platform.UIKit.UIImage
 
 class IOSFileSaver : FileSaver {
-
     @OptIn(ExperimentalForeignApi::class)
     override suspend fun saveImage(
         bytes: ByteArray,
-        fileName: String
+        fileName: String,
     ): String {
-
         val nsData = bytes.toNSData()
 
-        val image = UIImage.imageWithData(nsData)
-            ?: throw IllegalStateException("Failed to create UIImage")
+        val image =
+            UIImage.imageWithData(nsData)
+                ?: throw IllegalStateException("Failed to create UIImage")
 
         PHPhotoLibrary.sharedPhotoLibrary().performChanges({
             PHAssetChangeRequest.creationRequestForAssetFromImage(image)

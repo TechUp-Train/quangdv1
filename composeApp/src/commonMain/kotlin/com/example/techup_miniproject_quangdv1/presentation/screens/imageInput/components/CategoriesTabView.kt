@@ -24,31 +24,31 @@ import com.example.techup_miniproject_quangdv1.domain.model.CategoriesItemModel
 fun CategoriesTabsView(
     categories: List<CategoriesItemModel>,
     selectedCategory: CategoriesItemModel,
-    onSelected: (CategoriesItemModel) -> Unit
+    onSelected: (CategoriesItemModel) -> Unit,
 ) {
-
     LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         itemsIndexed(categories) { _, item ->
             val isSelected = item.categoryName == selectedCategory.categoryName
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.clickable { onSelected(item) }
+                modifier = Modifier.clickable { onSelected(item) },
             ) {
                 Text(
                     text = item.categoryName ?: "",
                     color = if (isSelected) BrandMagenta else Color.Gray,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
 
                 if (isSelected) {
                     Box(
-                        modifier = Modifier
-                            .height(2.dp)
-                            .width(24.dp)
-                            .background(BrandMagenta)
+                        modifier =
+                            Modifier
+                                .height(2.dp)
+                                .width(24.dp)
+                                .background(BrandMagenta),
                     )
                 }
             }

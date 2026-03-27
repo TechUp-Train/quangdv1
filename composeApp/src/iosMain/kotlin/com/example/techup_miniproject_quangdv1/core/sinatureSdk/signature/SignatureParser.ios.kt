@@ -56,87 +56,100 @@ actual fun signatureParserImpl(): SignatureParser = SignatureParserIosImpl()
  * where `nonce` is a random integer in [0, 1_000_000).
  */
 private class SignatureParserIosImpl : SignatureParser {
-
     override fun parse(
         keyId: String,
         publicKeyPem: String,
-        timestamp: Long
-    ): Result<SignatureData> = runCatching {
-        val sig = encrypt(timestamp, keyId, publicKeyPem)
-        SignatureData(sig, keyId, timestamp)
-    }
+        timestamp: Long,
+    ): Result<SignatureData> =
+        runCatching {
+            val sig = encrypt(timestamp, keyId, publicKeyPem)
+            SignatureData(sig, keyId, timestamp)
+        }
 
     @OptIn(ExperimentalForeignApi::class)
     private fun encrypt(
         timestamp: Long,
         keyId: String,
-        pem: String
-    ): String = memScoped {
-        val plainText = "$timestamp@@@$keyId@@@${Random.nextInt(0, 1_000_000)}"
-        val nsPlain = plainText.encodeToByteArray().toNSData()
-        val rawPtr = nsPlain.bytes
-            ?: throw IllegalStateException("NSData.bytes returned null")
-        val length = nsPlain.length.toULong()
-        val cfPlain = CFDataCreate(
-            kCFAllocatorDefault,
-            rawPtr.reinterpret(),
-            length.toLong()
-        ) ?: throw IllegalStateException("CFDataCreate failed for plaintext")
-        try {
-            val keyRef = loadKey(pem)
-            val errVar = alloc<CFErrorRefVar>()
-            val encryptedCfData = SecKeyCreateEncryptedData(
-                keyRef,
-                kSecKeyAlgorithmRSAEncryptionPKCS1,
-                cfPlain,
-                errVar.ptr
-            ) ?: throw IllegalStateException(
-                errVar.value?.let { CFCopyDescription(it)?.toString() }
-                    ?: "Unknown encryption error"
-            )
+        pem: String,
+    ): String =
+        memScoped {
+            val plainText = "$timestamp@@@$keyId@@@${Random.nextInt(0, 1_000_000)}"
+            val nsPlain = plainText.encodeToByteArray().toNSData()
+            val rawPtr =
+                nsPlain.bytes
+                    ?: throw IllegalStateException("NSData.bytes returned null")
+            val length = nsPlain.length.toULong()
+            val cfPlain =
+                CFDataCreate(
+                    kCFAllocatorDefault,
+                    rawPtr.reinterpret(),
+                    length.toLong(),
+                ) ?: throw IllegalStateException("CFDataCreate failed for plaintext")
             try {
-                val lengthx = CFDataGetLength(encryptedCfData).toInt()
-                val bytePtr = CFDataGetBytePtr(encryptedCfData)
-                    ?: throw IllegalStateException("CFDataGetBytePtr returned null")
-                val bytes = ByteArray(lengthx) { i -> bytePtr[i].toByte() }
-                bytes.encodeBase64()
+                val keyRef = loadKey(pem)
+                val errVar = alloc<CFErrorRefVar>()
+                val encryptedCfData =
+                    SecKeyCreateEncryptedData(
+                        keyRef,
+                        kSecKeyAlgorithmRSAEncryptionPKCS1,
+                        cfPlain,
+                        errVar.ptr,
+                    ) ?: throw IllegalStateException(
+                        errVar.value?.let { CFCopyDescription(it)?.toString() }
+                            ?: "Unknown encryption error",
+                    )
+                try {
+                    val lengthx = CFDataGetLength(encryptedCfData).toInt()
+                    val bytePtr =
+                        CFDataGetBytePtr(encryptedCfData)
+                            ?: throw IllegalStateException("CFDataGetBytePtr returned null")
+                    val bytes = ByteArray(lengthx) { i -> bytePtr[i].toByte() }
+                    bytes.encodeBase64()
+                } finally {
+                    CFRelease(encryptedCfData)
+                }
             } finally {
-                CFRelease(encryptedCfData)
+                CFRelease(cfPlain)
             }
-        } finally {
-            CFRelease(cfPlain)
         }
-    }
 
     @OptIn(ExperimentalForeignApi::class)
-    private fun loadKey(pem: String): SecKeyRef = memScoped {
-        val b64 = getRawPublicKey(pem)
-        val nsData = b64.decodeBase64Bytes().toNSData()
-        val rawPtr = nsData.bytes
-            ?: throw IllegalStateException("Failed to get bytes from NSData")
-        val length = nsData.length
-        val cfData = CFDataCreate(kCFAllocatorDefault, rawPtr.reinterpret(), length.toLong())
-            ?: throw IllegalStateException("CFDataCreate failed")
+    private fun loadKey(pem: String): SecKeyRef =
+        memScoped {
+            val b64 = getRawPublicKey(pem)
+            val nsData = b64.decodeBase64Bytes().toNSData()
+            val rawPtr =
+                nsData.bytes
+                    ?: throw IllegalStateException("Failed to get bytes from NSData")
+            val length = nsData.length
+            val cfData =
+                CFDataCreate(kCFAllocatorDefault, rawPtr.reinterpret(), length.toLong())
+                    ?: throw IllegalStateException("CFDataCreate failed")
 
-        val attrs = (mapOf(
-            kSecAttrKeyType to kSecAttrKeyTypeRSA,
-            kSecAttrKeyClass to kSecAttrKeyClassPublic
-        ) as Map<CFStringRef?, Any>).toCFDictionary()!!
+            val attrs =
+                (
+                    mapOf(
+                        kSecAttrKeyType to kSecAttrKeyTypeRSA,
+                        kSecAttrKeyClass to kSecAttrKeyClassPublic,
+                    ) as Map<CFStringRef?, Any>
+                ).toCFDictionary()!!
 
-        val errVar = alloc<CFErrorRefVar>()
-        val key = SecKeyCreateWithData(cfData, attrs, errVar.ptr)
-            ?: throw IllegalArgumentException(
-                errVar.value
-                    ?.let { CFCopyDescription(it)?.toString() }
-                    ?: "Invalid public key"
-            )
-        key
-    }
+            val errVar = alloc<CFErrorRefVar>()
+            val key =
+                SecKeyCreateWithData(cfData, attrs, errVar.ptr)
+                    ?: throw IllegalArgumentException(
+                        errVar.value
+                            ?.let { CFCopyDescription(it)?.toString() }
+                            ?: "Invalid public key",
+                    )
+            key
+        }
 
-    private fun getRawPublicKey(pem: String): String = pem
-        .replace("-----BEGIN PUBLIC KEY-----", "")
-        .replace("-----END PUBLIC KEY-----", "")
-        .replace("\\s".toRegex(), "")
+    private fun getRawPublicKey(pem: String): String =
+        pem
+            .replace("-----BEGIN PUBLIC KEY-----", "")
+            .replace("-----END PUBLIC KEY-----", "")
+            .replace("\\s".toRegex(), "")
 }
 
 @OptIn(ExperimentalForeignApi::class)
@@ -159,11 +172,12 @@ private fun Map<CFStringRef?, Any>.toCFDictionary(): CFDictionaryRef? {
 
         keys.forEachIndexed { i, key -> cfKeys[i] = key }
         values.forEachIndexed { i, value ->
-            cfValues[i] = when (value) {
-                is CFTypeRef -> value
-                is Int -> value.toCFNumber()
-                else -> error("Unsupported CFDictionary value: $value")
-            }
+            cfValues[i] =
+                when (value) {
+                    is CFTypeRef -> value
+                    is Int -> value.toCFNumber()
+                    else -> error("Unsupported CFDictionary value: $value")
+                }
         }
 
         CFDictionaryCreate(
@@ -172,7 +186,7 @@ private fun Map<CFStringRef?, Any>.toCFDictionary(): CFDictionaryRef? {
             cfValues,
             keys.size.toLong(),
             null,
-            null
+            null,
         )
     }
 }

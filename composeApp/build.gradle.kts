@@ -1,6 +1,5 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -11,17 +10,18 @@ plugins {
     id("kotlin-parcelize")
 }
 
-val buildConfigFields = mapOf(
-    "API_KEY" to "API_KEY",
-    "PUBLIC_KEY" to "PUBLIC_KEY",
-    "BUNDLE_ID" to "BUNDLE_ID",
-    "APP_NAME_VALUE" to "APP_NAME",
-    "API_TOKEN" to "API_TOKEN",
-    "DEVICE_ID" to "DEVICE_ID",
-    "APP_VERSION_VALUE" to "APP_VERSION",
-    "BASE_URL" to "BASE_URL",
-    "TIMESTAMP_BASE_URL" to "TIMESTAMP_BASE_URL",
-)
+val buildConfigFields =
+    mapOf(
+        "API_KEY" to "API_KEY",
+        "PUBLIC_KEY" to "PUBLIC_KEY",
+        "BUNDLE_ID" to "BUNDLE_ID",
+        "APP_NAME_VALUE" to "APP_NAME",
+        "API_TOKEN" to "API_TOKEN",
+        "DEVICE_ID" to "DEVICE_ID",
+        "APP_VERSION_VALUE" to "APP_VERSION",
+        "BASE_URL" to "BASE_URL",
+        "TIMESTAMP_BASE_URL" to "TIMESTAMP_BASE_URL",
+    )
 
 kotlin {
     jvmToolchain(17)
@@ -34,21 +34,21 @@ kotlin {
         compilerOptions {
             freeCompilerArgs.addAll(
                 "-P",
-                "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=the.package.containing.annotation.CommonParcelize"
+                "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=the.package.containing.annotation.CommonParcelize",
             )
         }
     }
-    
+
     listOf(
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
         }
     }
-    
+
     sourceSets {
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -111,12 +111,21 @@ kotlin {
 
 android {
     namespace = "com.example.techup_miniproject_quangdv1"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk =
+        libs.versions.android.compileSdk
+            .get()
+            .toInt()
 
     defaultConfig {
         applicationId = "com.example.techup_miniproject_quangdv1"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        minSdk =
+            libs.versions.android.minSdk
+                .get()
+                .toInt()
+        targetSdk =
+            libs.versions.android.targetSdk
+                .get()
+                .toInt()
         versionCode = 1
         versionName = "1.0"
 

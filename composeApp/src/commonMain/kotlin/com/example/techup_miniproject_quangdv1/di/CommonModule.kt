@@ -4,8 +4,9 @@ import com.example.techup_miniproject_quangdv1.core.utils.ImageByteArrayConverte
 import com.example.techup_miniproject_quangdv1.core.utils.ImageByteArrayConverterFactory
 import org.koin.dsl.module
 
-val commonModule = module {
-    single<ImageByteArrayConverter> {
-        get<ImageByteArrayConverterFactory>().create()
+val commonModule =
+    module {
+        single<ImageByteArrayConverter> {
+            get<ImageByteArrayConverterFactory>().create()
+        }
     }
-}

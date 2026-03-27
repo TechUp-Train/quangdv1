@@ -6,6 +6,10 @@ import com.example.techup_miniproject_quangdv1.data.dto.GenerateImageResponseDto
 import com.example.techup_miniproject_quangdv1.data.dto.TimestampDto
 
 interface GenerateDataSource {
-    suspend fun uploadImage(presignedUrl: String, imageBytes: ByteArray): Boolean
+    suspend fun uploadImage(
+        presignedUrl: String,
+        imageBytes: ByteArray,
+    ): Boolean
+
     suspend fun generateImage(request: GenerateImageRequestDto): GenerateImageResponseDto?
 }

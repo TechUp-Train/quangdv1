@@ -22,7 +22,7 @@ fun StateDialog(
     showButton: Boolean = true,
     isLoading: Boolean = false,
     onButtonClick: () -> Unit,
-    onDismissRequest: () -> Unit = {}
+    onDismissRequest: () -> Unit = {},
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
@@ -30,14 +30,13 @@ fun StateDialog(
             Text(
                 text = title,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         },
         text = {
-
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 if (isLoading) {
                     CircularProgressIndicator()
@@ -45,7 +44,7 @@ fun StateDialog(
                 }
                 Text(
                     text = message,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
             }
         },
@@ -55,6 +54,6 @@ fun StateDialog(
                     Text(buttonText)
                 }
             }
-        }
+        },
     )
 }

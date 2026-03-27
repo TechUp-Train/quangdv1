@@ -15,13 +15,13 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 
 class PickImagesUseCaseImpl(
-    private val pickImageRepository: PickImageRepository
+    private val pickImageRepository: PickImageRepository,
 ) : PickImagesUseCase {
     override suspend fun invoke(
         permissionManager: MediaPermissionManager,
         galleryImageSource: GalleryImageSource,
-    ): Flow<ResponseStatus<List<PlatformImage>>> {
-        return flow {
+    ): Flow<ResponseStatus<List<PlatformImage>>> =
+        flow {
             val permissionGranted = pickImageRepository.requestGalleryPermission(permissionManager)
 
             if (permissionGranted) {
@@ -35,5 +35,4 @@ class PickImagesUseCaseImpl(
         }.onStart {
             emit(ResponseStatus.Loading())
         }.flowOn(Dispatchers.IO)
-    }
 }

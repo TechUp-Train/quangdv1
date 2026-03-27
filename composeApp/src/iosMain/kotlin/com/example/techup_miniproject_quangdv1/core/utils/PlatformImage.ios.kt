@@ -14,61 +14,59 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 @Immutable
-actual class PlatformImage(val asset: PHAsset) {
+actual class PlatformImage(
+    val asset: PHAsset,
+) {
     actual val id: String get() = asset.localIdentifier
 }
 
 class IOSImageByteArrayConverter : ImageByteArrayConverter {
-
-    override suspend fun convert(image: PlatformImage): ByteArray {
-        return convert(image, 1024, 1024, 80)
-    }
+    override suspend fun convert(image: PlatformImage): ByteArray = convert(image, 1024, 1024, 80)
 
     @OptIn(ExperimentalForeignApi::class)
     override suspend fun convert(
         image: PlatformImage,
         maxWidth: Int,
         maxHeight: Int,
-        quality: Int
-    ): ByteArray {
-        return suspendCancellableCoroutine { continuation ->
-            val options = PHImageRequestOptions().apply {
-                synchronous = false
-                deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat
-            }
+        quality: Int,
+    ): ByteArray =
+        suspendCancellableCoroutine { continuation ->
+            val options =
+                PHImageRequestOptions().apply {
+                    synchronous = false
+                    deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat
+                }
 
             val targetSize = CGSizeMake(maxWidth.toDouble(), maxHeight.toDouble())
 
             PHImageManager.defaultManager().requestImageForAsset(
                 image.asset,
                 targetSize,
-                PHImageContentModeAspectFit,   // preserves aspect ratio, fits inside max size
-                options
+                PHImageContentModeAspectFit,
+                options,
             ) { uiImage, _ ->
                 if (uiImage != null) {
-                    val jpegData = UIImageJPEGRepresentation(
-                        uiImage,
-                        quality.toDouble() / 100.0
-                    )
+                    val jpegData =
+                        UIImageJPEGRepresentation(
+                            uiImage,
+                            quality.toDouble() / 100.0,
+                        )
                     if (jpegData != null) {
                         continuation.resume(jpegData.toByteArray())
                     } else {
                         continuation.resumeWithException(
-                            IllegalStateException("Failed to compress image to JPEG")
+                            IllegalStateException("Failed to compress image to JPEG"),
                         )
                     }
                 } else {
                     continuation.resumeWithException(
-                        IllegalStateException("Failed to get image from PHAsset")
+                        IllegalStateException("Failed to get image from PHAsset"),
                     )
                 }
             }
         }
-    }
 }
 
 actual class ImageByteArrayConverterFactory {
-    actual fun create(): ImageByteArrayConverter {
-        return IOSImageByteArrayConverter()
-    }
+    actual fun create(): ImageByteArrayConverter = IOSImageByteArrayConverter()
 }

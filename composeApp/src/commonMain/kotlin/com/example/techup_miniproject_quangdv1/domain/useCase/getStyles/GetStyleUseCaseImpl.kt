@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 
 class GetStyleUseCaseImpl(
-    private val styleRepository: StyleRepository
+    private val styleRepository: StyleRepository,
 ) : GetStyleUseCase {
-    override suspend fun invoke(): Flow<ResponseStatus<List<CategoriesItemModel>>> {
-        return flow {
+    override suspend fun invoke(): Flow<ResponseStatus<List<CategoriesItemModel>>> =
+        flow {
             val styles = styleRepository.getStyles()
             if (styles != null) {
                 emit(ResponseStatus.Success(styles.toDomain()))
@@ -28,5 +28,4 @@ class GetStyleUseCaseImpl(
         }.onStart {
             emit(ResponseStatus.Loading())
         }.flowOn(Dispatchers.IO)
-    }
 }

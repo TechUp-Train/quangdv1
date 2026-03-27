@@ -23,26 +23,28 @@ import techup_miniproject_quangdv1.composeapp.generated.resources.ic_selected_im
 fun GalleryItem(
     image: PlatformImage,
     isSelected: Boolean,
-    onToggle: () -> Unit
+    onToggle: () -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .aspectRatio(1f)
-            .background(Color.Transparent)
-            .clickable(onClick = onToggle)
+        modifier =
+            Modifier
+                .aspectRatio(1f)
+                .background(Color.Transparent)
+                .clickable(onClick = onToggle),
     ) {
         PlatformImageThumbnail(
             image = image,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         )
 
         Icon(
             painter = painterResource(if (isSelected) Res.drawable.ic_selected_image else Res.drawable.ic_select_image),
             contentDescription = null,
-            modifier = Modifier
-                .padding(5.dp)
-                .align(Alignment.TopEnd),
-            tint = Color.Unspecified
+            modifier =
+                Modifier
+                    .padding(5.dp)
+                    .align(Alignment.TopEnd),
+            tint = Color.Unspecified,
         )
     }
 }

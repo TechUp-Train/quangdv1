@@ -16,18 +16,20 @@ import kotlin.coroutines.resume
 actual fun rememberMediaPermissionManager(): MediaPermissionManager {
     var continuation by remember { mutableStateOf<((Boolean) -> Unit)?>(null) }
 
-    val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        Manifest.permission.READ_MEDIA_IMAGES
-    } else {
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    }
+    val permission =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
 
-    val launcher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { granted ->
-        continuation?.invoke(granted)
-        continuation = null
-    }
+    val launcher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission(),
+        ) { granted ->
+            continuation?.invoke(granted)
+            continuation = null
+        }
 
     return remember {
         AndroidPermissionManager(
@@ -43,7 +45,7 @@ actual fun rememberMediaPermissionManager(): MediaPermissionManager {
 
                     launcher.launch(permission)
                 }
-            }
+            },
         )
     }
 }

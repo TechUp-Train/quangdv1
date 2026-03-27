@@ -33,7 +33,7 @@ import androidx.compose.runtime.LaunchedEffect
 inline fun <reified T> ResultEffect(
     resultEventBus: ResultEventBus = LocalResultEventBus.current,
     resultKey: String = T::class.toString(),
-    crossinline onResult: suspend (T) -> Unit
+    crossinline onResult: suspend (T) -> Unit,
 ) {
     LaunchedEffect(resultKey, resultEventBus.channelMap[resultKey]) {
         resultEventBus.getResultFlow<T>(resultKey)?.collect { result ->

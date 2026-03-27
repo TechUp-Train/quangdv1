@@ -9,6 +9,6 @@ import kotlinx.coroutines.flow.Flow
 interface PickImagesUseCase {
     suspend operator fun invoke(
         permissionManager: MediaPermissionManager,
-        galleryImageSource: GalleryImageSource
+        galleryImageSource: GalleryImageSource,
     ): Flow<ResponseStatus<List<PlatformImage>>>
 }

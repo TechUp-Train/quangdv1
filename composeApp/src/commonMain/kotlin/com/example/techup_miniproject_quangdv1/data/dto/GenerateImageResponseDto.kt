@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GenerateImageResponseDto(
     val url: String,
-    val path: String
+    val path: String,
 )

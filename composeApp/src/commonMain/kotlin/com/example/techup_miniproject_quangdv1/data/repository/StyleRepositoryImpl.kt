@@ -6,7 +6,5 @@ import com.example.techup_miniproject_quangdv1.domain.repository.StyleRepository
 import kotlinx.serialization.json.Json
 
 class StyleRepositoryImpl : StyleRepository {
-    override suspend fun getStyles(): StyleRequestDto? {
-        return loadStyles()
-    }
+    override suspend fun getStyles(): StyleRequestDto? = loadStyles()
 }

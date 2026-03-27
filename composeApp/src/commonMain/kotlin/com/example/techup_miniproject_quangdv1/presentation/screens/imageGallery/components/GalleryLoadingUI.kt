@@ -15,23 +15,22 @@ import androidx.compose.ui.unit.dp
 import io.github.suwasto.kmmcomposeshimmer.ShimmerContainer
 
 @Composable
-fun GalleryLoadingUI(
-    modifier: Modifier = Modifier
-) {
+fun GalleryLoadingUI(modifier: Modifier = Modifier) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         modifier = modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.spacedBy(1.dp),
-        verticalArrangement = Arrangement.spacedBy(1.dp)
+        verticalArrangement = Arrangement.spacedBy(1.dp),
     ) {
         items(30) {
             ShimmerContainer(
-                modifier = Modifier.aspectRatio(1f)
+                modifier = Modifier.aspectRatio(1f),
             ) {
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Gray.copy(alpha = 0.3f))
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .background(Color.Gray.copy(alpha = 0.3f)),
                 )
             }
         }

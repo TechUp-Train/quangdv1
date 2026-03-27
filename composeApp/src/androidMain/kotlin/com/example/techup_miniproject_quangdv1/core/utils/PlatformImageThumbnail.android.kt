@@ -24,49 +24,52 @@ import io.github.suwasto.kmmcomposeshimmer.ShimmerContainer
 actual fun PlatformImageThumbnail(
     image: PlatformImage,
     modifier: Modifier,
-    contentScale: ContentScale
+    contentScale: ContentScale,
 ) {
     val context = LocalContext.current
 
-    val model = remember(image.id) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-            try {
-                context.contentResolver.loadThumbnail(
-                    image.uri,
-                    android.util.Size(200, 200),
-                    null
-                )
-            } catch (e: Exception) {
-                Log.e(Log.UI, "Error loading thumbnail: ${e.message}")
+    val model =
+        remember(image.id) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                try {
+                    context.contentResolver.loadThumbnail(
+                        image.uri,
+                        android.util.Size(200, 200),
+                        null,
+                    )
+                } catch (e: Exception) {
+                    Log.e(Log.UI, "Error loading thumbnail: ${e.message}")
+                    image.uri
+                }
+            } else {
                 image.uri
             }
-        } else {
-            image.uri
         }
-    }
 
-    val request = remember(model) {
-        ImageRequest.Builder(context)
-            .data(model)
-            .size(200, 200)
-            .crossfade(true)
-            .memoryCacheKey(image.id)
-            .build()
-    }
+    val request =
+        remember(model) {
+            ImageRequest
+                .Builder(context)
+                .data(model)
+                .size(200, 200)
+                .crossfade(true)
+                .memoryCacheKey(image.id)
+                .build()
+        }
 
     var isLoading by remember(image.id) { mutableStateOf(true) }
 
     Box(
-        modifier = modifier.clip(RoundedCornerShape(15.dp))
+        modifier = modifier.clip(RoundedCornerShape(15.dp)),
     ) {
         ShimmerContainer(
             isLoading = isLoading,
-            modifier = Modifier.matchParentSize()
+            modifier = Modifier.matchParentSize(),
         ) {
             Box(
                 Modifier
                     .fillMaxSize()
-                    .background(Color.Gray.copy(alpha = 0.3f))
+                    .background(Color.Gray.copy(alpha = 0.3f)),
             )
         }
 
@@ -77,7 +80,7 @@ actual fun PlatformImageThumbnail(
             contentScale = contentScale,
             onLoading = { isLoading = true },
             onSuccess = { isLoading = false },
-            onError = { isLoading = false }
+            onError = { isLoading = false },
         )
     }
 }

@@ -43,36 +43,37 @@ fun DualImageSingleBorderFrame(
     image2: PlatformImage? = null,
     onChangeImage1: () -> Unit = {},
     onChangeImage2: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .aspectRatio(1f)
-            .clip(RoundedCornerShape(16.dp))
-            .border(
-                width = 1.5.dp,
-                color = BrandMagenta,
-                shape = RoundedCornerShape(16.dp)
-            )
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .aspectRatio(1f)
+                .clip(RoundedCornerShape(16.dp))
+                .border(
+                    width = 1.5.dp,
+                    color = BrandMagenta,
+                    shape = RoundedCornerShape(16.dp),
+                ),
     ) {
         Row(
-            modifier = Modifier
-                .matchParentSize()
-                .padding(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            modifier =
+                Modifier
+                    .matchParentSize()
+                    .padding(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-
             SingleImageContent(
                 image = image1,
                 onChangeImage = onChangeImage1,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
 
             SingleImageContent(
                 image = image2,
                 onChangeImage = onChangeImage2,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
         }
     }
@@ -82,56 +83,59 @@ fun DualImageSingleBorderFrame(
 private fun SingleImageContent(
     image: PlatformImage?,
     onChangeImage: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier
-            .fillMaxHeight()
-            .clip(RoundedCornerShape(12.dp))
+        modifier =
+            modifier
+                .fillMaxHeight()
+                .clip(RoundedCornerShape(12.dp)),
     ) {
-
         if (image == null) {
             Column(
-                modifier = Modifier
-                    .matchParentSize()
-                    .clickable { onChangeImage() },
+                modifier =
+                    Modifier
+                        .matchParentSize()
+                        .clickable { onChangeImage() },
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
             ) {
                 Image(
                     painter = painterResource(Res.drawable.img_placeholder),
                     contentDescription = null,
-                    modifier = Modifier.size(50.dp)
+                    modifier = Modifier.size(50.dp),
                 )
 
                 Text(
                     "Add photo",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = Color.Black.copy(alpha = 0.4f),
-                        fontSize = 14.sp
-                    )
+                    style =
+                        MaterialTheme.typography.bodyMedium.copy(
+                            color = Color.Black.copy(alpha = 0.4f),
+                            fontSize = 14.sp,
+                        ),
                 )
             }
         } else {
             PlatformImageThumbnail(
                 image = image,
                 modifier = Modifier.matchParentSize(),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
             )
 
             IconButton(
                 onClick = onChangeImage,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .padding(8.dp)
-                    .size(30.dp)
-                    .clip(CircleShape)
-                    .background(BrandMagenta.copy(alpha = 0.7f))
+                modifier =
+                    Modifier
+                        .align(Alignment.TopStart)
+                        .padding(8.dp)
+                        .size(30.dp)
+                        .clip(CircleShape)
+                        .background(BrandMagenta.copy(alpha = 0.7f)),
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.ic_change_image),
                     contentDescription = null,
-                    tint = Color.White
+                    tint = Color.White,
                 )
             }
         }

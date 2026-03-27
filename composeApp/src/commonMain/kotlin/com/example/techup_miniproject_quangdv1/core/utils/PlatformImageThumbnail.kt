@@ -8,5 +8,5 @@ import androidx.compose.ui.layout.ContentScale
 expect fun PlatformImageThumbnail(
     image: PlatformImage,
     modifier: Modifier = Modifier,
-    contentScale: ContentScale = ContentScale.Crop
+    contentScale: ContentScale = ContentScale.Crop,
 )

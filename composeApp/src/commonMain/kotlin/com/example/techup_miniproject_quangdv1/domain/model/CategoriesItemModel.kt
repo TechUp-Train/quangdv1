@@ -1,13 +1,13 @@
 package com.example.techup_miniproject_quangdv1.domain.model
 
-data class CategoriesItemModel (
+data class CategoriesItemModel(
     val categoryName: String = "",
     val categoryId: String = "",
     val styles: List<StyleItemModel> = emptyList(),
-    val categoryThumbnail: String = ""
+    val categoryThumbnail: String = "",
 )
 
-data class StyleItemModel (
+data class StyleItemModel(
     val imagePrompt: String = "",
     val styleTag: String = "",
     val imageUrl: String = "",
@@ -17,5 +17,5 @@ data class StyleItemModel (
     val stylePremium: Boolean = false,
     val styleId: String = "",
     val styleName: String = "",
-    val styleEvent: String = ""
+    val styleEvent: String = "",
 )

@@ -10,5 +10,5 @@ package com.example.techup_miniproject_quangdv1.core.sinatureSdk.signature
 data class SignatureData(
     val signature: String,
     val keyId: String,
-    val timestamp: Long
+    val timestamp: Long,
 )
